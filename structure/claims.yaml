@@ -30,12 +30,17 @@ claims:
 
   - id: covering-at-mm097
     statement: >
-      A bank placed to minimal match 0.97 leaves no injected signal with a
-      nearest-template match below 0.97, verified by Monte Carlo over the parameter space.
+      For a bank placed to target minimal match 0.97, we estimate by Monte Carlo, over a
+      population of injected signals, the fraction whose nearest-template match falls
+      below 0.97 — separately for square and hexagonal placement. (Not a claim that the
+      fraction is zero: a square grid is not the optimal 2D covering, and finding that it
+      dips below target at cell corners while the hexagonal grid does not is an expected,
+      reportable result, not a failure.)
     section: TBD
     evidence:
       - "src/bank.py::place              # (to be written)"
       - "scripts/covering_check.py       # (to be written)"
+      - "Cokelaer 2007 (arXiv:0706.4437) — square vs hexagonal placement"
     numbers: []
 
   - id: volume-loss-rule
@@ -45,6 +50,20 @@ claims:
     section: TBD
     evidence:
       - "scripts/compute_numbers.py::volume_loss_vs_mm   # (to be written)"
+    numbers: []
+
+  - id: bank-spacing-cross-check-svd
+    statement: >
+      An independent construction of the bank — a regular grid in the SVD-derived,
+      mismatch-Euclidean coordinates of Roulet, Dai, Venumadhav, Zackay & Zaldarriaga
+      2019 (arXiv:1904.01683), restricted to our non-spinning 2D mass range — gives a
+      template count and a covering behaviour consistent with the Owen-metric bank
+      (metric-vs-owen, covering-at-mm097), for the same target minimal match.
+    section: TBD
+    evidence:
+      - "src/svd_basis.py::build_basis   # (to be written) — SVD of TaylorF2 unwrapped phase over sampled waveforms"
+      - "src/svd_basis.py::grid_in_c     # (to be written) — regular grid in the c-space, Eq. 15"
+      - "Roulet et al. 2019 (arXiv:1904.01683), Sec. II.A-B, Eq. 15, Fig. 5"
     numbers: []
 
 figures: []

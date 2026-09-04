@@ -20,3 +20,12 @@ it.
 - [ ] Single-template vs. against-a-bank framing for "how wrong before lost" — do both?
 - [ ] Does $\Delta V/V \approx 3(1-\mathrm{MM})$ hold across the mass range, or break
       where the metric varies fastest? (This is a deliverable, not just a check.)
+
+## Stretch: second bank-spacing cross-check (claim `bank-spacing-cross-check-svd`)
+
+- [ ] Reuse the TaylorF2 waveforms sampled for the match map (stage 2) to build the
+      SVD phase basis of [[sources/roulet2019_svd_bank]], restricted to our 2D
+      non-spinning range. Place a regular grid in the resulting $c$-space and compare
+      $N_{\rm templates}(\mathrm{MM})$ and the covering histogram against the
+      Owen-metric bank. Cheap given stage-2 waveforms already exist; do after stages
+      1-4 are solid, not before.

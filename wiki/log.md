@@ -19,3 +19,18 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   hook, the skill and the three convention files is verbatim from `day5/exercise/b`.
 - `scripts/check_provenance.py` is new here — a repository-wide superset of the hook's
   checks, for a reviewer to run against the whole tree.
+
+## 2026-09-05
+
+- Read Roulet, Dai, Venumadhav, Zackay & Zaldarriaga 2019 (arXiv:1904.01683) in full —
+  see [[sources/roulet2019_svd_bank]]. Its SVD-based placement generalizes Owen's
+  analytic metric to a data-driven construction with mismatch exactly Euclidean in the
+  fitted coordinates.
+- Added claim `bank-spacing-cross-check-svd` to `structure/claims.yaml`: reuse the
+  stage-2 TaylorF2 waveforms to build that basis restricted to our 2D non-spinning
+  range, as a second, independent bank-spacing check alongside Owen — logged as a
+  stretch item in [[todo]], after stages 1-4.
+- Reworded claim `covering-at-mm097`: it now asks for the *fraction* of injections
+  below target match per grid type, not an absolute "none" — square placement is
+  expected to dip below target at cell corners where hexagonal does not, and that is a
+  reportable result, not a failed check.

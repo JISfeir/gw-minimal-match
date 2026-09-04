@@ -22,9 +22,12 @@ One page per idea, each canonical for its topic. *(to be filled)*
 
 ## Sources
 
-One page per thing read. *(to be filled)*
+One page per thing read.
 
-- `sources/` — Owen 1996; Owen & Sathyaprakash 1999; Cokelaer 2007; Roulet et al. 2019; Usman et al. 2016
+- [[sources/roulet2019_svd_bank]] — the SVD-based placement algorithm; our second,
+  independent bank-spacing cross-check
+- `sources/` — still to write pages for: Owen 1996; Owen & Sathyaprakash 1999;
+  Cokelaer 2007; Usman et al. 2016
 
 ## Code
 
