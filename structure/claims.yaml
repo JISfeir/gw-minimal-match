@@ -1,0 +1,50 @@
+# The argument skeleton. Each claim: the statement as you would say it out loud, which
+# section of page/paper carries it, the evidence (code that ships here, or a citation
+# precise enough to look up), and the numbers.json slugs it rests on.
+#
+# Format: .claude/provenance/claims.md   (and figures: per .claude/provenance/figures.md)
+# This file is a deliverable, checked by scripts/check_provenance.py.
+
+claims:
+  - id: mismatch-snr-loss
+    statement: >
+      For a fixed true signal, using a template at offset parameters reduces the
+      recovered matched-filter SNR by the factor (1 - mismatch), so the fractional SNR
+      loss equals the mismatch to leading order.
+    section: TBD
+    evidence:
+      - "src/overlap.py::match            # (to be written)"
+      - "Owen 1996 (gr-qc/9511032), Sec. II"
+    numbers: []
+
+  - id: metric-vs-owen
+    statement: >
+      The match metric measured numerically by finite differences agrees with the
+      analytic Owen metric for TaylorF2 across the mass range, within a stated tolerance.
+    section: TBD
+    evidence:
+      - "src/metric.py::numeric_metric    # (to be written)"
+      - "src/metric.py::owen_metric       # (to be written)"
+      - "Owen 1996 (gr-qc/9511032), eqs. 2.10, 3.x"
+    numbers: []
+
+  - id: covering-at-mm097
+    statement: >
+      A bank placed to minimal match 0.97 leaves no injected signal with a
+      nearest-template match below 0.97, verified by Monte Carlo over the parameter space.
+    section: TBD
+    evidence:
+      - "src/bank.py::place              # (to be written)"
+      - "scripts/covering_check.py       # (to be written)"
+    numbers: []
+
+  - id: volume-loss-rule
+    statement: >
+      The textbook rule ΔV/V ≈ 3(1 - MM) holds to within X% across most of the mass
+      range but departs by Y% where the metric varies fastest.
+    section: TBD
+    evidence:
+      - "scripts/compute_numbers.py::volume_loss_vs_mm   # (to be written)"
+    numbers: []
+
+figures: []

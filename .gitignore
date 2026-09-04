@@ -2,6 +2,23 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-results/
-*.hdf
-*.h5
+.pytest_cache/
+*.egg-info/
+
+# rebuildable — every entry has a command in wiki/reproducibility.md
+results/*
+!results/.gitkeep
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper/*.fdb_latexmk
+paper/*.fls
+
+# provenance-gate session scratch
+.claude/.session-start
+.claude/hooks/.attempts
