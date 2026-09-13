@@ -34,3 +34,32 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   below target match per grid type, not an absolute "none" — square placement is
   expected to dip below target at cell corners where hexagonal does not, and that is a
   reportable result, not a failed check.
+
+## 2026-09-09
+
+- **One-page spec, first four choices settled** — full table with rejected
+  alternatives in [[conventions]] under "Non-negotiable choices". In brief:
+  - PSD: single detector, analytic `aLIGOZeroDetHighPower` from pycbc (not the day-2
+    `.npz`, not a measured O3 curve — the latter is the v2 non-Gaussian item).
+  - Bank coordinates: chirp times $(\tau_0, \tau_3)$ at $f_0 = 20\ \mathrm{Hz}$ (not
+    $(\mathcal{M}_c,\eta)$ / $(m_1,m_2)$ — the metric is near-constant in chirp times,
+    and the others distort most near $\eta = 0.25$ where `volume-loss-rule` measures).
+  - Band: $20$–$1024\ \mathrm{Hz}$; segment length derived from the longest TaylorF2
+    duration in range, rounded up to a power of two.
+  - Threshold: $\rho^\*$ solved from a target FAP with a bank trials factor folded in,
+    so the threshold depends on bank density (not a flat $\rho^\* = 8$).
+- Still open before stage 1 (in [[todo]]): the target FAP value and the observation
+  time behind the trials factor; whether to cap total or chirp mass on top of the
+  component-mass box; the explicit five-stage breakdown and each stage's central figure.
+
+## 2026-09-12
+
+- Read Owen's primary source (arXiv:gr-qc/9511032v1) in full and added
+  `wiki/sources/owen1995_template_metric.md`.
+- Added a beginner-oriented, Spanish, MathJax-rendered guide at `page/index.html`.
+- Added `scripts/reproduce_owen1995.py`, a standard-library-only reproduction of the
+  noise moments, projected metric, eigensystem, chirp-time domain area, spacings, and
+  template counts. Its deterministic output is `data/owen1995_reproduction.json`.
+- Documented two clear typographical errors in Owen Eqs. 44–45 and 49, plus small
+  numerical inconsistencies exposed by recomputation from the printed PSD.
+- Added quantitative and claim-level provenance records for the guide.

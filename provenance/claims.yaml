@@ -1,0 +1,135 @@
+claims:
+  - id: owen-matched-filter-loss
+    statement: >
+      For normalized templates in Owen's Gaussian-noise model, mismatch reduces the
+      expected recovered SNR by the normalized template overlap.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)"
+      - "page/index.html::sections 3-4"
+    numbers: []
+
+  - id: owen-local-metric
+    statement: >
+      The Hessian of the match at coincident parameters defines a local metric with
+      1-M = g_ij Delta-lambda^i Delta-lambda^j in Owen's convention.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (11)-(13)"
+      - "page/index.html::section 5"
+    numbers: []
+
+  - id: owen-volume-count
+    statement: >
+      Under Owen's hypercubic covering model, the template count is proper parameter-space
+      volume divided by the cell volume set by the minimal match.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (14)-(16), (43)"
+      - "page/index.html::sections 6 and 9"
+    numbers:
+      - owen_mm_fiducial
+      - recomputed_initial_template_count
+      - recomputed_advanced_template_count
+      - owen_reported_initial_template_count
+      - owen_reported_advanced_template_count
+
+  - id: owen-event-rate-scaling
+    statement: >
+      With a homogeneous Euclidean source distribution and fixed threshold, the worst-case
+      retained event rate scales as MM cubed.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eq. (23) and surrounding discussion"
+      - "scripts/reproduce_owen1995.py::compute"
+    numbers:
+      - owen_mm_fiducial
+      - owen_mm097_rate_fraction
+      - owen_mm097_rate_loss
+      - owen_event_loss_benchmark
+
+  - id: owen-historical-psd
+    statement: >
+      The reproduction uses Owen's analytic initial- and advanced-LIGO benchmark PSDs,
+      which are historical inputs rather than current detector curves.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eq. (17) and Sec. II B"
+      - "scripts/reproduce_owen1995.py::reproduce_case"
+    numbers:
+      - owen_initial_fs_hz
+      - owen_initial_f0_hz
+      - owen_advanced_fs_hz
+      - owen_advanced_f0_hz
+
+  - id: owen-metric-reproduced
+    statement: >
+      Direct quadrature of Owen's noise moments followed by time projection reproduces
+      the printed two-dimensional metric components to their shown precision.
+    evidence:
+      - "scripts/reproduce_owen1995.py::normalized_moments"
+      - "scripts/reproduce_owen1995.py::dimensionless_premetric"
+      - "scripts/reproduce_owen1995.py::projected_metric"
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (18), (33), (34), (38), (40), (42)"
+    numbers:
+      - recomputed_initial_metric_11
+      - recomputed_initial_metric_12
+      - recomputed_initial_metric_22
+      - recomputed_advanced_metric_11
+      - recomputed_advanced_metric_12
+      - recomputed_advanced_metric_22
+      - recomputed_initial_sqrt_det
+      - recomputed_advanced_sqrt_det
+
+  - id: owen-eigensystem-reproduced
+    statement: >
+      Diagonalizing the full-precision recomputed metrics yields one stiff and one soft
+      direction and the square-grid spacings reported in the note.
+    evidence:
+      - "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem"
+      - "scripts/reproduce_owen1995.py::reproduce_case"
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (48)-(54)"
+    numbers:
+      - recomputed_initial_eigenvalue_stiff
+      - recomputed_initial_eigenvalue_soft
+      - recomputed_advanced_eigenvalue_stiff
+      - recomputed_advanced_eigenvalue_soft
+      - recomputed_initial_spacing_stiff_ms
+      - recomputed_initial_spacing_soft_ms
+      - recomputed_advanced_spacing_stiff_ms
+      - recomputed_advanced_spacing_soft_ms
+
+  - id: owen-domain-area-reproduced
+    statement: >
+      Integrating the analytic mass-to-chirp-time Jacobian over Owen's unbounded
+      component-mass domain reproduces his Monte Carlo coordinate areas to the precision
+      expected from the printed historical values.
+    evidence:
+      - "scripts/reproduce_owen1995.py::chirp_time_area"
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (35)-(36) and Sec. III B"
+    numbers:
+      - owen_minimum_mass_solar
+      - recomputed_initial_area_s2
+      - recomputed_advanced_area_s2
+      - owen_reported_initial_area_s2
+      - owen_reported_advanced_area_s2
+
+  - id: owen-editorial-inconsistencies
+    statement: >
+      Owen Eqs. (44)-(45) must scale with (1-MM)^-1 rather than MM^-1, Eq. (49) contains
+      a self-referential basis-vector label, and recomputation exposes small numerical
+      inconsistencies among the printed matrices, eigenvalues, and spacings.
+    evidence:
+      - "scripts/reproduce_owen1995.py::compute"
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (16), (43)-(45), (49)-(54)"
+      - "page/index.html::section 8.4"
+    numbers: []
+
+  - id: owen-historical-compute-cost
+    statement: >
+      Owen's online-search compute estimates are historical consequences of his PSD,
+      waveform, filtering algorithm, and source-domain assumptions, not modern budgets.
+    evidence:
+      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (55)-(61) and Sec. III D"
+      - "page/index.html::section 9.4"
+    numbers:
+      - owen_reported_initial_gflops
+      - owen_reported_advanced_gflops
+      - owen_event_loss_benchmark
+
+figures: []

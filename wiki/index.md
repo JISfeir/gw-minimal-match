@@ -24,6 +24,8 @@ One page per idea, each canonical for its topic. *(to be filled)*
 
 One page per thing read.
 
+- [[sources/owen1995_template_metric]] — the primary source for matched-filter mismatch,
+  the parameter-space metric, minimal match, and the 1PN worked example
 - [[sources/roulet2019_svd_bank]] — the SVD-based placement algorithm; our second,
   independent bank-spacing cross-check
 - `sources/` — still to write pages for: Owen 1996; Owen & Sathyaprakash 1999;
@@ -47,3 +49,8 @@ One page per figure: what is on the axes, what to take from it, what produced it
 
 The claim skeleton is `structure/claims.yaml` at the repo root, not here — this wiki is
 notes, that file is a deliverable.
+
+## Human-facing notes
+
+- `page/index.html` — beginner-oriented guide to understanding and reproducing Owen
+  (1995), with rendered LaTeX and a deterministic reference calculation

@@ -5,15 +5,27 @@ it.
 
 ## Before any computation: the one-page spec
 
-- [ ] Detector and PSD: which curve (aLIGO design zero-det-high-power? the day-2
-      `psd_reference.npz`?), and the source of the array.
-- [ ] Frequency band: $f_{\rm low}$, $f_{\rm high}$ / sampling, segment length.
-- [ ] Parameter coordinates: $(m_1, m_2)$ vs $(\mathcal{M}_c, \eta)$, and the mass range.
-- [ ] Waveform family per stage: TaylorF2 for the analytic Owen-metric comparison;
-      IMRPhenomD (pycbc) for the "missing physics" effect in stage 1.
-- [ ] $\mathrm{MM}$ target (0.97) and the false-alarm probability behind $\rho^\*$.
-- [ ] The central figure of each of the five stages.
-- [ ] The checklist: what counts as "verified" for each stage.
+Settled 2026-09-09 — full table with rejected alternatives in [[conventions]]:
+
+- [x] Detector and PSD: single detector, analytic `aLIGOZeroDetHighPower` (pycbc).
+- [x] Frequency band: $20$–$1024\ \mathrm{Hz}$; segment length = next power of two above
+      the longest TaylorF2 duration in range ($5+5\,M_\odot$ from 20 Hz).
+- [x] Parameter coordinates: chirp times $(\tau_0, \tau_3)$ at $f_0 = 20\ \mathrm{Hz}$.
+      Mass range: component masses $\in [5, 50]\,M_\odot$, $m_1 \ge m_2$, no spin.
+- [x] Waveform family: TaylorF2 for the Owen-metric comparison and everything downstream
+      (stages 2–5); IMRPhenomD (pycbc) for the "missing physics" contrast in stage 1.
+- [x] $\mathrm{MM}$ target: 0.97 (headline point; curves computed vs. MM).
+- [~] $\rho^\*$: solve from a target FAP with a bank trials factor. **Method fixed, two
+      inputs still open** (below).
+
+Still open:
+
+- [ ] **Target FAP** value behind $\rho^\*$ (e.g. $10^{-3}$ over the analysis) and the
+      **observation time** behind $N_{\rm indep\ time\ samples}$ in the trials factor.
+- [ ] Whether to cap **total mass** ($M \le 100\,M_\odot$, automatic here) or **chirp
+      mass** on top of the component-mass box.
+- [ ] The explicit **five-stage breakdown**, each stage's **central figure**, and the
+      per-stage **"verified" checklist**.
 
 ## Open questions
 

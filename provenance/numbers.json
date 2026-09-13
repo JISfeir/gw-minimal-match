@@ -1,0 +1,282 @@
+{
+  "owen_mm_fiducial": {
+    "value": 0.97,
+    "statement": "Minimal match fiducial used in the note and in Owen's benchmark.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "Inserted as the benchmark input and used in all derived calculations.",
+    "from_library": "None; Python standard library only.",
+    "choices": ["Use Owen's fiducial value so the reproduction is directly comparable to the paper."]
+  },
+  "owen_mm097_rate_fraction": {
+    "value": 0.912673,
+    "statement": "Worst-case accessible event-rate fraction MM^3 at MM=0.97.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "Evaluated 0.97 cubed from Owen Eq. (23).",
+    "from_library": "None.",
+    "choices": ["Used the Euclidean homogeneous-source approximation stated by Owen."]
+  },
+  "owen_mm097_rate_loss": {
+    "value": 0.087327,
+    "statement": "Worst-case fractional event-rate loss 1-MM^3 at MM=0.97.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "Subtracted the computed retained fraction from unity.",
+    "from_library": "None.",
+    "choices": ["Reported the exact decimal before displaying it as 8.73 percent."]
+  },
+  "owen_event_loss_benchmark": {
+    "value": 0.1,
+    "statement": "Approximate event-rate loss used to normalize Owen's historical count and compute-cost benchmarks.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "Transcribed from Owen Secs. III B-D.",
+    "from_library": "None.",
+    "choices": ["Recorded as the paper's approximate benchmark rather than equating it to the exact MM=0.97 loss."]
+  },
+  "owen_initial_fs_hz": {
+    "value": 40,
+    "statement": "Seismic cutoff frequency for Owen's initial-LIGO analytic PSD.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/5 with f0=200 Hz.",
+    "from_library": "None.",
+    "choices": ["Historical PSD retained for paper reproduction, not as a modern detector model."]
+  },
+  "owen_initial_f0_hz": {
+    "value": 200,
+    "statement": "Knee frequency for Owen's initial-LIGO analytic PSD.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Transcribed from Owen Sec. II B.",
+    "from_library": "None.",
+    "choices": ["Historical value retained for direct comparison."]
+  },
+  "owen_advanced_fs_hz": {
+    "value": 10,
+    "statement": "Seismic cutoff frequency for Owen's historical advanced-LIGO analytic PSD.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/7 with f0=70 Hz.",
+    "from_library": "None.",
+    "choices": ["Historical PSD retained for paper reproduction, not as a modern detector model."]
+  },
+  "owen_advanced_f0_hz": {
+    "value": 70,
+    "statement": "Knee frequency for Owen's historical advanced-LIGO analytic PSD.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Transcribed from Owen Sec. II B.",
+    "from_library": "None.",
+    "choices": ["Historical value retained for direct comparison."]
+  },
+  "recomputed_initial_metric_11": {
+    "value": 0.55179,
+    "statement": "Recomputed initial-LIGO g_11 divided by (2 pi f0)^2, rounded for the note.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_initial_metric_12": {
+    "value": 0.30361,
+    "statement": "Recomputed initial-LIGO g_12 divided by (2 pi f0)^2, rounded for the note.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_initial_metric_22": {
+    "value": 0.17320,
+    "statement": "Recomputed initial-LIGO g_22 divided by (2 pi f0)^2, rounded for the note.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_advanced_metric_11": {
+    "value": 1.00544,
+    "statement": "Recomputed historical advanced-LIGO g_11 divided by (2 pi f0)^2.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_advanced_metric_12": {
+    "value": 0.48554,
+    "statement": "Recomputed historical advanced-LIGO g_12 divided by (2 pi f0)^2.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_advanced_metric_22": {
+    "value": 0.24615,
+    "statement": "Recomputed historical advanced-LIGO g_22 divided by (2 pi f0)^2.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "from_library": "Python math module only.",
+    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
+  },
+  "recomputed_initial_sqrt_det": {
+    "value": 0.05821,
+    "statement": "Square root of the determinant of the recomputed initial-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Computed from the full-precision projected metric.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Reported dimensionless factor after dividing out (2 pi f0)^2."]
+  },
+  "recomputed_advanced_sqrt_det": {
+    "value": 0.10835,
+    "statement": "Square root of the determinant of the recomputed historical advanced-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Computed from the full-precision projected metric.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Reported dimensionless factor after dividing out (2 pi f0)^2."]
+  },
+  "recomputed_initial_eigenvalue_stiff": {
+    "value": 0.72028,
+    "statement": "Larger eigenvalue of the recomputed initial-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "from_library": "Python math.hypot.",
+    "choices": ["Eigenvalues sorted from larger to smaller."]
+  },
+  "recomputed_initial_eigenvalue_soft": {
+    "value": 0.004704,
+    "statement": "Smaller eigenvalue of the recomputed initial-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "from_library": "Python math.hypot.",
+    "choices": ["Kept extra digits because the soft direction is sensitive to rounding."]
+  },
+  "recomputed_advanced_eigenvalue_stiff": {
+    "value": 1.24214,
+    "statement": "Larger eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "from_library": "Python math.hypot.",
+    "choices": ["Eigenvalues sorted from larger to smaller."]
+  },
+  "recomputed_advanced_eigenvalue_soft": {
+    "value": 0.009452,
+    "statement": "Smaller eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "from_library": "Python math.hypot.",
+    "choices": ["Kept extra digits because the soft direction is sensitive to rounding."]
+  },
+  "recomputed_initial_spacing_stiff_ms": {
+    "value": 0.230,
+    "statement": "Initial-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+  },
+  "recomputed_initial_spacing_soft_ms": {
+    "value": 2.84,
+    "statement": "Initial-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+  },
+  "recomputed_advanced_spacing_stiff_ms": {
+    "value": 0.500,
+    "statement": "Historical advanced-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+  },
+  "recomputed_advanced_spacing_soft_ms": {
+    "value": 5.73,
+    "statement": "Historical advanced-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "from_library": "Python math.sqrt.",
+    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+  },
+  "owen_minimum_mass_solar": {
+    "value": 0.2,
+    "statement": "Minimum component mass in solar masses for Owen's expansive benchmark domain.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "from_scratch": "Transcribed from Owen Sec. III B as an input to the domain integral.",
+    "from_library": "None.",
+    "choices": ["Retained the historical lower-mass assumption for direct reproduction."]
+  },
+  "recomputed_initial_area_s2": {
+    "value": 0.1864,
+    "statement": "Deterministically integrated initial-LIGO chirp-time coordinate area in square seconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
+    "from_library": "Python math module only.",
+    "choices": ["Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."]
+  },
+  "recomputed_advanced_area_s2": {
+    "value": 25.013,
+    "statement": "Deterministically integrated historical advanced-LIGO chirp-time coordinate area in square seconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
+    "from_library": "Python math module only.",
+    "choices": ["Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."]
+  },
+  "owen_reported_initial_area_s2": {
+    "value": 0.18,
+    "statement": "Initial-LIGO chirp-time coordinate area reported by Owen in square seconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III B.",
+    "from_library": "None.",
+    "choices": ["Kept Owen's printed precision to expose the comparison with deterministic quadrature."]
+  },
+  "owen_reported_advanced_area_s2": {
+    "value": 24,
+    "statement": "Historical advanced-LIGO chirp-time coordinate area reported by Owen in square seconds.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III B.",
+    "from_library": "None.",
+    "choices": ["Kept Owen's printed precision to expose the comparison with deterministic quadrature."]
+  },
+  "recomputed_initial_template_count": {
+    "value": 285600,
+    "statement": "Recomputed initial-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
+    "from_library": "Python standard library only.",
+    "choices": ["Ignored boundary corrections as Owen's volume estimate does."]
+  },
+  "recomputed_advanced_template_count": {
+    "value": 8738000,
+    "statement": "Recomputed historical advanced-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
+    "from_library": "Python standard library only.",
+    "choices": ["Ignored boundary corrections as Owen's volume estimate does."]
+  },
+  "owen_reported_initial_template_count": {
+    "value": 270000,
+    "statement": "Initial-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (44), interpreting its MM numerator as the documented typo.",
+    "from_library": "None.",
+    "choices": ["Quoted the paper value while separately reporting the full-precision recomputation."]
+  },
+  "owen_reported_advanced_template_count": {
+    "value": 8400000,
+    "statement": "Historical advanced-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (45), interpreting its MM numerator as the documented typo.",
+    "from_library": "None.",
+    "choices": ["Quoted the paper value while separately reporting the full-precision recomputation."]
+  },
+  "owen_reported_initial_gflops": {
+    "value": 20,
+    "statement": "Historical initial-LIGO online-search computing power reported by Owen in Gflop/s.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
+    "from_library": "None.",
+    "choices": ["Presented explicitly as a historical estimate, not a modern compute requirement."]
+  },
+  "owen_reported_advanced_gflops": {
+    "value": 270,
+    "statement": "Historical advanced-LIGO online-search computing power reported by Owen in Gflop/s.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
+    "from_library": "None.",
+    "choices": ["Presented explicitly as a historical estimate, not a modern compute requirement."]
+  }
+}

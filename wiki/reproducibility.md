@@ -28,6 +28,7 @@ CPython 3.12). No conda. See [[environment]].
 |---|---|---|---|
 | Large numerical intermediates | `results/*.npz` | — | `python scripts/<the script that writes it>.py` — each documented on its own `wiki/results/` page with the full CLI and wall time |
 | The number registry | `data/project_numbers.json` | small — **tracked**, listed here only because it is generated | `python scripts/compute_numbers.py` (its sole writer) |
+| Owen 1995 numerical reproduction | `data/owen1995_reproduction.json` | small — **tracked** | `python3 scripts/reproduce_owen1995.py` (standard library only) |
 | Figure files | `figures/*.pdf` | — **tracked** | `python scripts/make_figures.py` |
 | LaTeX build artifacts | `paper/main.{aux,bbl,blg,log,out,pdf}` | <1 MB | `cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main` |
 | Python caches | `__pycache__/`, `.pytest_cache/` | trivial | auto |
