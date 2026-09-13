@@ -78,3 +78,16 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
 - Second change to the copied `Stop` hook: `figures_in_tree()` also skips `/jobs/` and
   `/papers/`. A job's figures belong to the job's own registry until ported, and the
   papers are PDFs this project was handed, not figures it produced.
+- Added `structure/objective-q12.txt`, a reduced objective with only questions 1–2
+  (claims `mismatch-snr-loss`, `metric-vs-owen`), three papers, one HTML deliverable
+  and one deliberately failing check. Reason: the machine runs on Claude Pro and
+  ChatGPT Plus subscriptions, and a day-4-sized job (30–130M tokens) would exhaust
+  their usage windows in its first round. This job doubles as a measurement of what a
+  job costs in quota before launching the full five-question objective.
+- Ran job `2026-09-13_061522_derive-q12` (06:15–07:17): 2 rounds, 11.0M tokens, 8 % of
+  the Codex Plus window for the worker. 24 claims verified, 5 unclear, 4 refuted (the
+  refuted ones superseded in round 2). The engine's check reported failure only because
+  it calls bare `python`; re-run by hand, provenance and `out/checks.py` pass. Nothing was
+  written in the project outside `jobs/`. Findings to carry in are in [[todo]].
+- Plan to hand-in settled: eleven steps, 2026-09-14 → 2026-09-27, each tied to a course
+  method. It lives in [[todo]].

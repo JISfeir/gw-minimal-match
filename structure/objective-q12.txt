@@ -1,0 +1,152 @@
+GOAL
+====
+Two questions about how imperfect a gravitational-wave template can be before a
+signal is lost. They are the first two of five (the full set is
+~/gw-minimal-match/structure/objective.txt); this job answers only these two, and is
+also a measurement of what a job this size costs, so keep it small.
+
+The setting is fixed (see SETTING below): non-spinning compact binaries with
+component masses in [5, 50] Msun, one detector, Gaussian stationary noise with a
+known PSD, frequency-domain templates.
+
+1. For a true signal h and a template u at offset parameters, derive the recovered
+   matched-filter SNR in terms of the match between them, exactly and then to
+   leading order in the mismatch. Say when the signal is lost -- recovered SNR
+   below a threshold rho* -- as a condition on the optimal SNR and the match. Keep
+   rho* a symbol: how it is set is a later job.
+   Use one concrete, physical imperfection as the worked example: a TaylorF2
+   template recovering an IMRPhenomD signal of the same masses, and then the best
+   TaylorF2 template for it (the fitting factor). Across the mass range, how large
+   is that mismatch, and for what ratio of optimal SNR to rho* does it lose the
+   signal?
+
+2. Compute the match metric g_ij in chirp-time coordinates (tau_0, tau_3)
+   numerically, from matches of TaylorF2 waveforms maximised over time and phase,
+   and compare it with the analytic metric of Owen (1996) / Owen & Sathyaprakash
+   (1999) built from the phase derivatives and the noise moments. Across the mass
+   range: how well do they agree, where does the metric vary fastest, and at what
+   mismatch does the quadratic approximation match ~ 1 - g_ij dtheta^i dtheta^j
+   stop being good enough to place a bank with?
+
+Out of scope for this job: detection thresholds and false-alarm rates, template
+banks and lattices, Monte Carlo covering checks, volume loss. Do not start on them.
+
+
+SETTING -- these choices are fixed, do not revisit them
+======================================================
+The source of truth is ~/gw-minimal-match/wiki/conventions.md, "Non-negotiable
+choices", which also records the alternative rejected for each. In brief:
+
+- Detector and noise: one detector, stationary Gaussian noise, one-sided PSD
+  `pycbc.psd.aLIGOZeroDetHighPower`, analytic, sampled on the analysis frequency
+  grid.
+- Band: f_low = 20 Hz, f_high = 1024 Hz.
+- Segment length: the next power of two above the longest TaylorF2 duration in
+  range (the 5+5 Msun corner from 20 Hz); df = 1 / T_seg.
+- Parameter space: m1, m2 in [5, 50] Msun, m1 >= m2, no spin.
+- Metric coordinates: chirp times (tau_0, tau_3) referenced to f_0 = f_low = 20 Hz.
+- Waveforms: TaylorF2 (3.5 PN phase) for the metric comparison; IMRPhenomD only as
+  the "missing physics" signal in question 1.
+- Inner product: <a|b> = 4 Re int a(f) b*(f) / S_n(f) df. Match = normalised inner
+  product maximised over time and phase. Mismatch = 1 - match.
+
+
+SOURCES
+=======
+The papers are in `papers/` in the job's work directory. Only these three are
+needed here:
+
+  gr-qc-9511032/         Owen 1996, template spacing: the metric and minimal match
+                         (PDF and the arXiv LaTeX source)
+  gr-qc-9808076/         Owen & Sathyaprakash 1999, the metric in chirp times
+  gr-qc-0509116/         Allen et al. 2012 (FINDCHIRP), the matched-filter SNR
+                         statistic
+
+The project this job belongs to is ~/gw-minimal-match. The files that matter here:
+
+  wiki/conventions.md                     the settled choices, with reasons
+  structure/claims.yaml                   claims `mismatch-snr-loss` and
+                                          `metric-vs-owen` are these two questions
+  wiki/sources/owen1995_template_metric.md
+  scripts/reproduce_owen1995.py,
+  data/owen1995_reproduction.json         a reproduction of Owen 1996
+
+That is prior work, not verified input. The Owen reproduction uses Owen's
+historical PSD, 1PN phase and f_0 = 70 Hz, not this SETTING: take the method from
+it, not the numbers. It records two misprints found by recomputing Owen 1996
+(Eqs. 44-45 and 49); check them rather than inheriting them. Where something in
+the project disagrees with what you find, report both and say which you believe.
+
+You may use the standard scientific python stack and PyCBC.
+
+
+WHERE YOU MAY WRITE
+===================
+- Write, create and delete files ONLY inside this job's own directory. Nothing
+  else under ~/gw-minimal-match is yours to change. Do not run git in the project.
+  Getting results into the project is done later, by a human.
+- Do not read other jobs under ~/gw-minimal-match/jobs/.
+- The project has a provenance hook of its own. If anything asks you to record a
+  number or figure under ~/gw-minimal-match/provenance/, do not: this job's
+  registry is `out/provenance.json`, and say in your report that it happened.
+
+
+WHAT YOU CANNOT GET FROM THE SOURCES
+====================================
+- How to sample the mass range: how many points, and where. Enough to see where
+  the metric varies fastest and where the numeric and analytic metrics part; not
+  more. State the choice.
+- The finite-difference step for the numeric metric, and how you know the result
+  is converged in it.
+- Which PN order the analytic metric should be taken at, given 3.5 PN waveforms,
+  and what the difference costs. Decide and show it.
+- Whether these two questions are the right two. If answering them turns up
+  something that makes one of them the wrong question, say so.
+
+Do not assume the framing is correct because we wrote it.
+
+
+DISCIPLINE
+==========
+- Environment: `~/gw-minimal-match/.venv/bin/python ...` for anything you execute.
+  Do not pip install anything, into that environment or any other.
+- Write the noise-weighted inner product and the time-and-phase maximisation
+  yourself, and check them against `pycbc.filter.match` at several points across
+  the range. Say, for every result, what was written in this job and what was
+  called from a library.
+- Derive symbolically where you can, and say which steps are derived and which are
+  recalled.
+- Every number you report must come from code in this job, or be quoted from a
+  named paper with its equation, table or page. Say which, every time.
+- When two sources disagree, report the disagreement with both numbers. A few per
+  cent is usually a modelling choice; an order of magnitude is usually a bug. Stop
+  on the second kind.
+- Keep computations light: this runs on a laptop, and a grid that takes more than
+  a few minutes is too fine for this job.
+- Say what you did NOT check.
+- No network access is required for anything here. Do not fetch data.
+
+
+DEFINITION OF DONE
+==================
+- `out/notes.tex` -- the machine-checked spine. Every quantitative claim carries a
+  \src{key} resolving in `out/provenance.json`.
+- `out/checks.py` -- runs, and prints per-check coverage numbers, not verdicts. It
+  includes at least one check made to FAIL on purpose, so the comparison is shown
+  to be capable of failing: the numeric metric computed from IMRPhenomD waveforms,
+  compared against the analytic TaylorF2 metric.
+- Paste the output of the check command in your final report.
+
+
+DELIVERABLE
+===========
+One self-contained HTML file, `out/report.html`, that opens from a `file://` URL
+with NO network -- no CDN, no external stylesheet, no remote font, no fetch. Check
+this rather than assuming it.
+
+It is what a physicist reads: the two questions, what you computed, what came out,
+and where it leaves the problem. Every figure inline, and every number tagged
+[src:key] against `out/provenance.json`. Its central figures: the recovered-SNR
+fraction against mismatch, with the TaylorF2-vs-IMRPhenomD mismatch across the mass
+range marked on it (question 1); and the numeric against the analytic metric
+components across the mass range (question 2).
