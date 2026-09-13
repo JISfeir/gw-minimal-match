@@ -4,12 +4,21 @@
 SNR below the detection threshold — and how dense a template bank must be so that never
 happens, derived from the match metric and verified with injections.
 
-**Scope (v1).** Non-spinning 2-parameter bank in $(m_1, m_2)$, single detector,
-$\sim 5$–$50\,M_\odot$. Detection threshold from an analytic Gaussian false-alarm rate.
-Numeric match metric checked against the analytic Owen metric (TaylorF2). Monte-Carlo
-covering check at minimal match 0.97. Output: fractional volume loss and template count
-as a function of minimal match, and whether the textbook $\Delta V/V \approx 3(1-\mathrm{MM})$
-rule holds where the metric varies fastest.
+**Scope (v1).** Non-spinning 2-parameter bank in chirp-time coordinates $(\tau_0,\tau_3)$,
+single detector, stationary Gaussian noise, component masses $5$–$50\,M_\odot$, reported in
+two regions: **main** $M \le 35\,M_\odot$ (the inspiral low-mass search range of FINDCHIRP)
+and **extended** $35 < M \le 100\,M_\odot$, where TaylorF2 cut at ISCO stops being a usable
+model. Numeric match metric checked against the analytic 3.5PN projected-phase metric
+(Owen's method), and tested operationally: where is the quadratic predictor good enough to
+place a bank. Square and hexagonal banks compared at equal minimal match, with a Monte-Carlo
+covering check. Detection threshold from the exact Gaussian tail with an effective trials
+factor, closed over the bank size. Output: template count and volume loss as functions of
+minimal match — worst case $1-\mathrm{MM}^3$, its expansion $3(1-\mathrm{MM})$ and the
+population average kept apart — at fixed and bank-dependent threshold.
+
+**Named simplifications.** The whole mass range lies above where searches trusted
+post-Newtonian templates alone (PyCBC, Usman et al. 2016: below $4\,M_\odot$). Gaussian
+stationary noise, no glitches, one detector, no spin.
 
 **v2, if time allows.** Replace the analytic threshold with a false-alarm rate measured
 from real non-Gaussian off-source data.

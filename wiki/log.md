@@ -110,3 +110,17 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   proposed from the q12 metric-variation rate; checked against the papers in `papers/`,
   none uses it (PyCBC 2016: post-Newtonian templates only below $4\,M_\odot$), so it was
   dropped in favour of the cited value. Details and what to carry into step 2 in [[todo]].
+- Codex reviewed the objective independently (fresh session, no context). Its citations
+  were checked against the files and nearly all of it accepted; it caught a real error in
+  claim `covering-at-mm097` (a correctly spaced square lattice does cover — Owen Eq. 3.16).
+  Disposition in [[todo]].
+- **Step 2 closed early.** `structure/objective-q1b345.txt` written: six parts A–F in
+  dependency order, both mass regions apart, figure rules, negative controls that must be
+  rejected, one offline report. `structure/claims.yaml` rewritten (two claims corrected, two
+  added: `model-error-decomposition`, `detection-threshold`; every claim has a `region`).
+  [[conventions]] gains the mismatch symbol $\mu$, $f_{\rm ISCO}$, $N_{\rm eff}$, the ISCO
+  cutoff, the mass split, the quadratic-validity criterion (≤ 10 % at
+  $\mu_{\rm pred}=1-\mathrm{MM}$, pre-registered) and the equal-MM lattice comparison, plus
+  four dated corrections. README scope and named simplifications updated;
+  `structure/objective.txt` marked as the master map, not to be run. FAP and observation
+  time stay free parameters for now.

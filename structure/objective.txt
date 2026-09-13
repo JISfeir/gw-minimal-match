@@ -1,3 +1,16 @@
+STATUS (2026-09-13) -- MASTER MAP, NOT TO BE RUN AS IS
+=====================================================
+This is the original five-question map. Questions 1-2 ran as structure/objective-q12.txt
+(job 2026-09-13_061522_derive-q12). Its review, and an independent Codex review of this
+file, found wording that steers a team wrong: the recovered-SNR relation stated without the
+noisy statistic, the TaylorF2/IMRPhenomD example mixing phase error with the ISCO cutoff,
+"where the metric varies fastest" asked through a coordinate-dependent measure, square and
+hexagonal lattices compared without fixing equal minimal match, the trials factor written
+as exact, and the volume losses merged. The next job runs from
+structure/objective-q1b345.txt, which fixes all of these and adds the mass-range split.
+Corrections are dated in wiki/conventions.md.
+
+
 GOAL
 ====
 Five questions about how imperfect a gravitational-wave template can be before a

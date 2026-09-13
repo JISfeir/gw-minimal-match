@@ -1,0 +1,267 @@
+GOAL
+====
+The next job on the minimal-match project. Job q12 answered questions 1 and 2 and was
+reviewed. The review found that part of question 1 was mis-posed and that question 2
+lacked an operational test. This job fixes both, then answers the bank, threshold and
+volume questions in dependency order: the threshold needs the bank's size, and the volume
+needs both.
+
+Six parts, in this order. Each names the claim in ~/gw-minimal-match/structure/claims.yaml
+it serves.
+
+A. Recovered SNR: the expected value and the observed statistic   (mismatch-snr-loss)
+   1. In noise-free data a unit-normalised template recovers rho_rec = rho_opt * match
+      exactly, so the fractional SNR loss is exactly the mismatch mu = 1 - match. Only
+      mu ~ g_ij dtheta^i dtheta^j is leading order. State this; do not re-derive it at
+      length.
+   2. In stationary Gaussian noise the observed statistic, maximised over phase, is a
+      random variable. Derive its distribution given rho_opt and the match (check, do not
+      assume, that E|z|^2 = rho_opt^2 match^2 + 2 in the normalisation you use), and from
+      it the probability that a signal with given rho_opt/rho* and match falls below rho*.
+   3. Validate by injection: coloured Gaussian noise from the PSD, a signal added, an
+      offset template filtered against it. Compare the measured distribution of the
+      statistic with the prediction at two or more mismatches.
+
+B. What the TaylorF2 / IMRPhenomD mismatch measures   (model-error-decomposition)
+   Job q12 found that 73-99.7 % of the same-mass mismatch comes from TaylorF2 ending at
+   f_ISCO. Report two comparisons, and call neither of them simply "model error":
+   1. Common support: IMRPhenomD truncated at the TaylorF2 f_ISCO of the same masses,
+      against TaylorF2 -- at the same masses, and at the best-fit TaylorF2 (fitting
+      factor). This isolates the difference between the two models below f_ISCO.
+   2. Full signal: untruncated IMRPhenomD against TaylorF2 ending at its f_ISCO. This is
+      the total loss from using this template family.
+   For a template with no support above f_c the two are related exactly by
+   match_full = sqrt(fraction of the signal's SNR^2 below f_c) * match_common. Verify the
+   identity numerically. It is a check, not a result.
+
+C. When the quadratic metric is good enough to place a bank   (metric-vs-owen)
+   Job q12 verified that, with the cutoff held fixed, the numeric metric agrees with the
+   analytic 3.5PN projected-phase metric built by Owen's method to within 0.74 % over 28
+   points. Spot-check that at a few points and reuse it; do not recompute the grid.
+   What is missing is an operational, coordinate-invariant test. For displacements whose
+   predicted mismatch is fixed at mu_pred = 1 - MM, in every direction, compare mu_pred with
+   the exact mismatch computed from matches, and take the worst relative error over
+   direction. Do it twice:
+     (i)  fixed support -- both waveforms cut at the base point's f_ISCO;
+     (ii) physical templates -- each waveform ends at its own f_ISCO.
+   Map the worst error over the mass range and apply the pre-registered criterion in
+   SETTING. That (ii) is not quadratic is a physical consequence of the moving cutoff, not a
+   failure of the analytic metric: report it as that.
+   Do not report "where the metric varies fastest" through a derivative or a norm of the
+   components of g_ij. Those depend on the coordinates.
+
+D. Template banks and covering   (covering-at-mm097)
+   1. Place banks at minimal match MM in (tau_0, tau_3) with square and with hexagonal
+      lattices, both spaced for the same covering radius, i.e. the same MM. With Owen's
+      spacing (Owen 1996, Eq. 3.16) the worst point of a square cell, its centre, has
+      mismatch exactly 1 - MM, so both lattices should cover; the hexagonal one needs fewer
+      templates. Give N_templates(MM) for both, and compare their ratio with the
+      constant-metric expectation, hexagonal/square = 0.770.
+   2. By Monte Carlo over injected TaylorF2 signals, measure the fraction whose best match
+      in the bank falls below MM, per lattice, with its Monte Carlo uncertainty. With
+      correct spacing that fraction is zero up to Monte Carlo error. Any excess is evidence
+      of metric variation, boundary effects, discretisation or an implementation error:
+      attribute it, with evidence.
+   MM = 0.97 is the headline point; report curves over a range of MM.
+
+E. Detection threshold   (detection-threshold)
+   1. First, the day-2 check: on signal-free simulated Gaussian noise, <|z|^2> = 2 and the
+      measured tail of the statistic matches the analytic one. No threshold is trusted
+      before this passes.
+   2. Derive exactly the tail for one template and one time sample: P(|z| > rho*) for the
+      phase-maximised statistic in Gaussian noise.
+   3. Over the whole analysis, FAP = 1 - (1 - p)^N_eff for an effective number of trials
+      N_eff. N_templates x N_time_samples is an upper bound, not the answer: neighbouring
+      samples and neighbouring templates are correlated. Compare the naive bound with at
+      least one estimate that accounts for the correlation time of the matched-filter
+      output; include template correlations if it can be done cheaply, and say so if not.
+   4. Close the loop MM -> N_templates (from D) -> N_eff -> rho*. Report rho* both at fixed
+      N_eff and closed-loop, over the MM range.
+
+F. Volume   (volume-loss-rule)
+   Keep these separate; never merge them into one number:
+     - 1 - MM^3: the exact worst-case fractional volume loss at fixed threshold, for
+       sources uniform in Euclidean volume;
+     - 3(1 - MM): its linear expansion;
+     - 1 - <M_bank^3>: the population-average discretisation loss, measured from D's
+       injections.
+   Present separately: TaylorF2 injections (pure discretisation); IMRPhenomD injections
+   (model error plus discretisation); fixed threshold; closed-loop threshold from E.
+   Then answer: once the threshold loop is closed, is there a minimal match beyond which a
+   denser bank no longer gains detection volume? A rough estimate (rho*^2 ~ 2 ln(N_eff/FAP),
+   N_templates ~ (1 - MM)^-1 in two dimensions) suggests that between MM = 0.97 and 0.99
+   the threshold increase costs about as much volume as the finer bank recovers. That is a
+   hypothesis to test, not a result.
+
+Every part reports the main region and the extended region separately (see SETTING). The
+main region carries the headline numbers; the extended region is where the model's
+breakdown is shown.
+
+
+INPUTS FROM JOB q12
+===================
+~/gw-minimal-match/jobs/2026-09-13_061522_derive-q12/ is prior work you may read and reuse:
+out/report.html, out/notes.tex, out/q1.json, out/q2.json, out/summary.json,
+work/compute.py (you may import or copy it), reports/r02-verifier.md.
+
+What the review found, so you do not inherit it: its Figure 1 was circular (points placed
+on the predicted curve by construction) and its Figure 2 could not show the precision it
+claims; out/snr_vs_mismatch.png and out/metric_comparison.png carry a wrong legend and are
+not to be reused. Its fitting-factor search is local, not global. Its "where the metric
+varies fastest" used a coordinate-dependent measure, which part C replaces.
+
+
+SETTING -- these choices are fixed, do not revisit them
+======================================================
+Source of truth: ~/gw-minimal-match/wiki/conventions.md. In brief:
+
+- Detector and noise: one detector, stationary Gaussian noise, one-sided PSD
+  `pycbc.psd.aLIGOZeroDetHighPower`, analytic.
+- Band: f_low = 20 Hz, f_high = 1024 Hz. Segment: next power of two above the longest
+  TaylorF2 duration in range; df = 1 / T_seg.
+- Masses: m1, m2 in [5, 50] Msun, m1 >= m2, no spin. Two regions, always reported apart:
+    main      M = m1 + m2 <= 35 Msun -- the inspiral low-mass search range in FINDCHIRP
+              (Allen et al. 2012, Sec. I), which covered 2 < M < 35 Msun;
+    extended  35 < M <= 100 Msun -- where TaylorF2 cut at ISCO stops being usable.
+- Coordinates: chirp times (tau_0, tau_3) at f_0 = f_low = 20 Hz.
+- Templates: TaylorF2 (3.5 PN phase), ending at f_ISCO = 1 / (6^{3/2} pi M), the LAL
+  default, recorded as a convention. IMRPhenomD to f_high is the physical signal in parts
+  B and F.
+- Inner product <a|b> = 4 Re int a b* / S_n df. Match: normalised inner product maximised
+  over time and phase.
+- Notation: mu = 1 - match is the mismatch. Do not write calligraphic M for the match or for
+  the mismatch -- job q12's legend error came from exactly that -- and M is total mass.
+- Analytic metric: the 3.5PN projected-phase metric built by Owen's method, not the
+  historical 1PN or 2PN matrices printed in Owen 1996 or Owen & Sathyaprakash 1999.
+- Quadratic-validity criterion (pre-registered): the metric is good enough to place a bank
+  at MM wherever the worst relative error of the predicted mismatch, over direction, is at
+  most 10 % at mu_pred = 1 - MM. At MM = 0.97 that bounds the guaranteed match between
+  0.967 and 0.973.
+- Lattice comparison: equal minimal match (equal covering radius), not equal density.
+- MM = 0.97 is the headline; curves are functions of MM.
+
+
+FIGURE RULES
+============
+Apply to every figure you make.
+
+F1. Measurement against prediction. A figure whose y-values are computed from its x-values
+    by the formula under test is not evidence. Plot what was measured against what was
+    predicted, or plot the residual.
+F2. Show the claimed precision. If the claim is agreement to X %, plot the relative error on
+    a scale where X % is visible, not two overlaid curves.
+F3. Do not collapse dimensions silently. Quantities that depend on (m1, m2) get a 2-D map, or
+    are marked by mass ratio. Axes carry units (g_ij in s^-2 in chirp-time coordinates).
+F4. Every figure states how it could fail: its caption says what it would look like if the
+    result were wrong. A figure for which that sentence cannot be written does not go in
+    the report.
+F5. No figure from job q12's out/ is reused as an image.
+
+
+SOURCES
+=======
+The papers are in `papers/` in the job's work directory:
+
+  gr-qc-9511032/   Owen 1996 -- the metric, minimal match, square-lattice spacing (Eq. 3.16)
+  gr-qc-9808076/   Owen & Sathyaprakash 1999 -- placement in chirp times
+  0706.4437/       Cokelaer 2007 -- hexagonal placement and its efficiency
+  1904.01683/      Roulet, Dai, Venumadhav, Zackay & Zaldarriaga 2019 -- Fig. 5 covering
+                   check, Table I bank sizes
+  1508.02357/      Usman et al. 2016 -- the PyCBC search; its bank loses at most 3 % SNR
+  gr-qc-0509116/   Allen et al. 2012 (FINDCHIRP) -- the matched-filter statistic, its
+                   distribution in Gaussian noise, the low-mass search range
+
+In ~/gw-minimal-match, read what helps; most likely wiki/conventions.md, wiki/todo.md,
+structure/claims.yaml and wiki/sources/. That is prior work, not verified input: where it
+disagrees with what you find, report both and say which you believe.
+
+You may use the standard scientific python stack and PyCBC.
+
+
+WHERE YOU MAY WRITE
+===================
+- Write, create and delete files ONLY inside this job's own directory. Nothing else under
+  ~/gw-minimal-match is yours to change. Do not run git in the project.
+- Of the other jobs under ~/gw-minimal-match/jobs/, read only job q12 (above).
+- The project has its own provenance hook. If anything asks you to record something under
+  ~/gw-minimal-match/provenance/, do not; this job's registry is out/provenance.json. Say
+  in your report that it happened.
+
+
+WHAT YOU CANNOT GET FROM THE SOURCES
+====================================
+- The target false-alarm probability and the observation time. The project has not chosen
+  them. Carry both as free parameters over a range that brackets what searches use, state
+  which values the headline numbers use and why, and do not present that choice as a
+  result.
+- The injection population (uniform in what) and the number of draws. State both and the
+  Monte Carlo error they buy.
+- How to place a lattice when the metric is not constant across the region: one global
+  metric, patches, or local spacing. State the choice and measure what it costs.
+- How to estimate N_eff honestly and cheaply.
+- How to sample directions in part C.
+- Whether these six parts are the right ones. If answering them shows that one is the wrong
+  question, say so.
+
+Do not assume the framing is correct because we wrote it.
+
+
+DISCIPLINE
+==========
+- Environment: `~/gw-minimal-match/.venv/bin/python ...` for anything you execute. Do not
+  install anything.
+- Write the inner product, the time-and-phase maximisation and the noise simulation
+  yourself; check the match against `pycbc.filter.match` at several points. Say, for every
+  result, what was written in this job and what was called from a library.
+- Derive symbolically where you can, and say which steps are derived and which recalled.
+- Every number must come from code in this job, from job q12's verified outputs, or from a
+  named paper with its equation, table or page. Say which, every time.
+- When two sources disagree, report both numbers. A few per cent is usually a modelling
+  choice; an order of magnitude is usually a bug. Stop on the second kind.
+- Fix and record every random seed.
+- Keep each script under about 20 minutes on this laptop. If a Monte Carlo needs more,
+  report the error you can afford and say what more would buy.
+- Say what you did NOT check.
+- No network access is needed. Do not fetch data.
+
+
+DEFINITION OF DONE
+==================
+- `out/notes.tex` -- the machine-checked spine. Every quantitative claim carries a \src{key}
+  resolving in `out/provenance.json`.
+- `out/checks.py` -- runs, prints per-check coverage numbers, and exits 0 only when every
+  positive check passes AND every negative control is rejected. A negative control that is
+  not rejected makes the script fail. At least these negative controls:
+    1. the numeric metric from IMRPhenomD waveforms against the analytic TaylorF2 metric;
+    2. a lattice spaced for MM = 0.90 tested against 0.97, whose below-target fraction must
+       exceed its Monte Carlo error by a clear margin;
+    3. the noise statistic computed with the PSD mis-scaled by a factor of 2, which must
+       fail the <|z|^2> = 2 test.
+- Paste the output of the check command in your final report.
+
+
+DELIVERABLE
+===========
+One self-contained `out/report.html` that opens from a `file://` URL with NO network -- no
+CDN, no external stylesheet, no remote font, no fetch. Check this rather than assuming it.
+
+It is what a physicist reads: the six parts, what was computed, what came out, and where it
+leaves the question, main and extended regions apart. Every figure inline, with its F4
+sentence in the caption. Every number tagged [src:key] against out/provenance.json, with
+the provenance of each number available in a collapsible <details> block rather than in a
+second report. out/notes.tex, out/checks.py and out/provenance.json are the machinery
+behind it, not further reports.
+
+Central figures, one per part at least:
+  A  measured distribution of the statistic from injections against the prediction;
+  B  common-support and full-signal mismatch over the mass range, with the residual of the
+     sqrt-fraction identity;
+  C  map over (m1, m2) of the worst relative error of the quadratic predictor at
+     mu_pred = 0.03, fixed support and physical templates, with the 10 % contour;
+  D  cumulative fraction of injections below a given match, square against hexagonal, in
+     the manner of Roulet et al. 2019 Fig. 5, and N_templates(MM) with the measured ratio
+     against 0.770;
+  E  measured tail on signal-free noise against the analytic tail, and rho*(MM) at fixed
+     and closed-loop N_eff;
+  F  measured volume loss against MM -- worst case, population average, 1 - MM^3 and
+     3(1 - MM) -- for fixed and closed-loop thresholds.

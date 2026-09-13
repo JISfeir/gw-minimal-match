@@ -57,12 +57,16 @@ for the circular figure.
             dominates the variation everywhere, and the neighbours of 50+50 (17.4, 12.8)
             show the maximum is not an edge artefact. Common cause: see "Moving ISCO cutoff".
       - [ ] Fresh Codex second opinion.
-- [ ] **2. Close the decisions** (Tue 15) — everything under "Decisions for step 2" below,
-      written into [[conventions]] and `structure/claims.yaml`. Name each claim's central
-      figure and write its F4 sentence now, before any job makes it.
-- [ ] **3. Job q345** (launch Tue 15 night → checkpoint Wed 16 → done Thu 17) — questions
-      3–5 of `structure/objective.txt`, updated with step 2 and allowed to reuse job q12's
-      code as prior work. Add the day-2 check first: ⟨ρ²⟩ = 2 and the FAP tail on
+- [x] **2. Close the decisions** (done early, Sun 13) — everything under "Decisions for step
+      2" below, written into [[conventions]] and `structure/claims.yaml`; central figures
+      named per part in `structure/objective-q1b345.txt`, each to carry its F4 sentence.
+      - [ ] FAP and observation time: deliberately left as free parameters in job q1b345
+            (bracketed); fix the headline values before the paper (step 7).
+- [ ] **3. Job q1b345** (launch Tue 15 night → checkpoint Wed 16 → done Thu 17) — runs
+      `structure/objective-q1b345.txt`, written 2026-09-13: parts A–F in dependency order
+      (noisy SNR statistic, model-error split, quadratic validity, banks and covering,
+      threshold with $N_{\rm eff}$, volume), both mass regions apart, job q12 reused as prior
+      work. Add the day-2 check first: ⟨ρ²⟩ = 2 and the FAP tail on
       signal-free Gaussian noise before trusting ρ\*. 2 workers (the covering Monte Carlo
       parallelises); steer with `job resume --say`; try extra rounds (day 4). The objective
       carries F1–F5 verbatim, replaces "recovered-SNR fraction against mismatch" with
@@ -70,7 +74,7 @@ for the circular figure.
       with $\langle\rho^2\rangle = \rho_{\rm opt}^2\,\mathrm{match}^2 + 2$), and asks the
       verifier to check each figure against F1–F4, not only its legend.
 - [ ] **4. Blind review** (Thu 17–Fri 18) — two fresh reviewers, one per backend, read the
-      q345 `out/` with no logs or model names; the claims are what survives (day 3). Each
+      q1b345 `out/` with no logs or model names; the claims are what survives (day 3). Each
       reviewer is asked, per figure: could it have looked different if the result were
       wrong?
 - [ ] **5. Port into the repo** (Sat 19–Sun 20) — write `tests/test_acceptance.py` by hand,
@@ -145,11 +149,12 @@ Still open:
         to $f_{\rm ISCO}=44$ Hz at $M=100$.
       - *Framing for page and paper:* the whole v1 range lies above where searches trusted
         post-Newtonian templates alone; say so among the simplifications, first.
-      - [ ] Carry into step 2: README scope, [[conventions]] "Mass range" row,
-        `structure/claims.yaml` (claims state which region they hold in; the
-        "metric near-constant in $(\tau_0,\tau_3)$" rationale is qualified to $M \le 35$),
-        and the q345 objective (both regions, reported separately).
-- [ ] **ISCO cutoff is an unrecorded convention** (step-1 review, 2026-09-13). Templates end
+      - [x] Carried in (2026-09-13): README scope, [[conventions]] "Mass range" row,
+        `structure/claims.yaml` (each claim has a `region`; the "metric near-constant in
+        $(\tau_0,\tau_3)$" rationale is qualified to the main region), and the job objective
+        (both regions, reported separately).
+- [x] **ISCO cutoff is an unrecorded convention** — recorded in [[conventions]] as "Template
+      high-frequency cutoff", 2026-09-13. (step-1 review, 2026-09-13). Templates end
       at $f_{\rm ISCO}=1/(6^{3/2}\pi M)$ (test-mass Schwarzschild; $v=1/\sqrt6$,
       $Mf\approx0.0217$) only because that is LAL's TaylorF2 default — verified: pycbc
       TaylorF2's last nonzero bin is exactly $f_{\rm ISCO}$. [[conventions]] mentions ISCO only
@@ -158,12 +163,51 @@ Still open:
       fixed $Mf$, IMRPhenomD's own transition frequencies (inspiral phase to $Mf\approx0.018$
       per Khan et al. 2016, arXiv:1508.07253 — **unverified, from memory**; check before
       citing).
-- [ ] **Stage-1 example** (from job q12): 73–99.7 % of the TaylorF2-vs-IMRPhenomD mismatch
+- [x] **Stage-1 example** (from job q12): 73–99.7 % of the TaylorF2-vs-IMRPhenomD mismatch
       is TaylorF2's ISCO truncation, not phase error — still 73 % at 5+5, so the mass split
-      does not remove it. Compare against IMRPhenomD truncated at the TaylorF2 cutoff
-      instead, or keep and reframe as a truncation example?
-- [ ] The explicit **five-stage breakdown**, each stage's **central figure** (with its F4
-      sentence), and the per-stage **"verified" checklist**.
+      does not remove it. **Decided 2026-09-13: both** — common support (IMRPhenomD truncated
+      at the TaylorF2 $f_{\rm ISCO}$) isolates the models' difference, the full signal gives
+      the total loss of the template family, tied by the exact identity
+      match_full = $\sqrt{\text{fraction}}\times$ match_common. Claim
+      `model-error-decomposition`, job part B.
+- [x] The explicit **stage breakdown**, each stage's **central figure** (with its F4
+      sentence), and the per-stage **"verified" checklist** — now six parts A–F in
+      `structure/objective-q1b345.txt`, each with its central figure; "verified" is
+      `out/checks.py` exiting 0 only when positive checks pass and negative controls are
+      rejected (2026-09-13).
+
+## Independent review of the objective (Codex, 2026-09-13)
+
+A fresh Codex session read `structure/objective.txt`, `objective-q12.txt` and
+`structure/claims.yaml` and proposed changes. Its citations were checked against the files.
+Disposition:
+
+- [x] **Expected vs observed SNR** — accepted. Loss is exactly the mismatch without noise;
+      the noisy statistic is a random variable. Claim `mismatch-snr-loss` reworded; part A.
+- [x] **Split TaylorF2/IMRPhenomD into common support and full signal** — accepted; part B.
+- [x] **Metric check** — accepted: the analytic check is Owen's method at 3.5PN; "where the
+      metric varies fastest" replaced by the pre-registered quadratic-validity criterion;
+      part C.
+- [x] **Square vs hexagonal** — accepted, and it caught our error: at equal MM with Owen's
+      spacing a square lattice covers. Checked: Owen Eq. 3.16 gives mismatch exactly
+      $1-\mathrm{MM}$ at the cell centre; hexagonal needs 0.770 of the square count. Claim
+      `covering-at-mm097` rewritten; correction dated in [[conventions]].
+- [x] **Trials factor as an approximation ($N_{\rm eff}$)**, with a new claim — accepted:
+      `detection-threshold`, part E.
+- [x] **Separate the volume losses** ($1-\mathrm{MM}^3$, $3(1-\mathrm{MM})$,
+      $1-\langle M^3\rangle$; TaylorF2 vs IMRPhenomD injections; fixed vs closed-loop
+      threshold) — accepted; part F.
+- [x] **Negative controls rejected, not "made to fail"; one report** — accepted.
+- [~] **"Q1–Q2 as frozen inputs"** — adjusted: part of Q1 had to be redone (noise, the
+      split) and Q2 lacked the invariant test, so the job is q1b345, not q345.
+- Not known to the review, added: the mass split, figure rules F1–F5, the ISCO convention,
+  the day-2 noise check.
+
+**Added from checking point 5:** with $\rho^{\*2}\approx2\ln(N_{\rm eff}/\mathrm{FAP})$
+($N=10^{10}$, FAP $=10^{-3}$), going from MM 0.97 to 0.99 triples the templates, raises
+$\rho^\*$ by 1.8 % and costs 5.3 % of volume, against 5.8 % of worst-case volume recovered.
+If the job confirms it, there is an optimal MM once the loop is closed — asked as a
+hypothesis in part F, not stated as a result.
 
 ## Corrections to carry in (from job q12)
 
@@ -177,9 +221,13 @@ Still open:
 
 ## Open questions
 
-- [ ] Single-template vs. against-a-bank framing for "how wrong before lost" — do both?
-- [ ] Does $\Delta V/V \approx 3(1-\mathrm{MM})$ hold across the mass range, or break
-      where the metric varies fastest? (This is a deliverable, not just a check.)
+- [x] Single-template vs. against-a-bank framing for "how wrong before lost" — both: part A
+      is the single template, parts D and F the bank (2026-09-13).
+- [x] Does $\Delta V/V \approx 3(1-\mathrm{MM})$ hold across the mass range? Reframed
+      2026-09-13: worst case, its expansion and the population average kept apart, at fixed
+      and closed-loop threshold (part F); "where the metric varies fastest" replaced by the
+      quadratic-validity criterion (part C).
+- [ ] Is there an optimal MM once the threshold loop is closed? (Part F hypothesis.)
 
 ## Stretch: second bank-spacing cross-check (claim `bank-spacing-cross-check-svd`)
 
