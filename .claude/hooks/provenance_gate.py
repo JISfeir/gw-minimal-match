@@ -64,7 +64,8 @@ def figures_in_tree():
     out = []
     for p in glob.glob(os.path.join(ROOT, "**", "*"), recursive=True):
         if os.path.isdir(p) or "/.claude/" in p or "/.codex/" in p \
-                or "/provenance/" in p or "/paper/" in p:
+                or "/provenance/" in p or "/paper/" in p \
+                or "/jobs/" in p or "/papers/" in p:
             continue
         if p.lower().endswith(FIGURE_EXT) and os.path.getmtime(p) > t0:
             out.append(os.path.relpath(p, ROOT))

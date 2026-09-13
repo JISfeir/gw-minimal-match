@@ -19,6 +19,12 @@ paper/*.pdf
 paper/*.fdb_latexmk
 paper/*.fls
 
+# agent-team jobs: each carries its own out/provenance.json; results are ported by hand
+jobs/
+
+# arXiv papers, local reading copies (listed in structure/objective.txt)
+papers/
+
 # provenance-gate session scratch
 .claude/.session-start
 .claude/hooks/.attempts

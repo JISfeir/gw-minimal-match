@@ -63,3 +63,18 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
 - Documented two clear typographical errors in Owen Eqs. 44–45 and 49, plus small
   numerical inconsistencies exposed by recomputation from the printed PSD.
 - Added quantitative and claim-level provenance records for the guide.
+
+## 2026-09-13
+
+- Set the project up to run an `agent-team` job (course day 4) from inside the repo.
+  The objective is `structure/objective.txt`: five questions mapped onto the claims in
+  `structure/claims.yaml`, in the format of the day-4 prompts. Unlike those, it does
+  not fence the team out of this repository — there is no worked answer here to hide,
+  and the settled conventions are what the team needs. It may read the repo, treats it
+  as prior work to check rather than verified input, and writes only inside its own
+  `jobs/<id>/`.
+- `jobs/` and `papers/` are git-ignored. `papers/` holds local copies of the six arXiv
+  papers the objective lists; the job gets a copy of it.
+- Second change to the copied `Stop` hook: `figures_in_tree()` also skips `/jobs/` and
+  `/papers/`. A job's figures belong to the job's own registry until ported, and the
+  papers are PDFs this project was handed, not figures it produced.

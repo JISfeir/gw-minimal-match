@@ -1,0 +1,192 @@
+GOAL
+====
+Five questions about how imperfect a gravitational-wave template can be before a
+signal is lost, and how dense a template bank has to be so that it never is.
+
+The setting is fixed (see SETTING below): non-spinning compact binaries with
+component masses in [5, 50] Msun, one detector, Gaussian stationary noise with a
+known PSD, frequency-domain templates.
+
+1. For a true signal h and a template u at offset parameters, derive the recovered
+   matched-filter SNR in terms of the match between them, exactly and then to
+   leading order in the mismatch. Say when the signal is lost -- recovered SNR
+   below the threshold rho* -- as a condition on the optimal SNR and the match.
+   Use one concrete, physical imperfection as the worked example: a TaylorF2
+   template recovering an IMRPhenomD signal of the same masses, and then the best
+   TaylorF2 template for it (the fitting factor). Across the mass range, where does
+   that model error cost more SNR than the bank spacing does?
+
+2. Compute the match metric g_ij in chirp-time coordinates (tau_0, tau_3)
+   numerically, from matches of TaylorF2 waveforms maximised over time and phase,
+   and compare it with the analytic metric of Owen (1996) / Owen & Sathyaprakash
+   (1999) built from the phase derivatives and the noise moments. Across the mass
+   range: how well do they agree, and at what mismatch does the quadratic
+   approximation match ~ 1 - g_ij dtheta^i dtheta^j stop being good enough to
+   place a bank with?
+
+3. Derive rho* from a target false-alarm probability over the whole analysis, for
+   Gaussian noise, with the matched-filter SNR maximised over phase and with a
+   trials factor ~ N_templates x N_independent_time_samples. The threshold then
+   depends on the bank, and the bank's size depends on the minimal match: close
+   that loop. How strongly does rho* actually depend on the minimal match, and is
+   the dependence large enough to matter for question 5?
+
+4. Place banks at a target minimal match MM in (tau_0, tau_3), with square and with
+   hexagonal lattices. Give N_templates as a function of MM for both. Then, by
+   Monte Carlo over injected signals drawn across the mass range, measure the
+   fraction whose best match in the bank falls below MM, for each lattice, with its
+   Monte Carlo uncertainty. The headline point is MM = 0.97; report the curve.
+
+5. The textbook statement is that a bank at minimal match MM loses a fraction
+   dV/V ~ 3(1 - MM) of the detection volume. Measure the volume loss from your
+   injections -- worst case and averaged over the population -- as a function of
+   MM, across the mass range, including where the metric in (tau_0, tau_3) varies
+   fastest. Where does the rule hold, where does it break, and by how much? Then
+   make everything in 1-4 compatible with each other and with the published
+   results in SOURCES, and say plainly where it leaves the question: how imperfect
+   can a template be, and how dense must the bank be.
+
+
+SETTING -- these choices are fixed, do not revisit them
+======================================================
+The source of truth is ~/gw-minimal-match/wiki/conventions.md, "Non-negotiable
+choices", which also records the alternative rejected for each. In brief:
+
+- Detector and noise: one detector, stationary Gaussian noise, one-sided PSD
+  `pycbc.psd.aLIGOZeroDetHighPower`, analytic, sampled on the analysis frequency
+  grid.
+- Band: f_low = 20 Hz, f_high = 1024 Hz.
+- Segment length: the next power of two above the longest TaylorF2 duration in
+  range (the 5+5 Msun corner from 20 Hz); df = 1 / T_seg.
+- Parameter space: m1, m2 in [5, 50] Msun, m1 >= m2, no spin.
+- Bank coordinates: chirp times (tau_0, tau_3) referenced to f_0 = f_low = 20 Hz.
+- Waveforms: TaylorF2 (3.5 PN phase) for the metric comparison and everything
+  downstream of it; IMRPhenomD only as the "missing physics" signal in question 1.
+- Inner product: <a|b> = 4 Re int a(f) b*(f) / S_n(f) df. Match = normalised inner
+  product maximised over time and phase. Mismatch = 1 - match.
+- MM = 0.97 is the headline point; every curve is computed as a function of MM.
+
+
+SOURCES
+=======
+The papers are in `papers/` in the job's work directory:
+
+  gr-qc-9511032/         Owen 1996, template spacing: the metric, minimal match,
+                         template counting (PDF and the arXiv LaTeX source)
+  gr-qc-9808076/         Owen & Sathyaprakash 1999, computational cost and
+                         template placement in chirp times
+  0706.4437/             Cokelaer 2007, hexagonal template placement
+  1904.01683/            Roulet, Dai, Venumadhav, Zackay & Zaldarriaga 2019,
+                         geometric (SVD) placement; Table I bank sizes, Fig. 5
+                         covering check
+  1508.02357/            Usman et al. 2016, the PyCBC search and its bank
+  gr-qc-0509116/         Allen et al. 2012 (FINDCHIRP), the matched-filter SNR
+                         statistic and its distribution in Gaussian noise
+
+The project this job belongs to is ~/gw-minimal-match. Read in it whatever helps;
+the files most likely to:
+
+  wiki/conventions.md                     the settled choices, with reasons
+  wiki/todo.md                            what the project has NOT decided
+  structure/claims.yaml                   the claims the project means to make;
+                                          the five questions map onto them
+  wiki/sources/owen1995_template_metric.md
+  wiki/sources/roulet2019_svd_bank.md     reading notes on the two key papers
+  scripts/reproduce_owen1995.py,
+  data/owen1995_reproduction.json,
+  page/index.html                         a reproduction of Owen 1996 and a
+                                          guide to its derivation
+
+That is prior work, not verified input. The Owen reproduction uses Owen's
+historical PSD, 1PN phase and f_0 = 70 Hz, not this SETTING: take the method from
+it, not the numbers. It records two misprints found by recomputing Owen 1996
+(Eqs. 44-45 and 49); check them rather than inheriting them. Where something in
+the project disagrees with what you find, report both and say which you believe.
+
+You may use the open literature, the standard scientific python stack, and PyCBC.
+
+
+WHERE YOU MAY WRITE
+===================
+- Write, create and delete files ONLY inside this job's own directory. Nothing
+  else under ~/gw-minimal-match is yours to change: not wiki/, structure/,
+  provenance/, scripts/, data/, page/ or paper/. Do not run git in the project.
+  Getting results into the project is done later, by a human.
+- Do not read other jobs under ~/gw-minimal-match/jobs/. This job is meant to be
+  an independent attempt.
+- The project has a provenance hook of its own. If anything asks you to record a
+  number or figure under ~/gw-minimal-match/provenance/, do not: this job's
+  registry is `out/provenance.json`, and say in your report that it happened.
+
+
+WHAT YOU CANNOT GET FROM THE SOURCES
+====================================
+- The target false-alarm probability and the observation time behind the trials
+  factor. The project has not chosen them. Carry both as free parameters, show how
+  rho* moves over a range that brackets what searches use, and state which values
+  the headline numbers use and why. Do not present that choice as a result.
+- Whether a chirp-mass cut on top of the component-mass box changes any of the
+  conclusions. Decide whether it is worth testing; if you test it, show it.
+- The injection population: uniform in what, and how many draws are enough for the
+  covering fractions to be resolved at the level question 4 needs. State the
+  choice and the Monte Carlo error it buys.
+- Where "the metric varies fastest" actually is in this range. Find it, do not
+  assume it.
+- Whether the five questions are the right five. If answering them turns up
+  something that makes one of them the wrong question, say so.
+
+Do not assume the framing is correct because we wrote it.
+
+
+DISCIPLINE
+==========
+- Environment: `~/gw-minimal-match/.venv/bin/python ...` for anything you execute.
+  Do not pip install anything, into that environment or any other.
+- Write the noise-weighted inner product and the time-and-phase maximisation
+  yourself, and check them against `pycbc.filter.match` at several points across
+  the range. Say, for every result, what was written in this job and what was
+  called from a library.
+- Derive symbolically where you can, and say which steps are derived and which are
+  recalled.
+- Every number you report must come from code in this job, or be quoted from a
+  named paper with its equation, table or page. Say which, every time.
+- When two sources disagree, report the disagreement with both numbers. A few per
+  cent is usually a modelling choice; an order of magnitude is usually a bug. Stop
+  on the second kind.
+- Fix and record every random seed.
+- Say what you did NOT check.
+- No network access is required for anything here. Do not fetch data.
+
+
+DEFINITION OF DONE
+==================
+- `out/notes.tex` -- the machine-checked spine. Every quantitative claim carries a
+  \src{key} resolving in `out/provenance.json`.
+- `out/checks.py` -- runs, and prints per-check coverage numbers, not verdicts. It
+  includes at least two checks made to FAIL on purpose, so each comparison is shown
+  to be capable of failing: the numeric metric compared against the analytic one
+  using IMRPhenomD waveforms instead of TaylorF2, and a covering check run on a
+  lattice deliberately spaced for a lower MM than the one it is tested against.
+- Paste the output of the check command in your final report.
+
+
+DELIVERABLE
+===========
+Two self-contained HTML files in `out/`, both of which must open from a `file://`
+URL with NO network -- no CDN, no external stylesheet, no remote font, no fetch.
+Check this rather than assuming it.
+
+1. `out/report.html` -- what a physicist reads. The question, what you computed,
+   what came out, and where it leaves the problem. Every figure inline. It should
+   stand on its own without the other file. Its central figures: the recovered-SNR
+   fraction against mismatch with rho* marked (question 1); numeric against
+   analytic metric across the range (2); rho* against MM (3); the cumulative
+   fraction of injections below a given match, square against hexagonal, in the
+   manner of Roulet et al. 2019 Fig. 5 (4); measured dV/V against 3(1 - MM) (5).
+
+2. `out/agent.html` -- the same content, plus the provenance: every number
+   resolving to the code that computed it, every figure to the script and inputs
+   that made it, the seeds and command lines that were run, and the source of
+   every script on the page.
+
+`out/provenance.json` is the registry both resolve against.
