@@ -91,3 +91,22 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   written in the project outside `jobs/`. Findings to carry in are in [[todo]].
 - Plan to hand-in settled: eleven steps, 2026-09-14 → 2026-09-27, each tied to a course
   method. It lives in [[todo]].
+- Step 1 (review of job q12), started a day early. Figures: Figure 1 is circular (points
+  placed at $(\mu,1-\mu)$ and $1/\mathrm{match}$ by construction) and Figure 2 cannot show
+  the precision it claims; the objective itself asked for the circular figure. Figure
+  rules F1–F5 added to [[todo]] for every step.
+- Two numbers followed to code. `q1_cutoff_floor` reproduced to 5 digits with code
+  written in this session, independent of the job's (pycbc waveforms and PSD, own inner
+  product): floor 0.00832 / 0.12766 / 0.30072 / 0.48049 at 5+5 / 24+16 / 35+35 / 50+50, and
+  pycbc TaylorF2 ends exactly at $f_{\rm ISCO}$. `metric_gradient_field` read from the
+  verifier's section E and its JSON. Both trace to one cause: TaylorF2's ISCO cutoff sits
+  at 44 Hz at $M=100$. Recorded in [[todo]] as one decision for step 2.
+- Where the inspiral stage ends had never been decided: the $f_{\rm ISCO}$ cutoff is LAL's
+  TaylorF2 default, recorded nowhere in [[conventions]]. Measured the SNR² fraction of
+  IMRPhenomD below $f_{\rm ISCO}$ against total mass (98 % at $M=10$ to 27 % at $M=100$).
+- **Decision: mass range split.** Main results for $M \le 35\,M_\odot$, following the
+  inspiral low-mass search range in FINDCHIRP (Allen et al. 2012); $35 < M \le 100$ reported
+  as the region where TaylorF2 cut at ISCO stops being usable. A threshold near 60 had been
+  proposed from the q12 metric-variation rate; checked against the papers in `papers/`,
+  none uses it (PyCBC 2016: post-Newtonian templates only below $4\,M_\odot$), so it was
+  dropped in favour of the cited value. Details and what to carry into step 2 in [[todo]].
