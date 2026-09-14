@@ -59,22 +59,33 @@ for the circular figure.
       - [ ] Fresh Codex second opinion.
 - [x] **2. Close the decisions** (done early, Sun 13) — everything under "Decisions for step
       2" below, written into [[conventions]] and `structure/claims.yaml`; central figures
-      named per part in `structure/objective-q1b345.txt`, each to carry its F4 sentence.
-      - [ ] FAP and observation time: deliberately left as free parameters in job q1b345
-            (bracketed); fix the headline values before the paper (step 7).
-- [ ] **3. Job q1b345** (launch Tue 15 night → checkpoint Wed 16 → done Thu 17) — runs
-      `structure/objective-q1b345.txt`, written 2026-09-13: parts A–F in dependency order
-      (noisy SNR statistic, model-error split, quadratic validity, banks and covering,
-      threshold with $N_{\rm eff}$, volume), both mass regions apart, job q12 reused as prior
-      work. Add the day-2 check first: ⟨ρ²⟩ = 2 and the FAP tail on
-      signal-free Gaussian noise before trusting ρ\*. 2 workers (the covering Monte Carlo
-      parallelises); steer with `job resume --say`; try extra rounds (day 4). The objective
+      named per part in `structure/objective-q1bC.txt` and `structure/objective-qDEF.txt`,
+      each to carry its F4 sentence.
+      - [x] FAP and observation time — pre-registered 2026-09-14 (see "Second Codex review"
+            below and [[conventions]]): FAR = 1/(100 yr), $T_{\rm obs}$ = 1 yr,
+            FAP $=1-e^{-0.01}=0.0099502$.
+- [ ] **3. Two jobs, in order** — split 2026-09-14 after the second Codex review; both
+      mass regions apart, job q12 reused as prior work.
+      - [ ] **q1bC** (launch Mon 14 night → review Tue 15) — `structure/objective-q1bC.txt`:
+            A noisy SNR at the fixed lag (Rice, day-2 check), B common support vs full signal
+            with a global fitting-factor search, C quadratic validity. Ends by writing
+            `out/lib/`, `out/data/` and `out/manifest.json`. Launch with `--name q1bC`; the
+            job id comes out lowercased, `…_derive-q1bc`. Copy papers gr-qc-9511032,
+            gr-qc-9808076, gr-qc-0509116. After review, **`job freeze <id>`** — qDEF refuses
+            to start otherwise.
+      - [ ] **qDEF** (launch Tue 15 or Wed 16 night → done Thu 17) —
+            `structure/objective-qDEF.txt`: gate on q1bC (unique `jobs/*_derive-q1bc`,
+            status frozen, manifest hashes, checks re-run, else `[[BLOCKED]]`); D Cokelaer
+            placement with local metric and $\eta=1/4$ projection, sensitivities; E threshold
+            at FAR = 1/(100 yr); F $V_{\rm eff}$ and its optimum. Copy all six papers.
+      Both: steer with `job resume --say`; try extra rounds (day 4); qDEF may use 2 workers
+      (the covering Monte Carlo parallelises). The objective
       carries F1–F5 verbatim, replaces "recovered-SNR fraction against mismatch" with
       injections into Gaussian noise (measured recovered SNR against $\rho_{\rm opt}\cdot$match,
       with $\langle\rho^2\rangle = \rho_{\rm opt}^2\,\mathrm{match}^2 + 2$), and asks the
       verifier to check each figure against F1–F4, not only its legend.
 - [ ] **4. Blind review** (Thu 17–Fri 18) — two fresh reviewers, one per backend, read the
-      q1b345 `out/` with no logs or model names; the claims are what survives (day 3). Each
+      q1bC and qDEF `out/` with no logs or model names; the claims are what survives (day 3). Each
       reviewer is asked, per figure: could it have looked different if the result were
       wrong?
 - [ ] **5. Port into the repo** (Sat 19–Sun 20) — write `tests/test_acceptance.py` by hand,
@@ -125,8 +136,9 @@ The one-page spec was settled 2026-09-09 — full table with rejected alternativ
 
 Still open:
 
-- [ ] **Target FAP** value behind $\rho^\*$ (e.g. $10^{-3}$ over the analysis) and the
-      **observation time** behind $N_{\rm indep\ time\ samples}$ in the trials factor.
+- [x] **Target FAP** and **observation time** — pre-registered 2026-09-14: FAR = 1/(100 yr),
+      $T_{\rm obs}$ = 1 yr, FAP $=1-\exp(-\mathrm{FAR}\,T_{\rm obs})$ exactly; sensitivities
+      FAR = 1/yr (permissive) and 5σ by global probability. Details in [[conventions]].
 - [x] **Mass range split — decided 2026-09-13.** Main results for **$M \le 35\,M_\odot$**
       (component box $[5,50]$, so in practice $m_1 \le 30$); **$35 < M \le 100\,M_\odot$** is
       reported as an extended region, the place where TaylorF2 cut at ISCO stops being a
@@ -171,8 +183,9 @@ Still open:
       match_full = $\sqrt{\text{fraction}}\times$ match_common. Claim
       `model-error-decomposition`, job part B.
 - [x] The explicit **stage breakdown**, each stage's **central figure** (with its F4
-      sentence), and the per-stage **"verified" checklist** — now six parts A–F in
-      `structure/objective-q1b345.txt`, each with its central figure; "verified" is
+      sentence), and the per-stage **"verified" checklist** — now six parts A–F, in
+      `structure/objective-q1bC.txt` (A–C) and `structure/objective-qDEF.txt` (D–F), each
+      with its central figure; "verified" is
       `out/checks.py` exiting 0 only when positive checks pass and negative controls are
       rejected (2026-09-13).
 
@@ -209,6 +222,35 @@ $\rho^\*$ by 1.8 % and costs 5.3 % of volume, against 5.8 % of worst-case volume
 If the job confirms it, there is an optimal MM once the loop is closed — asked as a
 hypothesis in part F, not stated as a result.
 
+## Second Codex review of the objective (2026-09-14)
+
+Reviewed `structure/objective-q1b345.txt`: "much better and scientifically more solid", no
+large conceptual changes, six details and one operational reservation. Disposition, with the
+user's decisions:
+
+- [x] **Fix bank placement before running** — accepted, and worse than the review thought:
+      the metric is not near-constant even in the main region (density ×3; correction dated
+      in [[conventions]]). Decided: Cokelaer 2007 local-metric placement as the main method;
+      non-physical cells projected onto $\eta=1/4$; physical templates outside the box kept
+      when they cover its borders. Sensitivities: global metric anchored at 12.5+6.25 (main)
+      and 40+20 $M_\odot$ (extended); discard non-physical cells. Interior and border
+      injections reported apart.
+- [x] **The sqrt-fraction identity does not survive maximisation over masses** — accepted:
+      verified candidate by candidate; global fitting-factor search (exhaustive grid at
+      neighbour match ≥ 0.995, then local refinement).
+- [x] **Part A at the deterministic optimal lag** — accepted: a single Rice sample; time
+      maximisation and its trials go to part E.
+- [x] **$V_{\rm eff}(\mathrm{MM})=\langle M_{\rm bank}^3\rangle/\rho^{\*3}$** — accepted as the
+      objective to maximise, with uncertainty.
+- [x] **FAP / time contradiction** — accepted; fixed now. Decided: FAR = 1/(100 yr) (noise
+      guide 1908.11170 Sec. 8.5), $T_{\rm obs}$ = 1 yr, FAP exact as $1-e^{-\mathrm{FAR}T}$;
+      $\nu_{\rm eff}$ on manageable segments, $N_{\rm eff}=\nu_{\rm eff}T_{\rm obs}$; FAR = 1/yr
+      only as a permissive sensitivity; 5σ by its global probability, not a years-equivalent.
+- [x] **Do not assert perfect covering** — accepted: claim `covering-at-mm097` reworded as a
+      measurement with attribution; `section` fields now A–F.
+- [x] **Job size** — accepted: split into q1bC then qDEF; qDEF consumes q1bC's frozen,
+      verified outputs through an explicit manifest and stops if its checks fail.
+
 ## Corrections to carry in (from job q12)
 
 - [ ] [[sources/owen1995_template_metric]]: the eigenvector misprint is on **both** lines of
@@ -227,7 +269,8 @@ hypothesis in part F, not stated as a result.
       2026-09-13: worst case, its expansion and the population average kept apart, at fixed
       and closed-loop threshold (part F); "where the metric varies fastest" replaced by the
       quadratic-validity criterion (part C).
-- [ ] Is there an optimal MM once the threshold loop is closed? (Part F hypothesis.)
+- [ ] Is there an optimal MM once the threshold loop is closed? (qDEF part F: maximise
+      $V_{\rm eff}$.)
 
 ## Stretch: second bank-spacing cross-check (claim `bank-spacing-cross-check-svd`)
 

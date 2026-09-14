@@ -6,8 +6,12 @@ file, found wording that steers a team wrong: the recovered-SNR relation stated 
 noisy statistic, the TaylorF2/IMRPhenomD example mixing phase error with the ISCO cutoff,
 "where the metric varies fastest" asked through a coordinate-dependent measure, square and
 hexagonal lattices compared without fixing equal minimal match, the trials factor written
-as exact, and the volume losses merged. The next job runs from
-structure/objective-q1b345.txt, which fixes all of these and adds the mass-range split.
+as exact, and the volume losses merged. The work continues as two jobs:
+structure/objective-q1bC.txt (parts A-C, which freezes its verified outputs in a manifest)
+and structure/objective-qDEF.txt (parts D-F, which checks that manifest before starting).
+They fix all of these and add the mass-range split, local-metric placement and a
+pre-registered threshold operating point. An intermediate single-job draft,
+objective-q1b345.txt, was superseded on 2026-09-14 after a second review (see git history).
 Corrections are dated in wiki/conventions.md.
 
 

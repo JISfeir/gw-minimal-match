@@ -5,40 +5,44 @@
 # Format: .claude/provenance/claims.md   (and figures: per .claude/provenance/figures.md)
 # This file is a deliverable, checked by scripts/check_provenance.py.
 #
-# Revised 2026-09-13 after the review of job q12 and an independent Codex review of the
+# Revised 2026-09-14 after the review of job q12 and two independent Codex reviews of the
 # objective; corrections are dated in wiki/conventions.md. `region` says where a claim is
-# meant to hold: main = M <= 35 Msun, extended = 35 < M <= 100 Msun. `job_part` points at the
-# part of structure/objective-q1b345.txt that measures it.
+# meant to hold: main = M <= 35 Msun, extended = 35 < M <= 100 Msun. `section` is the part of
+# the argument (A-F) that carries it, until page and paper sections exist. `job` names the
+# objective that measures it: structure/objective-q1bC.txt (parts A-C) or
+# structure/objective-qDEF.txt (parts D-F).
 
 claims:
   - id: mismatch-snr-loss
     statement: >
       In noise-free data a unit-normalised template recovers exactly rho_opt times the
       match, so the fractional loss of SNR is exactly the mismatch mu; only
-      mu ~ g_ij dtheta^i dtheta^j is leading order. In stationary Gaussian noise the observed
-      phase-maximised statistic is a random variable whose distribution follows from rho_opt
-      and the match, and the probability of losing a signal is computed from that
+      mu ~ g_ij dtheta^i dtheta^j is leading order. In stationary Gaussian noise the
+      statistic at the deterministic optimal lag is a single Rice-distributed sample given
+      rho_opt and the match, and the probability of losing a signal is computed from that
       distribution and validated by injections.
     region: main and extended
-    job_part: A
-    section: TBD
+    section: A
+    job: q1bC
     evidence:
       - "src/overlap.py::match            # (to be written)"
-      - "scripts/snr_injections.py        # (to be written) — injections in simulated Gaussian noise"
+      - "scripts/snr_injections.py        # (to be written) — injections in simulated Gaussian noise, fixed lag"
       - "Owen 1996 (gr-qc/9511032), Sec. II"
       - "Allen et al. 2012, FINDCHIRP (gr-qc/0509116) — the statistic and its distribution in Gaussian noise"
     numbers: []
 
   - id: model-error-decomposition
     statement: >
-      The mismatch between an IMRPhenomD signal and a TaylorF2 template ending at f_ISCO
-      separates exactly into the fraction of the signal's SNR^2 below f_ISCO and the match on
-      common support: match_full = sqrt(fraction) x match_common. The first is the total loss
-      from using this template family; the second isolates the difference between the two
-      models below f_ISCO. Neither alone is "model error".
+      For each candidate TaylorF2 template ending at its own f_ISCO, the match against an
+      IMRPhenomD signal factorises exactly into the square root of the fraction of the
+      signal's SNR^2 below that cutoff times the match on common support. The factorisation
+      does not survive maximisation over template masses, so the fitting factor of each
+      comparison is found by its own global search. The full-signal comparison is the
+      total loss from using this template family; the common-support one isolates the
+      difference between the models below f_ISCO. Neither alone is "model error".
     region: main and extended, reported apart
-    job_part: B
-    section: TBD
+    section: B
+    job: q1bC
     evidence:
       - "scripts/model_error.py           # (to be written)"
       - "job 2026-09-13_061522_derive-q12, out/q1.json — ISCO-cutoff floor, reproduced independently in the step-1 review (wiki/log.md, 2026-09-13)"
@@ -54,8 +58,8 @@ claims:
       ending at its own f_ISCO, the match is not locally quadratic, and where that breaks the
       criterion is reported as a consequence of the moving cutoff.
     region: main and extended, reported apart
-    job_part: C
-    section: TBD
+    section: C
+    job: q1bC
     evidence:
       - "src/metric.py::numeric_metric    # (to be written)"
       - "src/metric.py::owen_metric       # (to be written) — Owen's method at 3.5PN"
@@ -66,36 +70,41 @@ claims:
 
   - id: covering-at-mm097
     statement: >
-      Square and hexagonal banks placed in (tau_0, tau_3) for the same minimal match, with
-      Owen's spacing, both cover: the Monte Carlo fraction of injected TaylorF2 signals whose
-      best match falls below MM is zero within Monte Carlo error, and any excess is
-      attributed to metric variation, boundaries or implementation. The hexagonal bank needs
-      fewer templates, in a ratio compared with the constant-metric value 0.770.
+      Square and hexagonal banks are placed in (tau_0, tau_3) for the same nominal minimal
+      match with Cokelaer's local-metric method and boundary treatment. For both we measure,
+      by Monte Carlo over injected TaylorF2 signals and separately for interior and border
+      injections, the fraction whose best match falls below MM, and determine whether any
+      excess over the ideal geometric expectation comes from metric variation, the quadratic
+      approximation, the boundaries or the implementation. The template counts are compared
+      with the constant-metric ratio 0.770.
     region: main and extended, reported apart
-    job_part: D
-    section: TBD
+    section: D
+    job: qDEF
     evidence:
-      - "src/bank.py::place              # (to be written)"
+      - "src/bank.py::place              # (to be written) — Cokelaer 2007 placement, local metric"
       - "scripts/covering_check.py       # (to be written)"
       - "Owen 1996 (gr-qc/9511032), Eq. 3.16 — square spacing, worst point at the cell centre"
-      - "Cokelaer 2007 (arXiv:0706.4437) — hexagonal placement"
+      - "Cokelaer 2007 (arXiv:0706.4437) — hexagonal placement, boundary treatment"
       - "Roulet et al. 2019 (arXiv:1904.01683), Fig. 5 — the covering-check figure"
     numbers: []
 
   - id: detection-threshold
     statement: >
-      The detection threshold rho* follows from the exact Gaussian tail of the
-      phase-maximised statistic for one template and one sample, combined over the analysis
-      through an effective number of trials N_eff that is smaller than the naive
-      N_templates x N_time_samples. Closing the loop MM -> N_templates -> N_eff -> rho* makes
-      the threshold depend on the bank, and the size of that dependence is measured.
+      At the pre-registered operating point, FAR = 1/(100 yr) over T_obs = 1 yr with
+      FAP = 1 - exp(-FAR T_obs), the threshold rho* follows from the exact single-sample
+      Gaussian tail of the phase-maximised statistic and an effective trial rate nu_eff
+      measured on simulated noise and extrapolated to T_obs, which is smaller than the naive
+      count. Closing the loop MM -> N_templates -> nu_eff -> rho* makes the threshold depend on
+      the bank, and the size of that dependence is measured, with FAR = 1/yr and 5 sigma
+      (global probability) as sensitivities.
     region: main and extended, reported apart
-    job_part: E
-    section: TBD
+    section: E
+    job: qDEF
     evidence:
       - "src/threshold.py                # (to be written)"
-      - "scripts/noise_tail_check.py     # (to be written) — <|z|^2> = 2 and the tail on signal-free noise"
+      - "scripts/noise_tail_check.py     # (to be written) — single-sample tail and nu_eff on simulated noise"
       - "Allen et al. 2012, FINDCHIRP (gr-qc/0509116)"
+      - "Abbott et al., arXiv:1908.11170, Sec. 8.5 — one false alarm per century as an example threshold"
     numbers: []
 
   - id: volume-loss-rule
@@ -103,12 +112,13 @@ claims:
       The worst-case fractional detection-volume loss at fixed threshold is exactly
       1 - MM^3, of which 3(1 - MM) is the linear expansion; the population-average loss
       1 - <M_bank^3> is measured separately, for TaylorF2 injections (discretisation only)
-      and IMRPhenomD injections (model error plus discretisation). With the bank-dependent
-      threshold the net volume gain of a denser bank is measured, including whether a
-      minimal match exists beyond which it vanishes.
+      and IMRPhenomD injections (template-family error plus discretisation). With the
+      bank-dependent threshold, the effective volume <M_bank^3>/rho*^3 is maximised over MM,
+      and whether that maximum lies inside the range studied is reported with its
+      uncertainty.
     region: main and extended, reported apart
-    job_part: F
-    section: TBD
+    section: F
+    job: qDEF
     evidence:
       - "scripts/compute_numbers.py::volume_loss_vs_mm   # (to be written)"
       - "Owen 1996 (gr-qc/9511032), Eq. 2.21 (arXiv v1) — event rate against MM"
@@ -123,8 +133,8 @@ claims:
       template count and a covering behaviour consistent with the Owen-metric bank
       (metric-vs-owen, covering-at-mm097), for the same target minimal match.
     region: main
-    job_part: "none — plan step 6, optional"
-    section: TBD
+    section: "D (cross-check; plan step 6, optional)"
+    job: "none yet"
     evidence:
       - "src/svd_basis.py::build_basis   # (to be written) — SVD of TaylorF2 unwrapped phase over sampled waveforms"
       - "src/svd_basis.py::grid_in_c     # (to be written) — regular grid in the c-space, Eq. 15"

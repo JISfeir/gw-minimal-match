@@ -1,0 +1,239 @@
+GATE -- DO THIS BEFORE ANYTHING ELSE
+===================================
+This is the second of two jobs: q1bC, then qDEF (this one). It consumes q1bC's verified,
+frozen outputs. Before any computation:
+
+1. Find the q1bC job: the unique directory matching
+   ~/gw-minimal-match/jobs/*_derive-q1bc/ (agent-team lowercases job names). If there is
+   none, or more than one, stop.
+2. Its spec.json must have "status": "frozen" (a human freezes it after review). If not,
+   stop.
+3. Read its out/manifest.json. Recompute the sha256 of every file it lists; every one must
+   match. If any differs or is missing, stop.
+4. Re-run its check command from inside that job directory; it must exit 0 and print output
+   whose sha256 matches the manifest's. If not, stop.
+
+"Stop" means: write what failed and why in your report, end your reply with [[BLOCKED]],
+and do nothing else. Do not repair, re-run or work around q1bC's outputs.
+
+Once the gate passes, use q1bC's code only by importing it from its out/lib/, and its
+numbers only from its out/data/ -- never from its work/. Record in out/provenance.json the
+q1bC job id and the manifest's sha256 for everything you use.
+
+
+GOAL
+====
+Three parts in dependency order: the threshold needs the bank's size, and the volume needs
+both. Each names the claim in ~/gw-minimal-match/structure/claims.yaml it serves.
+
+D. Template banks and covering   (covering-at-mm097)
+   1. Placement, pre-registered. Place banks at minimal match MM in (tau_0, tau_3) with the
+      method of Cokelaer 2007: each cell uses the metric at its own position, and the lattice
+      grows cell by cell to the boundary of the region. Do this for a hexagonal lattice, and
+      for a square lattice aligned with the local eigenvectors with Owen's spacing (Owen
+      1996, Eq. 3.16: the worst point of a square cell, its centre, then has mismatch
+      exactly 1 - MM). Both lattices are spaced for the same covering radius, i.e. the same
+      MM.
+   2. Boundaries, pre-registered. Cells that fall on the non-physical side of eta = 1/4 are
+      projected onto the eta = 1/4 line along the local eigenvector direction. Templates that
+      lie outside the mass box but are physical are kept when they cover its borders.
+   3. Sensitivities, reported apart from the main result:
+      (s1) a global metric anchored at a predefined point -- m1 = 12.5, m2 = 6.25 Msun for
+           the main region, m1 = 40, m2 = 20 Msun for the extended region -- instead of the
+           local metric;
+      (s2) non-physical cells discarded instead of projected.
+   4. Give N_templates(MM) for both lattices and both regions, and the ratio
+      hexagonal/square against the constant-metric expectation 0.770.
+   5. Covering, by Monte Carlo over injected TaylorF2 signals: the fraction whose best match
+      in the bank falls below MM, per lattice, with its Monte Carlo uncertainty. Report
+      separately interior injections and border injections -- border meaning within one
+      covering radius, sqrt(1 - MM) in local metric distance, of any boundary of the region.
+      At equal nominal MM, compare each fraction with the ideal geometric expectation, and
+      determine whether any excess comes from metric variation, the quadratic approximation
+      (use q1bC's validity map), the boundaries or the implementation.
+   MM = 0.97 is the headline point; report curves over a range of MM.
+
+E. Detection threshold   (detection-threshold)
+   Pre-registered operating point: false-alarm rate FAR = 1 / (100 yr) over an observation
+   time T_obs = 1 yr. The false-alarm probability is FAP = 1 - exp(-FAR * T_obs) exactly;
+   0.01 is only its approximation. Sensitivities, reported apart:
+     - FAR = 1 / yr, as a permissive operating point. It is not a detection significance
+       and must not be described as one.
+     - 5 sigma, defined by its global probability: FAP = P(N(0,1) > 5) = 2.8665e-7
+       (one-sided). Do not import a years-equivalent from any published event.
+   1. Take the single-sample tail from q1bC (P(|z| > r) = exp(-r^2/2), verified there).
+   2. The statistic is maximised over time and over the bank, so trials are correlated.
+      Estimate an effective rate of independent trials nu_eff on manageable simulated
+      segments of Gaussian noise filtered through the bank -- do not simulate a year -- and
+      extrapolate N_eff = nu_eff * T_obs. Show the estimate is stable in segment length and
+      compare it with the naive bound N_templates x (samples per second) x T_obs.
+   3. Solve rho* from FAP = 1 - exp(-N_eff * p(rho*)) with p the single-sample tail.
+   4. Close the loop MM -> N_templates (from D) -> nu_eff -> rho*. Report rho* at fixed
+      nu_eff and closed-loop, over the MM range, for the operating point and both
+      sensitivities.
+
+F. Volume   (volume-loss-rule)
+   Keep these separate; never merge them into one number:
+     - 1 - MM^3: the exact worst-case fractional volume loss at fixed threshold, for
+       sources uniform in Euclidean volume;
+     - 3(1 - MM): its linear expansion;
+     - 1 - <M_bank^3>: the population-average discretisation loss, from D's injections.
+   Present separately: TaylorF2 injections (pure discretisation); IMRPhenomD injections, for
+   which M_bank is the direct best match against the whole TaylorF2 bank (template-family
+   error plus discretisation); fixed threshold; closed-loop threshold from E; interior and
+   border injections.
+   Then the optimum. Define the effective volume, up to a constant, as
+       V_eff(MM) = <M_bank^3> / rho*(MM)^3 ,
+   with rho* closed-loop from E. Find the MM that maximises V_eff, with its uncertainty,
+   for TaylorF2 and for IMRPhenomD injections, in each region. A rough estimate
+   (rho*^2 ~ 2 ln N_eff, N_templates ~ (1 - MM)^-1 in two dimensions) suggests that between
+   MM = 0.97 and 0.99 the threshold increase costs about as much volume as the finer bank
+   recovers. That is a hypothesis to test, not a result. V_eff ignores noise fluctuations of
+   |z| near threshold; say how much that could matter, using q1bC's Rice distribution.
+
+Every part reports the main region and the extended region separately (see SETTING). The
+main region carries the headline numbers.
+
+
+SETTING -- these choices are fixed, do not revisit them
+======================================================
+Source of truth: ~/gw-minimal-match/wiki/conventions.md. In brief:
+
+- Detector and noise: one detector, stationary Gaussian noise, one-sided PSD
+  `pycbc.psd.aLIGOZeroDetHighPower`, analytic.
+- Band: f_low = 20 Hz, f_high = 1024 Hz. Segment: next power of two above the longest
+  TaylorF2 duration in range; df = 1 / T_seg.
+- Masses: m1, m2 in [5, 50] Msun, m1 >= m2, no spin. Two regions, always reported apart:
+    main      M = m1 + m2 <= 35 Msun -- the inspiral low-mass search range in FINDCHIRP
+              (Allen et al. 2012, Sec. I);
+    extended  35 < M <= 100 Msun -- where TaylorF2 cut at ISCO stops being usable.
+- Coordinates: chirp times (tau_0, tau_3) at f_0 = f_low = 20 Hz. The metric is not
+  near-constant in them, not even in the main region; that is why placement is local.
+- Templates: TaylorF2 (3.5 PN phase), ending at f_ISCO = 1 / (6^{3/2} pi M). IMRPhenomD to
+  f_high is the physical signal in part F.
+- Inner product <a|b> = 4 Re int a b* / S_n df. Match: normalised inner product maximised
+  over time and phase. mu = 1 - match; M is total mass; no calligraphic M for match or
+  mismatch.
+- Analytic metric: the 3.5PN projected-phase metric by Owen's method, as frozen by q1bC.
+- Placement, boundaries, sensitivities and interior/border split: as in part D.
+- Threshold operating point and sensitivities: as in part E.
+- MM = 0.97 is the headline; curves are functions of MM.
+
+
+FIGURE RULES
+============
+Apply to every figure you make.
+
+F1. Measurement against prediction. A figure whose y-values are computed from its x-values
+    by the formula under test is not evidence. Plot what was measured against what was
+    predicted, or plot the residual.
+F2. Show the claimed precision. If the claim is agreement to X %, plot the relative error on
+    a scale where X % is visible, not two overlaid curves.
+F3. Do not collapse dimensions silently. Quantities that depend on (m1, m2) get a 2-D map, or
+    are marked by mass ratio. Axes carry units.
+F4. Every figure states how it could fail: its caption says what it would look like if the
+    result were wrong. A figure for which that sentence cannot be written does not go in
+    the report.
+F5. No figure from another job's out/ is reused as an image.
+
+
+SOURCES
+=======
+The papers are in `papers/` in the job's work directory:
+
+  gr-qc-9511032/   Owen 1996 -- minimal match, square-lattice spacing (Eq. 3.16)
+  gr-qc-9808076/   Owen & Sathyaprakash 1999 -- placement in chirp times
+  0706.4437/       Cokelaer 2007 -- the placement method and boundary treatment used here
+  1904.01683/      Roulet, Dai, Venumadhav, Zackay & Zaldarriaga 2019 -- Fig. 5 covering
+                   check, Table I bank sizes
+  1508.02357/      Usman et al. 2016 -- the PyCBC search; its bank loses at most 3 % SNR
+  gr-qc-0509116/   Allen et al. 2012 (FINDCHIRP) -- the statistic and the low-mass range
+
+In ~/gw-minimal-match, read what helps; most likely wiki/conventions.md, wiki/todo.md and
+structure/claims.yaml. That is prior work, not verified input.
+
+You may use the standard scientific python stack and PyCBC.
+
+
+WHERE YOU MAY WRITE
+===================
+- Write, create and delete files ONLY inside this job's own directory. Nothing else under
+  ~/gw-minimal-match is yours to change -- q1bC's directory included. Do not run git in the
+  project.
+- Of the other jobs under ~/gw-minimal-match/jobs/, read only q1bC, and only as the GATE
+  allows.
+- The project has its own provenance hook. If anything asks you to record something under
+  ~/gw-minimal-match/provenance/, do not; this job's registry is out/provenance.json. Say
+  in your report that it happened.
+
+
+WHAT YOU CANNOT GET FROM THE SOURCES
+====================================
+- The injection population (uniform in what) and the number of draws. State both and the
+  Monte Carlo error they buy.
+- The segment lengths and bank subset used to estimate nu_eff, and how you show the
+  extrapolation to T_obs is safe.
+- The MM grid fine enough to locate a maximum of V_eff, if there is one.
+- Whether these three parts are the right ones. If answering them shows that one is the
+  wrong question, say so.
+
+Do not assume the framing is correct because we wrote it.
+
+
+DISCIPLINE
+==========
+- Environment: `~/gw-minimal-match/.venv/bin/python ...` for anything you execute. Do not
+  install anything.
+- Import q1bC's out/lib/ for the inner product, match, noise statistic, metric and
+  fitting-factor search; say, for every result, what was written in this job, what came
+  from q1bC and what was called from a library.
+- Every number must come from code in this job, from q1bC's frozen out/data/, or from a
+  named paper with its equation, table or page. Say which, every time.
+- When two sources disagree, report both numbers. A few per cent is usually a modelling
+  choice; an order of magnitude is usually a bug. Stop on the second kind.
+- Fix and record every random seed.
+- Keep each script under about 20 minutes on this laptop. If a Monte Carlo needs more,
+  report the error you can afford and say what more would buy.
+- Say what you did NOT check.
+- No network access is needed. Do not fetch data.
+
+
+DEFINITION OF DONE
+==================
+- The GATE passed, and out/provenance.json records q1bC's job id and manifest sha256.
+- `out/notes.tex` -- the machine-checked spine. Every quantitative claim carries a \src{key}
+  resolving in `out/provenance.json`.
+- `out/checks.py` -- runs, prints per-check coverage numbers, and exits 0 only when every
+  positive check passes AND every negative control is rejected. A negative control that is
+  not rejected makes the script fail. At least these negative controls:
+    1. a lattice spaced for MM = 0.90 tested against 0.97, whose below-target fraction must
+       exceed its Monte Carlo error by a clear margin;
+    2. a threshold taken from the single-sample tail with no trials factor, applied to
+       time- and bank-maximised simulated noise, whose false-alarm count must exceed the
+       operating point's by a clear margin;
+    3. the global metric anchored at the main-region point (12.5 + 6.25 Msun) used to place
+       the extended-region bank, whose below-target fraction must exceed its Monte Carlo
+       error by a clear margin.
+- Paste the output of the check command in your final report.
+
+
+DELIVERABLE
+===========
+One self-contained `out/report.html` that opens from a `file://` URL with NO network -- no
+CDN, no external stylesheet, no remote font, no fetch. Check this rather than assuming it.
+
+It is what a physicist reads: the three parts, what was computed, what came out, and where
+it leaves the question, main and extended regions apart. Every figure inline, with its F4
+sentence in the caption. Every number tagged [src:key] against out/provenance.json, with
+the provenance of each number in a collapsible <details> block rather than in a second
+report.
+
+Central figures, one per part at least:
+  D  cumulative fraction of injections below a given match, square against hexagonal,
+     interior and border apart, in the manner of Roulet et al. 2019 Fig. 5; and
+     N_templates(MM) with the measured ratio against 0.770;
+  E  measured false-alarm rate on simulated noise against the prediction from nu_eff, and
+     rho*(MM) at fixed and closed-loop nu_eff for the operating point and sensitivities;
+  F  V_eff(MM) with its uncertainty for TaylorF2 and IMRPhenomD injections, and the
+     separated volume losses against MM -- worst case, population average, 1 - MM^3 and
+     3(1 - MM).

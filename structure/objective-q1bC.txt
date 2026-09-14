@@ -1,38 +1,49 @@
 GOAL
 ====
-The next job on the minimal-match project. Job q12 answered questions 1 and 2 and was
-reviewed. The review found that part of question 1 was mis-posed and that question 2
-lacked an operational test. This job fixes both, then answers the bank, threshold and
-volume questions in dependency order: the threshold needs the bank's size, and the volume
-needs both.
+First of two jobs on the minimal-match project: q1bC (this one), then qDEF. Job q12
+answered questions 1 and 2 and was reviewed twice; this job redoes what those reviews found
+mis-posed, adds the missing operational test of the metric, and ends by freezing its
+verified outputs in a manifest that qDEF consumes. qDEF will not start unless that manifest
+checks out, so the manifest is part of the deliverable, not an afterthought.
 
-Six parts, in this order. Each names the claim in ~/gw-minimal-match/structure/claims.yaml
-it serves.
+Three parts. Each names the claim in ~/gw-minimal-match/structure/claims.yaml it serves.
 
 A. Recovered SNR: the expected value and the observed statistic   (mismatch-snr-loss)
    1. In noise-free data a unit-normalised template recovers rho_rec = rho_opt * match
       exactly, so the fractional SNR loss is exactly the mismatch mu = 1 - match. Only
       mu ~ g_ij dtheta^i dtheta^j is leading order. State this; do not re-derive it at
       length.
-   2. In stationary Gaussian noise the observed statistic, maximised over phase, is a
-      random variable. Derive its distribution given rho_opt and the match (check, do not
-      assume, that E|z|^2 = rho_opt^2 match^2 + 2 in the normalisation you use), and from
-      it the probability that a signal with given rho_opt/rho* and match falls below rho*.
-   3. Validate by injection: coloured Gaussian noise from the PSD, a signal added, an
-      offset template filtered against it. Compare the measured distribution of the
-      statistic with the prediction at two or more mismatches.
+   2. In stationary Gaussian noise, evaluate the statistic |z| at the deterministic optimal
+      lag -- the time offset found without noise -- maximised over phase only. Phase
+      maximisation is analytic, so |z| is a single sample: derive its distribution (Rice,
+      given rho_opt and the match; check, do not assume, that E|z|^2 = rho_opt^2 match^2 + 2
+      in your normalisation) and from it the probability that a signal with given
+      rho_opt/rho* and match falls below rho*. Do NOT maximise over a time window or over
+      noise realisations: that adds trials, and trials belong to qDEF part E.
+   3. The day-2 check, before anything else in this part: on signal-free simulated Gaussian
+      noise at a fixed lag, <|z|^2> = 2 and the measured single-sample tail matches
+      P(|z| > r) = exp(-r^2 / 2).
+   4. Validate by injection: coloured Gaussian noise from the PSD, a signal added, an offset
+      template filtered against it at the fixed lag. Compare the measured distribution of
+      |z| with the Rice prediction at two or more mismatches.
 
 B. What the TaylorF2 / IMRPhenomD mismatch measures   (model-error-decomposition)
    Job q12 found that 73-99.7 % of the same-mass mismatch comes from TaylorF2 ending at
    f_ISCO. Report two comparisons, and call neither of them simply "model error":
-   1. Common support: IMRPhenomD truncated at the TaylorF2 f_ISCO of the same masses,
-      against TaylorF2 -- at the same masses, and at the best-fit TaylorF2 (fitting
-      factor). This isolates the difference between the two models below f_ISCO.
+   1. Common support: IMRPhenomD truncated at the template's f_ISCO, against TaylorF2.
+      This isolates the difference between the two models below f_ISCO.
    2. Full signal: untruncated IMRPhenomD against TaylorF2 ending at its f_ISCO. This is
       the total loss from using this template family.
-   For a template with no support above f_c the two are related exactly by
-   match_full = sqrt(fraction of the signal's SNR^2 below f_c) * match_common. Verify the
-   identity numerically. It is a check, not a result.
+   For one candidate template theta with no support above its f_c(theta), the two are
+   related exactly by match_full(theta) = sqrt(F(theta)) * match_common(theta), where F is
+   the fraction of the signal's SNR^2 below f_c(theta). Verify it candidate by candidate.
+   It does NOT survive maximisation over the template masses, because f_c moves with them:
+   max over theta of match_full is in general not sqrt(F(theta_best)) times the max of
+   match_common. So compute the fitting factor of each comparison by its own search.
+   The fitting-factor search must be global: an exhaustive grid over the region at a
+   spacing that guarantees match >= 0.995 between neighbouring grid points, then local
+   refinement from the best few. Report it next to job q12's local result and say where
+   they differ.
 
 C. When the quadratic metric is good enough to place a bank   (metric-vs-owen)
    Job q12 verified that, with the cutoff held fixed, the numeric metric agrees with the
@@ -50,52 +61,28 @@ C. When the quadratic metric is good enough to place a bank   (metric-vs-owen)
    Do not report "where the metric varies fastest" through a derivative or a norm of the
    components of g_ij. Those depend on the coordinates.
 
-D. Template banks and covering   (covering-at-mm097)
-   1. Place banks at minimal match MM in (tau_0, tau_3) with square and with hexagonal
-      lattices, both spaced for the same covering radius, i.e. the same MM. With Owen's
-      spacing (Owen 1996, Eq. 3.16) the worst point of a square cell, its centre, has
-      mismatch exactly 1 - MM, so both lattices should cover; the hexagonal one needs fewer
-      templates. Give N_templates(MM) for both, and compare their ratio with the
-      constant-metric expectation, hexagonal/square = 0.770.
-   2. By Monte Carlo over injected TaylorF2 signals, measure the fraction whose best match
-      in the bank falls below MM, per lattice, with its Monte Carlo uncertainty. With
-      correct spacing that fraction is zero up to Monte Carlo error. Any excess is evidence
-      of metric variation, boundary effects, discretisation or an implementation error:
-      attribute it, with evidence.
-   MM = 0.97 is the headline point; report curves over a range of MM.
+Every part reports the main region and the extended region separately (see SETTING).
 
-E. Detection threshold   (detection-threshold)
-   1. First, the day-2 check: on signal-free simulated Gaussian noise, <|z|^2> = 2 and the
-      measured tail of the statistic matches the analytic one. No threshold is trusted
-      before this passes.
-   2. Derive exactly the tail for one template and one time sample: P(|z| > rho*) for the
-      phase-maximised statistic in Gaussian noise.
-   3. Over the whole analysis, FAP = 1 - (1 - p)^N_eff for an effective number of trials
-      N_eff. N_templates x N_time_samples is an upper bound, not the answer: neighbouring
-      samples and neighbouring templates are correlated. Compare the naive bound with at
-      least one estimate that accounts for the correlation time of the matched-filter
-      output; include template correlations if it can be done cheaply, and say so if not.
-   4. Close the loop MM -> N_templates (from D) -> N_eff -> rho*. Report rho* both at fixed
-      N_eff and closed-loop, over the MM range.
 
-F. Volume   (volume-loss-rule)
-   Keep these separate; never merge them into one number:
-     - 1 - MM^3: the exact worst-case fractional volume loss at fixed threshold, for
-       sources uniform in Euclidean volume;
-     - 3(1 - MM): its linear expansion;
-     - 1 - <M_bank^3>: the population-average discretisation loss, measured from D's
-       injections.
-   Present separately: TaylorF2 injections (pure discretisation); IMRPhenomD injections
-   (model error plus discretisation); fixed threshold; closed-loop threshold from E.
-   Then answer: once the threshold loop is closed, is there a minimal match beyond which a
-   denser bank no longer gains detection volume? A rough estimate (rho*^2 ~ 2 ln(N_eff/FAP),
-   N_templates ~ (1 - MM)^-1 in two dimensions) suggests that between MM = 0.97 and 0.99
-   the threshold increase costs about as much volume as the finer bank recovers. That is a
-   hypothesis to test, not a result.
+FROZEN OUTPUTS FOR qDEF
+=======================
+qDEF places banks with the metric, simulates noise with the statistic and uses the
+fitting-factor search. It must be able to import all of it without reading your work/
+directory. Before finishing:
 
-Every part reports the main region and the extended region separately (see SETTING). The
-main region carries the headline numbers; the extended region is where the model's
-breakdown is shown.
+1. Put the reusable code in `out/lib/` as importable modules, each with a docstring saying
+   what was verified and by which check: the inner product and match; the noise simulation
+   and the statistic |z| at a fixed lag; the analytic 3.5PN metric and the numeric metric;
+   the global fitting-factor search.
+2. Put the verified numerical outputs qDEF needs in `out/data/` (the metric over the mass
+   range, the quadratic-validity map, the normalisation of |z|).
+3. Write `out/manifest.json` LAST, after `out/checks.py` passes. For every file in
+   `out/lib/` and `out/data/`: its path relative to the job directory, sha256, size in
+   bytes, and one line on what it is and what verified it. Also: the check command, its
+   exit code, the sha256 of its printed output, the claim ids this job verified, and the
+   creation time.
+
+A manifest written while any check fails is worse than none.
 
 
 INPUTS FROM JOB q12
@@ -104,7 +91,7 @@ INPUTS FROM JOB q12
 out/report.html, out/notes.tex, out/q1.json, out/q2.json, out/summary.json,
 work/compute.py (you may import or copy it), reports/r02-verifier.md.
 
-What the review found, so you do not inherit it: its Figure 1 was circular (points placed
+What the reviews found, so you do not inherit it: its Figure 1 was circular (points placed
 on the predicted curve by construction) and its Figure 2 could not show the precision it
 claims; out/snr_vs_mismatch.png and out/metric_comparison.png carry a wrong legend and are
 not to be reused. Its fitting-factor search is local, not global. Its "where the metric
@@ -123,10 +110,11 @@ Source of truth: ~/gw-minimal-match/wiki/conventions.md. In brief:
     main      M = m1 + m2 <= 35 Msun -- the inspiral low-mass search range in FINDCHIRP
               (Allen et al. 2012, Sec. I), which covered 2 < M < 35 Msun;
     extended  35 < M <= 100 Msun -- where TaylorF2 cut at ISCO stops being usable.
-- Coordinates: chirp times (tau_0, tau_3) at f_0 = f_low = 20 Hz.
+- Coordinates: chirp times (tau_0, tau_3) at f_0 = f_low = 20 Hz. The metric is NOT
+  near-constant in them, not even in the main region (job q12's analytic metric: template
+  density sqrt(det g) varies by a factor 3 over M = 10-35).
 - Templates: TaylorF2 (3.5 PN phase), ending at f_ISCO = 1 / (6^{3/2} pi M), the LAL
-  default, recorded as a convention. IMRPhenomD to f_high is the physical signal in parts
-  B and F.
+  default, recorded as a convention. IMRPhenomD to f_high is the physical signal in part B.
 - Inner product <a|b> = 4 Re int a b* / S_n df. Match: normalised inner product maximised
   over time and phase.
 - Notation: mu = 1 - match is the mismatch. Do not write calligraphic M for the match or for
@@ -137,7 +125,6 @@ Source of truth: ~/gw-minimal-match/wiki/conventions.md. In brief:
   at MM wherever the worst relative error of the predicted mismatch, over direction, is at
   most 10 % at mu_pred = 1 - MM. At MM = 0.97 that bounds the guaranteed match between
   0.967 and 0.973.
-- Lattice comparison: equal minimal match (equal covering radius), not equal density.
 - MM = 0.97 is the headline; curves are functions of MM.
 
 
@@ -162,12 +149,8 @@ SOURCES
 =======
 The papers are in `papers/` in the job's work directory:
 
-  gr-qc-9511032/   Owen 1996 -- the metric, minimal match, square-lattice spacing (Eq. 3.16)
-  gr-qc-9808076/   Owen & Sathyaprakash 1999 -- placement in chirp times
-  0706.4437/       Cokelaer 2007 -- hexagonal placement and its efficiency
-  1904.01683/      Roulet, Dai, Venumadhav, Zackay & Zaldarriaga 2019 -- Fig. 5 covering
-                   check, Table I bank sizes
-  1508.02357/      Usman et al. 2016 -- the PyCBC search; its bank loses at most 3 % SNR
+  gr-qc-9511032/   Owen 1996 -- the metric and minimal match
+  gr-qc-9808076/   Owen & Sathyaprakash 1999 -- the metric in chirp times
   gr-qc-0509116/   Allen et al. 2012 (FINDCHIRP) -- the matched-filter statistic, its
                    distribution in Gaussian noise, the low-mass search range
 
@@ -190,18 +173,13 @@ WHERE YOU MAY WRITE
 
 WHAT YOU CANNOT GET FROM THE SOURCES
 ====================================
-- The target false-alarm probability and the observation time. The project has not chosen
-  them. Carry both as free parameters over a range that brackets what searches use, state
-  which values the headline numbers use and why, and do not present that choice as a
-  result.
-- The injection population (uniform in what) and the number of draws. State both and the
-  Monte Carlo error they buy.
-- How to place a lattice when the metric is not constant across the region: one global
-  metric, patches, or local spacing. State the choice and measure what it costs.
-- How to estimate N_eff honestly and cheaply.
+- How many noise realisations part A needs, and at which mismatches and rho_opt. State the
+  choice and the Monte Carlo error it buys.
+- The grid and refinement settings of the global fitting-factor search beyond the
+  match >= 0.995 neighbour spacing, and how you know it found the global optimum.
 - How to sample directions in part C.
-- Whether these six parts are the right ones. If answering them shows that one is the wrong
-  question, say so.
+- Whether these three parts are the right ones. If answering them shows that one is the
+  wrong question, say so.
 
 Do not assume the framing is correct because we wrote it.
 
@@ -233,10 +211,12 @@ DEFINITION OF DONE
   positive check passes AND every negative control is rejected. A negative control that is
   not rejected makes the script fail. At least these negative controls:
     1. the numeric metric from IMRPhenomD waveforms against the analytic TaylorF2 metric;
-    2. a lattice spaced for MM = 0.90 tested against 0.97, whose below-target fraction must
-       exceed its Monte Carlo error by a clear margin;
-    3. the noise statistic computed with the PSD mis-scaled by a factor of 2, which must
-       fail the <|z|^2> = 2 test.
+    2. the statistic computed with the PSD mis-scaled by a factor of 2, which must fail the
+       <|z|^2> = 2 test;
+    3. |z| maximised over a time window on signal-free noise, compared with the
+       single-sample tail exp(-r^2/2), which must be rejected -- it shows the trials effect
+       that qDEF part E has to model.
+- `out/manifest.json` -- written last, as specified under FROZEN OUTPUTS FOR qDEF.
 - Paste the output of the check command in your final report.
 
 
@@ -245,23 +225,18 @@ DELIVERABLE
 One self-contained `out/report.html` that opens from a `file://` URL with NO network -- no
 CDN, no external stylesheet, no remote font, no fetch. Check this rather than assuming it.
 
-It is what a physicist reads: the six parts, what was computed, what came out, and where it
-leaves the question, main and extended regions apart. Every figure inline, with its F4
+It is what a physicist reads: the three parts, what was computed, what came out, and where
+it leaves the question, main and extended regions apart. Every figure inline, with its F4
 sentence in the caption. Every number tagged [src:key] against out/provenance.json, with
 the provenance of each number available in a collapsible <details> block rather than in a
-second report. out/notes.tex, out/checks.py and out/provenance.json are the machinery
-behind it, not further reports.
+second report. out/notes.tex, out/checks.py, out/provenance.json, out/lib/, out/data/ and
+out/manifest.json are the machinery behind it, not further reports.
 
 Central figures, one per part at least:
-  A  measured distribution of the statistic from injections against the prediction;
-  B  common-support and full-signal mismatch over the mass range, with the residual of the
-     sqrt-fraction identity;
+  A  measured distribution of |z| at the fixed lag from injections against the Rice
+     prediction, and the signal-free tail against exp(-r^2/2);
+  B  common-support and full-signal mismatch over the mass range, with the candidate-by-
+     candidate residual of the sqrt-fraction identity, and global against q12's local
+     fitting factor;
   C  map over (m1, m2) of the worst relative error of the quadratic predictor at
-     mu_pred = 0.03, fixed support and physical templates, with the 10 % contour;
-  D  cumulative fraction of injections below a given match, square against hexagonal, in
-     the manner of Roulet et al. 2019 Fig. 5, and N_templates(MM) with the measured ratio
-     against 0.770;
-  E  measured tail on signal-free noise against the analytic tail, and rho*(MM) at fixed
-     and closed-loop N_eff;
-  F  measured volume loss against MM -- worst case, population average, 1 - MM^3 and
-     3(1 - MM) -- for fixed and closed-loop thresholds.
+     mu_pred = 0.03, fixed support and physical templates, with the 10 % contour.

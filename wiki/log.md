@@ -124,3 +124,28 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   four dated corrections. README scope and named simplifications updated;
   `structure/objective.txt` marked as the master map, not to be run. FAP and observation
   time stay free parameters for now.
+
+## 2026-09-14
+
+- Second Codex review, of `structure/objective-q1b345.txt`: no large conceptual changes, six
+  details and a reservation about the job's size. All accepted; disposition in [[todo]].
+- Checking its first point found a real error in [[conventions]]: the metric is not
+  near-constant in $(\tau_0,\tau_3)$ even for $M\le35$ — job q12's analytic metric has
+  template density varying ×3.0 (×12 in the extended region), only the orientation stable.
+  Placement therefore uses the local metric.
+- **Decisions (user):**
+  - Split into two jobs: `structure/objective-q1bC.txt` (A–C, freezes `out/lib/`,
+    `out/data/`, `out/manifest.json`) and `structure/objective-qDEF.txt` (D–F), which gates
+    on q1bC being frozen with matching hashes and passing checks, else `[[BLOCKED]]`.
+    `objective-q1b345.txt` removed (superseded; in git history).
+  - Placement: Cokelaer 2007 with local metric, $\eta=1/4$ projection, physical
+    out-of-box templates kept; sensitivities global metric anchored at 12.5+6.25 and 40+20
+    $M_\odot$, and discarding non-physical cells; interior and border injections apart.
+  - Threshold operating point FAR = 1/(100 yr), $T_{\rm obs}$ = 1 yr, FAP
+    $=1-e^{-0.01}=0.0099502$ exactly; $\nu_{\rm eff}$ from segments, extrapolated;
+    FAR = 1/yr as a permissive sensitivity only; 5σ as global probability $2.8665\times10^{-7}$.
+  - Part A at the deterministic lag (Rice); global fitting-factor search; $V_{\rm eff}$ as
+    the quantity to maximise.
+- Verified while writing: the FAR quote is in 1908.11170 Sec. 8.5; agent-team lowercases job
+  names (`--name q1bC` → `…_derive-q1bc`), so qDEF's gate matches the lowercase id; `job
+  freeze` sets `"status": "frozen"`.
