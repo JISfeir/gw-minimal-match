@@ -43,7 +43,17 @@ D. Template banks and covering   (covering-at-mm097)
            local metric;
       (s2) non-physical cells discarded instead of projected.
    4. Give N_templates(MM) for both lattices and both regions, and the ratio
-      hexagonal/square against the constant-metric expectation 0.770.
+      hexagonal/square against TWO references, not one:
+        - 0.770, the ideal constant-metric expectation (a square cell of covering radius R
+          has area 2 R^2, a hexagonal one 3 sqrt(3) R^2 / 2);
+        - about 0.60, what Cokelaer 2007 MEASURES once the metric is allowed to vary
+          (Table III: 39.5 % average size reduction over five PSDs and four mass ranges,
+          against the 29 % the constant-metric geometry predicts; Sec. III.B attributes the
+          excess to "the evolution of the metric").
+      This is a pre-registered discriminator, so read it that way: a measured ratio near
+      0.770 means the local metric is not actually in play -- chase it as a bug before
+      reporting it. Near 0.60 reproduces Cokelaer. Anything else is the finding, and its
+      cause must be named.
    5. Covering, by Monte Carlo over injected TaylorF2 signals: the fraction whose best match
       in the bank falls below MM, per lattice, with its Monte Carlo uncertainty. Report
       separately interior injections and border injections -- border meaning within one
@@ -55,8 +65,9 @@ D. Template banks and covering   (covering-at-mm097)
 
 E. Detection threshold   (detection-threshold)
    Pre-registered operating point: false-alarm rate FAR = 1 / (100 yr) over an observation
-   time T_obs = 1 yr. The false-alarm probability is FAP = 1 - exp(-FAR * T_obs) exactly;
-   0.01 is only its approximation. Sensitivities, reported apart:
+   time T_obs = 1 yr. Under the Poisson false-alarm-process convention, the corresponding
+   probability is FAP = 1 - exp(-FAR * T_obs); 0.01 is only its small-rate approximation.
+   Sensitivities, reported apart:
      - FAR = 1 / yr, as a permissive operating point. It is not a detection significance
        and must not be described as one.
      - 5 sigma, defined by its global probability: FAP = P(N(0,1) > 5) = 2.8665e-7
@@ -65,9 +76,18 @@ E. Detection threshold   (detection-threshold)
    2. The statistic is maximised over time and over the bank, so trials are correlated.
       Estimate an effective rate of independent trials nu_eff on manageable simulated
       segments of Gaussian noise filtered through the bank -- do not simulate a year -- and
-      extrapolate N_eff = nu_eff * T_obs. Show the estimate is stable in segment length and
+      extrapolate N_eff = nu_eff * T_obs. Calibrate it from the distribution of the maximum,
+      show whether it is stable in segment length and over the relevant tail thresholds, and
       compare it with the naive bound N_templates x (samples per second) x T_obs.
-   3. Solve rho* from FAP = 1 - exp(-N_eff * p(rho*)) with p the single-sample tail.
+   3. For N_eff independent trials the exact combination is
+         FAP = 1 - (1 - p(rho*))^N_eff.
+      Use this equation to solve for rho*. Because N_eff summarises correlated trials, call
+      this a calibrated effective-trials model, not an exact description of the bank. Also
+      evaluate the rare-tail Poisson approximation
+         FAP ~ 1 - exp(-N_eff * p(rho*))
+      and show that its error is negligible at each reported operating point, or quantify it
+      if it is not. For the two FAR operating points, obtain the target FAP from the Poisson
+      false-alarm-process convention above; for 5 sigma use its stated global FAP directly.
    4. Close the loop MM -> N_templates (from D) -> nu_eff -> rho*. Report rho* at fixed
       nu_eff and closed-loop, over the MM range, for the operating point and both
       sensitivities.
@@ -148,6 +168,14 @@ The papers are in `papers/` in the job's work directory:
                    check, Table I bank sizes
   1508.02357/      Usman et al. 2016 -- the PyCBC search; its bank loses at most 3 % SNR
   gr-qc-0509116/   Allen et al. 2012 (FINDCHIRP) -- the statistic and the low-mass range
+  gr-qc-0404096/   Croce et al. 2004 -- the whole-bank no-signal distribution and the
+                   minimal-match tradeoff. THE DIRECT PREDECESSOR OF PART F: read its
+                   Sec. I questions (i)-(ii) and Sec. V before starting F.
+  1303.2005/       Keppel 2013 -- minimal match optimised at fixed computational cost
+                   (Secs. III-IV). The other axis; not the one part F optimises.
+  2211.16674/      Sakon et al. 2023 -- the O4 bank, for context only: 1.8e6 templates over
+                   a 4-D aligned-spin space placed by a binary-tree method, not a metric.
+                   Cite it for what this project idealises away, never as evidence.
 
 In ~/gw-minimal-match, read what helps; most likely wiki/conventions.md, wiki/todo.md and
 structure/claims.yaml. That is prior work, not verified input.

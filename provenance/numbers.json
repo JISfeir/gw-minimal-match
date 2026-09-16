@@ -278,5 +278,37 @@
     "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
     "from_library": "None.",
     "choices": ["Presented explicitly as a historical estimate, not a modern compute requirement."]
+  },
+  "q1bc_astra_loop_tokens_r01": {
+    "value": 5531297,
+    "statement": "Raw total tokens recorded by the first failed q1bC Astra PI session.",
+    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::last token_usage_record.thread_token_usage.total_tokens",
+    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "from_library": "Codex CLI session accounting; no numerical library.",
+    "choices": ["Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."]
+  },
+  "q1bc_astra_loop_tokens_r02": {
+    "value": 8410354,
+    "statement": "Raw total tokens recorded by the second failed q1bC Astra PI session.",
+    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::last token_usage_record.thread_token_usage.total_tokens",
+    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "from_library": "Codex CLI session accounting; no numerical library.",
+    "choices": ["Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."]
+  },
+  "q1bc_astra_loop_tokens_total": {
+    "value": 13941651,
+    "statement": "Combined raw token count of the two failed q1bC Astra PI sessions.",
+    "produced_by": "provenance/numbers.json::q1bc_astra_loop_tokens_r01 + q1bc_astra_loop_tokens_r02",
+    "from_scratch": "Added the two persisted cumulative session totals.",
+    "from_library": "No library.",
+    "choices": ["Excluded the successful Claude verifier call and the later preflight so this number describes only the Astra hook loop."]
+  },
+  "q1bc_reconciled_job_tokens_before_resume": {
+    "value": 14146178,
+    "statement": "Reconciled q1bC job token counter before resumption: both Astra PI sessions plus the completed Claude verifier call.",
+    "produced_by": "jobs/2026-09-14_041516_derive-q1bc/spec.json::tokens",
+    "from_scratch": "Added the two Codex session totals to the verifier's 204527-token durable round record.",
+    "from_library": "Codex CLI session accounting and agent-team log.jsonl accounting.",
+    "choices": ["Excluded the standalone 15418-token preflight because it was a recovery diagnostic outside the agent-team job."]
   }
 }

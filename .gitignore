@@ -22,7 +22,8 @@ paper/*.fls
 # agent-team jobs: each carries its own out/provenance.json; results are ported by hand
 jobs/
 
-# arXiv papers, local reading copies (listed in structure/objective.txt)
+# arXiv papers, local reading copies.
+# Canonical list + checksums: wiki/sources/papers.md. Rebuild: bash scripts/fetch_papers.sh
 papers/
 
 # provenance-gate session scratch

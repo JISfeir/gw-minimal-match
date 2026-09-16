@@ -132,4 +132,20 @@ claims:
       - owen_reported_advanced_gflops
       - owen_event_loss_benchmark
 
+  - id: q1bc-hook-loop-token-reconciliation
+    statement: >
+      The first two q1bC Astra PI sessions consumed substantial quota while a broken
+      relative Stop-hook path repeatedly returned errors; only planning reports survived,
+      and the agent-team counter was reconciled before resumption.
+    evidence:
+      - "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::token_usage_record and hook error events"
+      - "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::token_usage_record and hook error events"
+      - "jobs/2026-09-14_041516_derive-q1bc/reports/r01-verifier.md::worker-output inventory"
+      - "jobs/2026-09-14_041516_derive-q1bc/.claude/hooks/provenance_gate.py::job-local compatibility shim"
+    numbers:
+      - q1bc_astra_loop_tokens_r01
+      - q1bc_astra_loop_tokens_r02
+      - q1bc_astra_loop_tokens_total
+      - q1bc_reconciled_job_tokens_before_resume
+
 figures: []

@@ -24,12 +24,15 @@ One page per idea, each canonical for its topic. *(to be filled)*
 
 One page per thing read.
 
+- [[sources/papers]] — **the canonical list of `papers/`**: every arXiv source, why it is
+  there, its checksum, and the rule for adding one. `papers/` is git-ignored; rebuild with
+  `bash scripts/fetch_papers.sh`
 - [[sources/owen1995_template_metric]] — the primary source for matched-filter mismatch,
   the parameter-space metric, minimal match, and the 1PN worked example
 - [[sources/roulet2019_svd_bank]] — the SVD-based placement algorithm; our second,
   independent bank-spacing cross-check
-- `sources/` — still to write pages for: Owen 1996; Owen & Sathyaprakash 1999;
-  Cokelaer 2007; Usman et al. 2016
+- `sources/` — still to write pages for: Owen & Sathyaprakash 1999; Cokelaer 2007;
+  Usman et al. 2016; Croce et al. 2004; Keppel 2013
 
 ## Code
 

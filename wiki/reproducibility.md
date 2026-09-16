@@ -31,6 +31,8 @@ CPython 3.12). No conda. See [[environment]].
 | Owen 1995 numerical reproduction | `data/owen1995_reproduction.json` | small — **tracked** | `python3 scripts/reproduce_owen1995.py` (standard library only) |
 | Figure files | `figures/*.pdf` | — **tracked** | `python scripts/make_figures.py` |
 | LaTeX build artifacts | `paper/main.{aux,bbl,blg,log,out,pdf}` | <1 MB | `cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main` |
+| arXiv reading copies | `papers/**` | ~10 MB | `bash scripts/fetch_papers.sh` — needs network, the only thing here that does. Canonical list and checksums: [[sources/papers]]. Added 2026-09-16; this row was missing while the directory existed |
+| agent-team jobs | `jobs/**` | large | **not rebuildable** — each job is one run of a bounded agent team and carries its own `out/provenance.json`. Results are ported into the project by hand, and the port is what is tracked. Re-running would produce a different job, not this one |
 | Python caches | `__pycache__/`, `.pytest_cache/` | trivial | auto |
 | Provenance-gate scratch | `.claude/.session-start`, `.claude/hooks/.attempts` | trivial | auto, per session |
 

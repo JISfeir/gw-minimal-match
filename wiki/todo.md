@@ -137,8 +137,11 @@ The one-page spec was settled 2026-09-09 — full table with rejected alternativ
 Still open:
 
 - [x] **Target FAP** and **observation time** — pre-registered 2026-09-14: FAR = 1/(100 yr),
-      $T_{\rm obs}$ = 1 yr, FAP $=1-\exp(-\mathrm{FAR}\,T_{\rm obs})$ exactly; sensitivities
-      FAR = 1/yr (permissive) and 5σ by global probability. Details in [[conventions]].
+      $T_{\rm obs}$ = 1 yr, FAP $=1-\exp(-\mathrm{FAR}\,T_{\rm obs})$ under the stated
+      Poisson false-alarm-process convention; sensitivities FAR = 1/yr (permissive) and 5σ
+      by global probability. Independent trials use $1-(1-p)^{N_{\rm eff}}$ exactly; the
+      exponential in $N_{\rm eff}p$ is only the rare-tail approximation. Details in
+      [[conventions]].
 - [x] **Mass range split — decided 2026-09-13.** Main results for **$M \le 35\,M_\odot$**
       (component box $[5,50]$, so in practice $m_1 \le 30$); **$35 < M \le 100\,M_\odot$** is
       reported as an extended region, the place where TaylorF2 cut at ISCO stops being a
@@ -243,7 +246,8 @@ user's decisions:
 - [x] **$V_{\rm eff}(\mathrm{MM})=\langle M_{\rm bank}^3\rangle/\rho^{\*3}$** — accepted as the
       objective to maximise, with uncertainty.
 - [x] **FAP / time contradiction** — accepted; fixed now. Decided: FAR = 1/(100 yr) (noise
-      guide 1908.11170 Sec. 8.5), $T_{\rm obs}$ = 1 yr, FAP exact as $1-e^{-\mathrm{FAR}T}$;
+      guide 1908.11170 Sec. 8.5), $T_{\rm obs}$ = 1 yr, FAP $=1-e^{-\mathrm{FAR}T}$ under
+      the Poisson false-alarm-process convention;
       $\nu_{\rm eff}$ on manageable segments, $N_{\rm eff}=\nu_{\rm eff}T_{\rm obs}$; FAR = 1/yr
       only as a permissive sensitivity; 5σ by its global probability, not a years-equivalent.
 - [x] **Do not assert perfect covering** — accepted: claim `covering-at-mm097` reworded as a

@@ -127,6 +127,12 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
 
 ## 2026-09-14
 
+- Corrected the threshold model before launching q1bC: qDEF had treated
+  $1-\exp(-N_{\rm eff}p)$ as the exact combination of trials. The exact independent-trials
+  relation is $1-(1-p)^{N_{\rm eff}}$; the exponential is the rare-tail Poisson approximation.
+  qDEF must calibrate $N_{\rm eff}$ from simulated maxima, check stability in segment length
+  and threshold, and quantify the approximation error. The separate conversion from FAR to FAP
+  is explicitly conditional on a Poisson false-alarm process.
 - Second Codex review, of `structure/objective-q1b345.txt`: no large conceptual changes, six
   details and a reservation about the job's size. All accepted; disposition in [[todo]].
 - Checking its first point found a real error in [[conventions]]: the metric is not
@@ -149,3 +155,51 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
 - Verified while writing: the FAR quote is in 1908.11170 Sec. 8.5; agent-team lowercases job
   names (`--name q1bC` → `…_derive-q1bc`), so qDEF's gate matches the lowercase id; `job
   freeze` sets `"status": "frozen"`.
+
+## 2026-09-16
+
+- **Framing question answered: what is the bank density traded against?** Asked whether
+  minimising template count still matters for computational cost. It does not, in this mass
+  range. Owen & Sathyaprakash 1999 scale power as $m_{\rm min}^{-8/3}$ from
+  $m_{\rm min}=0.2\,M_\odot$; our $5\,M_\odot$ divides their 780 Gflops by $\approx5.4\times10^3$,
+  giving $\sim0.15$ Gflops. Corroborated without scaling by Cokelaer 2007 Table IV
+  (2422 / 1764 templates for 3–30 $M_\odot$), Roulet et al. 2019 Table I (46 templates for
+  $M>40$ against 316 262 for the whole 1–100 $M_\odot$ bank) and Usman et al. 2016 Table 1
+  (bank generation 4.7 CPU-days against 515.5 for filtering + $\chi^2$, i.e. 0.9 %).
+  Recorded as a dated correction in [[conventions]]: the price of a finer bank here is the
+  threshold through the trials factor, not flops — which is what part F already optimises,
+  but was nowhere stated as a decision. The $\rm README$ still asks "how dense" without
+  naming the cost; worth a line when the paper is written.
+- **Part F is not virgin territory.** Croce, Demma, Longo, Marano, Matta, Pierro & Pinto
+  2004 (gr-qc/0404096) is its direct predecessor: its Sec. I question (ii) is our
+  `volume-loss-rule` verbatim, and its Sec. V reports that using the correlated whole-bank
+  no-signal distribution for the threshold gives "a sizeable increase ($\ge 5\%$) in the
+  detectable fraction ... over the naive $\propto\Gamma^3$ estimate", plus a knee in
+  $\Gamma$ vs $N$ beyond which more templates buy nothing. Both are now pre-registered
+  expectations on the claim. Keppel 2013 (arXiv:1303.2005, Secs. III–IV) covers the other
+  axis, MM at fixed computational cost, and is cited to mark the axis we do *not* take.
+  `volume-loss-rule` reworded: a measurement of a known trade-off for this configuration,
+  with the closed loop, the calibrated $\nu_{\rm eff}$ and the separated losses as what is
+  ours. New `prior_work` field on the claim — `check_provenance.py` tolerates extra keys.
+- **Part D.4 had too weak a control.** It compared the hexagonal/square ratio only against
+  the constant-metric 0.770. Cokelaer 2007 Table III + Sec. III.B already *measures* 39.5 %
+  mean reduction (ratio $\approx0.60$) and attributes the excess over the geometric 29 % to
+  the evolution of the metric. Both references are now pre-registered in
+  `structure/objective-qDEF.txt` and in claim `covering-at-mm097`, with the reading fixed in
+  advance: landing near 0.770 means the local metric is not in play and is a bug to chase,
+  not a result.
+- **`papers/` had no reproducibility entry**, in breach of the rule stated at the top of
+  [[reproducibility]], and `.gitignore` pointed at `structure/objective.txt` — a file
+  carrying a `NOT TO BE RUN AS IS` header — as the list of what belongs there. Fixed:
+  new [[sources/papers]] is the canonical table (arXiv id, file, what each is used for,
+  checksums, and the rule that a cited paper must be present because jobs run offline),
+  new `scripts/fetch_papers.sh` rebuilds the directory, and [[reproducibility]] gained rows
+  for both `papers/` and `jobs/` — the latter marked explicitly **not rebuildable**.
+- Three papers added to `papers/`: gr-qc/0404096 (Croce 2004, v2), 1303.2005 (Keppel 2013,
+  v1) and 2211.16674 (Sakon et al. 2023, v6 — the O4 bank: $1.8\times10^6$ templates, 4-D
+  aligned spin, binary-tree placement, no analytic metric; context only, never evidence).
+- Not done: no number in this session came from code, so nothing was written to
+  `provenance/`. The $\sim0.15$ Gflops and the $\rho^*$ sensitivity sketch
+  ($\rm MM$ 0.97 → 0.99 costing $\approx-4.5\%$ of volume through $\rho^*$ against
+  $\approx+3.1\%$ recovered by covering) are back-of-envelope only and are **not** project
+  numbers. If either enters the report it must be computed and registered first.
