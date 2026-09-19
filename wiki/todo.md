@@ -66,7 +66,15 @@ for the circular figure.
             FAP $=1-e^{-0.01}=0.0099502$.
 - [ ] **3. Two jobs, in order** — split 2026-09-14 after the second Codex review; both
       mass regions apart, job q12 reused as prior work.
-      - [ ] **q1bC** (launch Mon 14 night → review Tue 15) — `structure/objective-q1bC.txt`:
+      - [~] **q1bC** — launched Mon 14; rounds 2–4 done, **not finished**. Part A closed and
+            verified (r02). Part C complete, all twelve gates pass (r04). Part B partial: 9 of
+            28 signals, the nine lightest, all main. `checks.py` 57 PASS / 8 FAIL, exit 1; no
+            manifest, so **qDEF's GATE is still blocked**. Spend to date 40.6M tokens, $23.71;
+            budget raised by hand to 55M. One resume left, prepared in
+            `jobs/q1bc-finish-say.txt`: finish B's 19 signals with the inverted loop, fix the
+            two weak Part C gates, integrate, then the manifest, then `job freeze`. Detail and
+            the four r03 findings in [[log]] 2026-09-19.
+            Original spec — `structure/objective-q1bC.txt`:
             A noisy SNR at the fixed lag (Rice, day-2 check), B common support vs full signal
             with a global fitting-factor search, C quadratic validity. Ends by writing
             `out/lib/`, `out/data/` and `out/manifest.json`. Launch with `--name q1bC`; the
@@ -96,9 +104,12 @@ for the circular figure.
       the README reproducibility categories. Add an F4 field ("how this figure could fail")
       to `.claude/provenance/figures.md` so the gate asks for it; figures rebuilt from
       scratch under F1–F3 (F5).
-- [ ] **6. SVD cross-check — optional** (Mon 21–Tue 22) — only if steps 1–5 are done by Sun
-      20 night; small `derive` job on the second Codex reset. Otherwise future work in the
-      paper. See "Stretch" below. Its covering figure follows F1–F4 like the rest.
+- [~] **6. SVD cross-check — CUT 2026-09-19.** Was conditional on steps 1–5 being done by
+      Sun 20 night; q1bC is still open on the 19th and qDEF has not started, so the condition
+      cannot be met. The plan's own rule is "if time slips, step 6 is cut first" — applied now
+      rather than left to drift, so the 21–22 goes to qDEF. Claim
+      `bank-spacing-cross-check-svd` stays in `structure/claims.yaml` as declared future work;
+      the paper says so plainly rather than implying it was attempted.
 - [ ] **7. Paper** (Tue 22–Wed 23) — simplifications first; a controlled measurement with an
       independent analytic check, not a reproduction of Roulet et al.; every number via
       `\dataref` from `data/project_numbers.json`; `draft` job with a Claude verifier

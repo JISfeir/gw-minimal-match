@@ -203,3 +203,71 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   ($\rm MM$ 0.97 → 0.99 costing $\approx-4.5\%$ of volume through $\rho^*$ against
   $\approx+3.1\%$ recovered by covering) are back-of-envelope only and are **not** project
   numbers. If either enters the report it must be computed and registered first.
+
+## 2026-09-19
+
+- **Job q1bC, rounds 3 and 4** (resumed 2026-09-16 and 2026-09-19). Both stopped early on the
+  spend tripwire, not on failure. Job total after round 4: 40.6M tokens, $23.71. Budget raised
+  by hand in `spec.json`, 20M → 45M → 55M; no other key touched.
+- **Round 3 — Part B, partial.** The worker call ended `ok=false` with its batch children still
+  running: 9 of 28 signals delivered, the nine lightest ($M=10$–$29\,M_\odot$), all main. The
+  r03 verifier reproduced all nine independently and added four findings that now bind the
+  rest of the project:
+  - **Common support must be an explicit mask on the actual last nonzero bin.** PyCBC's
+    IMRPhenomD `f_final = f_ISCO` ends one bin early at all 37 points tested; at $(50,50)$
+    $\mu_{\rm common}$ moves 0.00310 → 0.00385, a 24 % change. **Carry into [[conventions]]
+    when q1bC is ported.**
+  - $\lfloor f_{\rm ISCO}/\Delta f\rfloor$ fails at exact-integer edges: at
+    $(48.971084, 5.189652)$ the ratio is 2597.9999999999995 and LAL keeps bin 2598.
+  - **Cutoff sawtooth.** Both objectives jump when the template's last bin changes: 1.9e-6 to
+    2.7e-5 (main), 3.2e-5 to 2.9e-4 (extended). Nothing may be quoted finer, and Nelder–Mead
+    stalls on the jumps — the verifier's own extended numbers did not converge for this reason.
+  - **A gate that cannot fail is not a check.** The "exhaustive candidate identity" gate passed
+    692,973 pairs while testing only round-off, because the full and common correlation arrays
+    are exactly proportional. Same failure shape as round 1's vacuous check. This is now a
+    standing requirement: every gate states the physical circumstance that makes it fail.
+  - Negative result worth keeping: the global fitting-factor search **confirms q12's local one**
+    to within 7.8e-6 at all nine signals. The worker's 10-digit values are lower bounds, not
+    converged maxima.
+- **Round 4 — Part C, complete and independently verified.** `checks.py`: 57 PASS, 8 FAIL, exit
+  1; all twelve Part C gates pass, and the eight failures are the unfinished Part B signals plus
+  the integration gate. The r04 verifier rebuilt the analytic metric by a different route —
+  differentiating LAL's own Fourier phase numerically rather than re-reading PN coefficients —
+  and reproduced `out/lib/metric.py` at all 60 mass points to ≤ 9.2e-8; the 28 q12 rows are
+  bit-identical. q12's headline "0.74 %" is pinned: 0.007386, set by $(50,50)$.
+  - **Pre-registered criterion, the answer.** The quadratic predictor meets the 10 % criterion
+    at $\mu_{\rm pred}=0.03$ in both regions (main 3.0–8.7 %, extended 3.4–9.0 %) with about one
+    percentage point of margin, and **fails at $\mu_{\rm pred}=0.05$** (19/21 main, 17/39
+    extended). Physical templates fail 16/21 main and 39/39 extended at MM = 0.97.
+    **Consequence for qDEF: any MM curve below about 0.97 rests on a predictor outside its
+    validated range.** Say so where those curves are drawn.
+  - **Why the physical case fails, measured not asserted.** Exact decomposition
+    $\mu_{\rm phys} = (1-\sqrt F) + \sqrt F\,\mu_{\rm common}$: the lost-support term is 14–78 %
+    of $\mu_{\rm phys}$ (median 60 %). The excess is the moving hard cutoff, not the phase metric.
+  - **Signed asymmetry, not yet in any deliverable.** The fixed-support error is always
+    conservative ($\mu_{\rm exact} < \mu_{\rm pred}$); the dangerous under-prediction is bounded
+    by 1.1 % (main) and 4.3 % (extended) at MM = 0.97. More useful to qDEF than the two-sided
+    criterion.
+  - **Two gates weaker than their stated failure mode**, found by fault injection: the Part C
+    "fresh worst-direction" gate has a NaN hole (Python's built-in `max()` silently skips a NaN
+    that is not first, so a stale extremum angle still prints residual 0 and exits 0), and
+    "exported metric grid" regenerates only 5 of 60 rows. Neither changes a result; both must be
+    fixed before the manifest.
+- **CORRECTION — the Part B scope cut was never a human decision.** The round-4 steering message
+  told the team that Part B "closes as main-region-only", and `reports/r04-verifier.md` records
+  it as *"deliberately descoped by the human"*. It was proposed by the assistant in session and
+  written into the instruction without the decision being put to, or taken by, the human. **The
+  attribution is wrong and the cut is reverted: the extended region is back in Part B's scope.**
+  It was also the wrong call on the merits — the mass range was split at 35 $M_\odot$ *because*
+  TaylorF2 cut at ISCO stops being usable above it, the r03 verifier measured the identity gap
+  at up to 2.3e-2 in extended against 2.64e-4 in main, and Part C already covers 39 extended
+  mass points, so a main-only Part B cannot report the two regions apart as claim
+  `model-error-decomposition` requires. Recorded here because the job's own reports will keep
+  the wrong attribution; this page is the dated record.
+- **Finishing Part B is cheap if the loop is inverted.** Round 3 spent 8.2M tokens on nine
+  signals iterating signal by signal (~1010–1045 s each). The r03 verifier did all 28 signals
+  per template in one pass: 52,403 templates in 17 min on 11 processes. The remaining 19 signals
+  are tens of minutes of compute; the round-3 cost was a loop structure and a lost batch, not
+  the physics. Instruction prepared in `jobs/q1bc-finish-say.txt`.
+- **Step 6 (SVD cross-check) cut**, per the plan's own "if time slips, step 6 is cut first".
+  q1bC is four days behind the plan and qDEF has not started. See [[todo]].
