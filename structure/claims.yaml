@@ -76,9 +76,10 @@ claims:
       injections, the fraction whose best match falls below MM, and determine whether any
       excess over the ideal geometric expectation comes from metric variation, the quadratic
       approximation, the boundaries or the implementation. The template counts are compared
-      against two references: the ideal constant-metric ratio 0.770, and the ~0.60 that
-      Cokelaer measures once the metric varies. Landing on 0.770 indicates the local metric
-      is not in play and is a bug, not a result.
+      against two references: the ideal constant-metric ratio 0.770, and the 0.717-0.719
+      that Cokelaer measures once the metric varies. (Corrected 2026-09-21: this said ~0.60,
+      from reading Cokelaer's Table III in the wrong convention. The two references are
+      close together, so metric evolution buys about 5 points of ratio, not 17.)
     region: main and extended, reported apart
     section: D
     job: qDEF
@@ -86,7 +87,7 @@ claims:
       - "src/bank.py::place              # (to be written) — Cokelaer 2007 placement, local metric"
       - "scripts/covering_check.py       # (to be written)"
       - "Owen 1996 (gr-qc/9511032), Eq. 3.16 — square spacing, worst point at the cell centre"
-      - "Cokelaer 2007 (arXiv:0706.4437) — hexagonal placement, boundary treatment; Table III and Sec. III.B — 39.5 % mean size reduction against the 29 % constant-metric prediction"
+      - "Cokelaer 2007 (arXiv:0706.4437) — hexagonal placement, boundary treatment; Tables I+II give N_hex/N_square = 0.7191 mean, range [0.6605, 0.7866] over 20 banks. Table III tabulates N_square/N_hex - 1 (reproduced to 0.48 pp), NOT 1 - N_hex/N_square (off by 17 pp)"
       - "Roulet et al. 2019 (arXiv:1904.01683), Fig. 5 — the covering-check figure"
     numbers: []
 

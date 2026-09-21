@@ -117,10 +117,18 @@ From part C -- the metric and its validity, which part D places banks with:
     out/data/quadratic_validity.json and all 180 cells of out/data/qdef_guidance.json. It
     must survive into anything you derive from them; never average over it silently.
   * THE CUTOFF IS THE ACTUAL LAST NONZERO BIN, never floor(f_ISCO/df): at
-    (48.971084, 5.189652) the ratio is 2597.9999999999995 and LAL keeps bin 2598. And never
-    PyCBC's f_final to truncate a signal -- it ends one bin early, moving mu_common by up to
-    24 % at (50,50). Both objectives jump when the last bin changes, so nothing may be quoted
-    finer than the local jump: 5.75e-5 (main) and 5.36e-4 (extended) at MM = 0.97.
+    (48.971084127318335, 5.189651954428283) -- the FULL 17-digit pair, since the rounded
+    6-dp masses do not reproduce the effect -- the ratio is 2597.9999999999995, floor gives
+    2597, and the actual last nonzero bin is 2598. And never
+    PyCBC's f_final to truncate a signal -- it ends one bin early. THE MAGNITUDE IS
+    DISPUTED, so re-derive it before quoting any figure: q1bC's r03 verifier recorded
+    mu_common at (50,50) moving 0.00310 -> 0.00385, a 24 % change, while this job's r02
+    verifier measured the one-bin-early effect against the frozen physical endpoints and got
+    at most 1.3 % in any reading. The two may be measuring different configurations. The
+    OPERATIVE RULE is unaffected and stands: use the actual last nonzero bin, never
+    floor(f_ISCO/df), never f_final. Both objectives jump when the last bin changes, so
+    nothing may be quoted finer than the local jump: 5.75e-5 (main) and 5.36e-4 (extended)
+    at MM = 0.97.
 
 What q1bC did NOT establish, so you may not assume it:
   Between-mass behaviour (60 points is a lattice, not a map; its contours interpolate
@@ -153,14 +161,23 @@ D. Template banks and covering   (covering-at-mm097)
       hexagonal/square against TWO references, not one:
         - 0.770, the ideal constant-metric expectation (a square cell of covering radius R
           has area 2 R^2, a hexagonal one 3 sqrt(3) R^2 / 2);
-        - about 0.60, what Cokelaer 2007 MEASURES once the metric is allowed to vary
-          (Table III: 39.5 % average size reduction over five PSDs and four mass ranges,
-          against the 29 % the constant-metric geometry predicts; Sec. III.B attributes the
-          excess to "the evolution of the metric").
-      This is a pre-registered discriminator, so read it that way: a measured ratio near
-      0.770 means the local metric is not actually in play -- chase it as a bug before
-      reporting it. Near 0.60 reproduces Cokelaer. Anything else is the finding, and its
-      cause must be named.
+        - 0.717-0.719, what Cokelaer 2007 MEASURES once the metric is allowed to vary.
+          CORRECTED 2026-09-21: an earlier version of this objective said "about 0.60" and
+          was WRONG. Cokelaer's Table III tabulates N_square/N_hex - 1, NOT
+          1 - N_hex/N_square -- recomputing all 20 cells from Tables I and II, the first
+          convention reproduces Table III to 0.48 pp and the second is off by up to
+          17.05 pp. His Sec. III.B "expected 29 %" is likewise 3*sqrt(3)/4 - 1 = 0.2990 in
+          the inverted convention, not 1 - 0.770 = 0.230. In the direct ratio this part
+          reports, Cokelaer's 20 measured banks give N_hex/N_square = 0.7191 on average,
+          range [0.6605, 0.7866]; his Table III 39.5 % average is 1/1.395 = 0.7168.
+      Read the discriminator accordingly. Metric evolution buys only about 5 points of
+      ratio, not 17: the ideal is 0.770 and Cokelaer measures about 0.72, so those two
+      references are CLOSE TOGETHER and a correct local-metric implementation is expected to
+      land between them or slightly below. Do NOT treat a result near 0.770 as proof the
+      local metric is idle, and do NOT tune toward 0.60 -- that number does not exist in the
+      literature. The finding is a measured ratio outside roughly [0.65, 0.79]; inside it,
+      report where you land relative to both references and say what the mass range and PSD
+      explain, since Cokelaer's spread across banks and PSDs is itself 0.66-0.79.
    5. Covering, by Monte Carlo over injected TaylorF2 signals: the fraction whose best match
       in the bank falls below MM, per lattice, with its Monte Carlo uncertainty. Report
       separately interior injections and border injections -- border meaning within one

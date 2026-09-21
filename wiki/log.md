@@ -333,3 +333,52 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   saw 1 failure in 7 calls against 11 in 18 before**, after the user reported Codex quota had
   reset — consistent with quota having been the underlying cause all along, though the
   original error text is gone for good, which was the bug.
+
+## 2026-09-21 (later) — qDEF launched, and a correction to this project's own spec
+
+- **Job qDEF created and run to its checkpoint**: `2026-09-21_223117_derive-qdef`, 2 rounds,
+  5.37M tokens, $6.32. Staffing: 2 workers on codex `gpt-5.6-sol` at high, lead and writer on
+  `gpt-6-astra`, verifier on Claude at high. An acceptance gate (`tests/test_qdef_acceptance.py`,
+  hash-pinned) asserts q1bC's frozen package still verifies and qDEF's deliverable is real; it
+  was red before the run, as a gate must be.
+- **The GATE on q1bC passed and was recorded by the team**: `reports/r01-gate-result.json`,
+  595 files hashed, `passed: true`, output sha256 `7b73a664…6475`, manifest sha256 recorded.
+  The freeze machinery works end to end.
+- **Every codex call failed: Codex quota exhausted.** The error is now explicit in the log —
+  *"You've hit your usage limit … try again at Sep 22nd, 2026 3:31 AM"* — because of the
+  harness fix on 2026-09-20. Before it, this read "Reading additional input from stdin…" and
+  was undiagnosable. **This confirms the quota hypothesis for q1bC's 11 failed calls.** No
+  Part D, E or F work exists yet; the $6.32 is entirely the Claude verifier, which used both
+  rounds to audit inputs instead.
+- **CORRECTION — the D.4 pre-registered discriminator was wrong, and it was mine.** On
+  2026-09-16 this project pre-registered "about 0.60, what Cokelaer 2007 MEASURES" as the
+  local-metric reference for the hexagonal/square template-count ratio. **Cokelaer's Table III
+  tabulates $N_{\rm sq}/N_{\rm hex}-1$, not $1-N_{\rm hex}/N_{\rm sq}$**: recomputing all 20
+  cells from his Tables I and II, the first convention reproduces Table III to **0.48 pp** and
+  the second is off by up to **17.05 pp**. His Sec. III.B "expected 29 %" is likewise
+  $3\sqrt3/4-1=0.2990$ in the inverted convention, not $1-0.770=0.230$. The direct ratio
+  Cokelaer actually measures is **0.7191 mean, range [0.6605, 0.7866]**; from Table III's
+  39.5 % average, $1/1.395 = 0.7168$.
+  **Consequence, and it is why this mattered:** the ideal 0.770 and Cokelaer's measured 0.72
+  are *close together* — metric evolution buys about 5 points of ratio, not 17. The spec as
+  written would have sent a correct local-metric implementation chasing a nonexistent bug, or
+  invited tuning until it produced a number that does not exist in the literature. Found by
+  qDEF's r02 verifier reading the paper; independently recomputed here before accepting it.
+  Corrected in `structure/objective-qDEF.txt` (D.4), `structure/claims.yaml`
+  (`covering-at-mm097`) and [[sources/papers]]. The discriminator is now: ideal 0.770,
+  Cokelaer-measured 0.717–0.719, finding = outside roughly [0.65, 0.79].
+- **The "24 % at (50,50)" f_final figure is disputed and must not be quoted.** q1bC's r03
+  verifier recorded $\mu_{\rm common}$ moving 0.00310 → 0.00385 there; qDEF's r02 verifier
+  measured the one-bin-early effect against the frozen physical endpoints and got at most
+  1.3 % in any reading. They may be measuring different configurations. Both recorded, per the
+  project's rule on disagreeing sources; the operative rule (actual last nonzero bin, never
+  `floor`, never `f_final`) is confirmed by both and unaffected.
+- **The cutoff knife-edge needs its 17-digit masses.** The spec printed
+  $(48.971084, 5.189652)$, at which the effect does not reproduce ($f_{\rm ISCO}/\Delta f =
+  2598.0000039$). The real pair is $(48.971084127318335, 5.189651954428283)$. Fixed.
+- **Also worth recording, because it is the failure mode this project exists to catch:** in
+  first attempting to check the Cokelaer claim, the assistant transcribed two of Table I's
+  four rows from memory rather than from the PDF, and produced a confident refutation of the
+  verifier that was itself wrong. Caught only because the arithmetic disagreed with Table III
+  under *both* conventions. The same shape as q1bC's round-8 worker reporting work it had not
+  done. Numbers get read from the source, every time, including by the reviewer.
