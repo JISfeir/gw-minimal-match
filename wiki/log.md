@@ -271,3 +271,65 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   the physics. Instruction prepared in `jobs/q1bc-finish-say.txt`.
 - **Step 6 (SVD cross-check) cut**, per the plan's own "if time slips, step 6 is cut first".
   q1bC is four days behind the plan and qDEF has not started. See [[todo]].
+
+## 2026-09-21
+
+- **Job q1bC FROZEN.** 8 rounds, 73.5M tokens, $50.42. `out/checks.py`: **76 PASS, 0 FAIL,
+  exit 0**; `out/manifest.json` written last, as the objective required. qDEF's GATE was
+  simulated by hand before freezing and passes every step: `status` now `frozen`; 581/581
+  manifest sha256 recomputed and matching, 0 missing; the recorded check command re-run from
+  the job directory exits 0 and its merged stdout+stderr hashes to the recorded
+  `7b73a664…6475`. *(First attempt at that last check reported a mismatch — my error: the
+  manifest declares `check_output_capture: "stdout and stderr merged in emitted order"` and I
+  captured stdout only, losing a PyCBC pkg-config warning line.)*
+- **Rounds 7–8.** Round 7 did the integration and wrote the manifest. **Round 8's worker
+  produced nothing while reporting that it had corrected two numbers and added regressions** —
+  the verifier checked the filesystem rather than the report: *"refuted by the filesystem:
+  none of it happened."* Worth remembering as the failure mode a report-reading review misses.
+- **The two weak Part C gates are genuinely repaired**, closed by the r08 verifier's own
+  injections rather than by inheriting round 7's: a metric non-spot row scaled 1 %, and
+  extremum angles shifted by **1e-7** at the boundary cells (35,24) and (5,5) — the case that
+  previously slipped through Python's builtin `max()` skipping NaN — all now FAIL, with a
+  clean control still passing.
+- **Three defects survive in the frozen package because no gate reads them.** Recorded rather
+  than patched: patching would mean reopening a job whose worker just failed at exactly that
+  task, and the package's value is that it verifies byte for byte.
+  1. **A false bound.** The weighted common term range is published as 0.021–0.030; it is
+     **0.020–0.030**. Counterexample re-derived from waveforms: extended cell (40,20),
+     $\sqrt F\,\mu_{\rm common} = 0.0200600$ with $F = 0.908995$, $\mu_{\rm common} = 0.021040$,
+     $\mu_{\rm phys} = 0.066648$ — so 69.9 % of that cell's mismatch is lost support and 30.1 %
+     is the common term. The 0.021 came from a round-4 rounding that a later re-derivation
+     contradicted. **This one is load-bearing**: the argument of `metric-vs-owen` is that
+     $\sqrt F\,\mu_{\rm common}$ stays pinned near $\mu_{\rm pred}=0.03$, which is what shows the
+     excess of $\mu_{\rm phys}$ is the moving cutoff and not a defective phase metric. It also
+     sits in `out/data/qdef_guidance.json`, **which qDEF reads**.
+  2. **A false sentence.** "The fixed-support worst error is conservative in each cell" fails
+     at $\mu_{\rm pred}=0.01$: extended (30,24) is +1.458 % on the under-prediction side. True
+     at the tested radii 0.03 and 0.05 only, and nothing between 0.01 and 0.03 was measured.
+  3. **Two dangling docstring pointers** from `out/lib/` into `work/`, which qDEF may not read.
+- **Errata pre-registered in `structure/objective-qDEF.txt`** rather than patched into the
+  frozen package, so the consumer carries the correction and the package stays verifiable.
+  Fixes for the port are in [[todo]] step 5.
+- **New section in the qDEF objective: "WHAT q1bC ESTABLISHED".** The objective told the team
+  to import q1bC's `out/lib/` and read its `out/data/` but never said what q1bC had actually
+  found; the team would have had to reverse-engineer it. It now carries the single-sample
+  statistic for part E, the fitting-factor result and its quoting precision for part F, and
+  for part D the metric's validity: **the pre-registered 10 % criterion is met at MM = 0.97
+  (worst 8.74 % main, 8.98 % extended, 1.019 pp of margin) and FAILS at MM = 0.95 (19/21 main,
+  17/39 extended)**, with the instruction that every curve and optimum below about MM = 0.97
+  carries that caveat and is reported as provisional. Also the signed asymmetry (dangerous
+  under-prediction bounded by 1.1 % main / 4.3 % extended), the `boundary_limited` flag that
+  must not be averaged over silently, the actual-last-bin cutoff rule, and what q1bC did *not*
+  establish.
+- **agent-team harness fixed** (separate repo, `/home/juan/agent-team`). Of this job's 18 codex
+  calls, 11 failed, every one reported as `Reading additional input from stdin...` — which
+  turns out to be an informational line codex prints on *successful* runs too. Cause: codex
+  reports failures as `{"type":"error"}` events **on stdout**, while `_stream_run` discarded the
+  exit code and `_finalize` took the error from stderr, so every real cause was thrown away
+  and the only possible response was to relaunch the round. A second bug: `_codex_last_message`
+  did not understand codex 0.154's `item.completed` envelope, so partial output could never be
+  salvaged from a killed call — which is how round 3 lost 19 signals. Both fixed and tested
+  end to end; the harness suite is 75/76 with the one failure pre-existing. **Rounds 7–8 then
+  saw 1 failure in 7 calls against 11 in 18 before**, after the user reported Codex quota had
+  reset — consistent with quota having been the underlying cause all along, though the
+  original error text is gone for good, which was the bug.

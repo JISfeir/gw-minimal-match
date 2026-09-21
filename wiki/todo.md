@@ -66,14 +66,13 @@ for the circular figure.
             FAP $=1-e^{-0.01}=0.0099502$.
 - [ ] **3. Two jobs, in order** — split 2026-09-14 after the second Codex review; both
       mass regions apart, job q12 reused as prior work.
-      - [~] **q1bC** — launched Mon 14; rounds 2–4 done, **not finished**. Part A closed and
-            verified (r02). Part C complete, all twelve gates pass (r04). Part B partial: 9 of
-            28 signals, the nine lightest, all main. `checks.py` 57 PASS / 8 FAIL, exit 1; no
-            manifest, so **qDEF's GATE is still blocked**. Spend to date 40.6M tokens, $23.71;
-            budget raised by hand to 55M. One resume left, prepared in
-            `jobs/q1bc-finish-say.txt`: finish B's 19 signals with the inverted loop, fix the
-            two weak Part C gates, integrate, then the manifest, then `job freeze`. Detail and
-            the four r03 findings in [[log]] 2026-09-19.
+      - [x] **q1bC — FROZEN 2026-09-21.** 8 rounds, 73.5M tokens, $50.42. `checks.py`
+            **76 PASS / 0 FAIL, exit 0**; `out/manifest.json` written and verified. All 28
+            Part B signals, both regions. qDEF's GATE simulated by hand and passes every
+            step: 581/581 sha256, check re-run exit 0, output hash identical, status frozen.
+            **Three known defects that no gate catches** — errata now pre-registered in
+            `structure/objective-qDEF.txt`, and to be fixed at the port, see step 5.
+            Detail in [[log]] 2026-09-21.
             Original spec — `structure/objective-q1bC.txt`:
             A noisy SNR at the fixed lag (Rice, day-2 check), B common support vs full signal
             with a global fitting-factor search, C quadratic validity. Ends by writing
@@ -104,6 +103,22 @@ for the circular figure.
       the README reproducibility categories. Add an F4 field ("how this figure could fail")
       to `.claude/provenance/figures.md` so the gate asks for it; figures rebuilt from
       scratch under F1–F3 (F5).
+      - [ ] **Carry q1bC's three errata into the ported numbers** (found by its r08 verifier;
+            the frozen package keeps them because no gate reads them):
+            (a) the weighted common term range is **0.020–0.030**, not 0.021–0.030 — the
+            extended cell (40,20) sits at 0.0200600 ($\mu_{\rm phys}=0.066648$,
+            $\mu_{\rm common}=0.021040$, $F=0.908995$). The 0.021 came from a round-4
+            rounding a later re-derivation from waveforms contradicted. It is a *bound* the
+            data violates, and it is load-bearing for `metric-vs-owen`: the whole argument is
+            that $\sqrt F\,\mu_{\rm common}$ stays near $\mu_{\rm pred}=0.03$, so the excess
+            of $\mu_{\rm phys}$ is lost support, not a bad phase metric.
+            (b) "the fixed-support worst error is conservative in each cell" is **false** at
+            $\mu_{\rm pred}=0.01$ — extended (30,24) is +1.458 % on the under-prediction
+            side. True at the tested radii 0.03 and 0.05; never write "≥0.03", which asserts
+            an untested interval (nothing between 0.01 and 0.03 was measured).
+            (c) two dangling docstring pointers into `work/`: `out/lib/filtering.py:3` and
+            `out/lib/validation.py:4`. Frozen copies are `out/lib/tests/test_part_a.py` and
+            `out/data/part_a_plan.json`.
 - [~] **6. SVD cross-check — CUT 2026-09-19.** Was conditional on steps 1–5 being done by
       Sun 20 night; q1bC is still open on the 19th and qDEF has not started, so the condition
       cannot be met. The plan's own rule is "if time slips, step 6 is cut first" — applied now

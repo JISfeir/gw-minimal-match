@@ -21,6 +21,113 @@ numbers only from its out/data/ -- never from its work/. Record in out/provenanc
 q1bC job id and the manifest's sha256 for everything you use.
 
 
+ERRATA IN q1bC'S FROZEN PACKAGE -- READ BEFORE USING IT
+=======================================================
+q1bC passes its own checks and its manifest verifies, but its round-8 verifier found three
+defects that NO gate in that package detects. They are recorded here rather than patched,
+because the package is frozen and its value is that it verifies byte for byte. Do not
+"fix" q1bC; consume it knowing these.
+
+1. ONE NUMBER IS WRONG, AND IT IS IN A FILE YOU READ.
+   `out/data/qdef_guidance.json`, field
+   `lost_support_decomposition/weighted_common_mismatch_range_rounded`, says [0.021, 0.030].
+   The correct rounded range is [0.020, 0.030]. The same wrong lower bound appears in
+   q1bC's out/notes.tex, out/report.html and out/provenance.json (keys `c-decomposition`
+   and `c-handoff`).
+   READ IT AS 0.020. If you quote the range, quote 0.020-0.030 and cite this erratum, not
+   q1bC's own files.
+   The counterexample, re-derived from waveforms by q1bC's r08 verifier: the extended cell
+   (40,20) has weighted common term 0.0200600, with mu_phys = 0.066648, mu_common = 0.021040
+   and F = 0.908995. The 0.021 figure came from a round-4 rounding that a later re-derivation
+   from waveforms contradicted.
+   What the quantity means, since you will rely on the conclusion: at the worst physical
+   direction of each failing cell, mu_phys = (1 - sqrt(F)) + sqrt(F)*mu_common exactly. The
+   weighted common term sqrt(F)*mu_common stays near mu_pred = 0.03, which is the whole
+   argument -- it shows the excess of mu_phys is lost support from the moving cutoff and NOT
+   a failure of the analytic 3.5PN phase metric. The erratum moves the floor of that range,
+   it does not weaken the conclusion.
+
+2. ONE SENTENCE IS FALSE AS WRITTEN.
+   q1bC's notes.tex and report.html say "The fixed-support worst error is conservative in
+   each cell". It is not: at mu_pred = 0.01 the extended cell (30,24) has its worst error on
+   the UNDER-prediction side, +1.458 %. The statement holds at the two larger tested radii,
+   mu_pred = 0.03 and 0.05, and nothing between 0.01 and 0.03 was measured.
+   If you repeat the claim, scope it to mu_pred = 0.03 and 0.05 -- the tested radii -- and
+   never write ">= 0.03", which asserts an untested interval.
+
+3. TWO DOCSTRING POINTERS DANGLE.
+   out/lib/filtering.py:3 names work/tests/test_part_a.py and out/lib/validation.py:4 names
+   work/part_a_plan.json. You may not read q1bC's work/. The frozen copies are
+   out/lib/tests/test_part_a.py and out/data/part_a_plan.json. Comments only; the code runs.
+
+None of these touches q1bC's headline results, which its r08 verifier reproduced
+independently from waveforms: signed fixed-support ranges at mu_pred = 0.03 of
+[-8.7448, +1.1106] % main and [-8.9812, +4.3135] % extended, 1.019 pp of margin to the 10 %
+criterion, and the failure tallies quoted in WHAT q1bC ESTABLISHED below.
+
+
+WHAT q1bC ESTABLISHED
+=====================
+Its frozen package is the input to this job. Read its out/report.html for the full account;
+this is what bears on D, E and F, with the errata above already applied.
+
+From part A -- the statistic you simulate in part E:
+  At a deterministic optimal lag, with phase maximised analytically, |z| is a SINGLE sample.
+  Signal-free it has <|z|^2> = 2 and tail P(|z| > r) = exp(-r^2/2), both verified on
+  simulated noise and reproduced independently. With signal, |z| is Rice with
+  <|z|^2> = rho_opt^2 * match^2 + 2. Part E's trials factor is what turns this single-sample
+  tail into a bank-and-time-maximised one; do not confuse the two.
+
+From part B -- the template-family error you need in part F:
+  All 28 mass points, both regions. The exact per-candidate identity
+  match_full = sqrt(F) * match_common holds to round-off, but does NOT survive maximisation
+  over template masses, so each fitting factor needs its own global search. q1bC's global
+  search CONFIRMS job q12's local fitting factors to within 7.8e-6 -- it did not correct
+  them. Fitting factors may not be quoted finer than the local cutoff jump: up to 2.7e-5
+  (main) and 2.9e-4 (extended).
+
+From part C -- the metric and its validity, which part D places banks with:
+  * The analytic 3.5PN projected-phase metric is in out/lib/, reproduced independently at
+    all 60 mass points to <= 9.2e-8 relative. Use it; do not rebuild it.
+  * THE PRE-REGISTERED CRITERION IS MET AT MM = 0.97 AND FAILS AT MM = 0.95. With fixed
+    support at mu_pred = 0.03, the worst relative error over direction is 8.74 % (main) and
+    8.98 % (extended) -- inside the 10 % criterion, with 1.019 percentage points of margin.
+    At mu_pred = 0.05 it FAILS at 19/21 main and 17/39 extended mass points. mu_pred = 0.01
+    passes.
+    CONSEQUENCE, AND YOU MUST SAY IT WHERE THE CURVES ARE DRAWN: any MM curve this job
+    reports below about 0.97 rests on a quadratic predictor outside its validated range.
+    That does not forbid computing the curves -- parts D and F need them -- but every figure
+    and every optimum that uses MM < 0.97 carries the caveat, and an optimal MM found in
+    that region is reported as provisional, not as a result.
+  * The error is ASYMMETRIC, which matters more to you than the two-sided criterion. It
+    falls on the conservative side (mu_exact < mu_pred) at the tested radii mu_pred = 0.03
+    and 0.05. Signed ranges at 0.03: [-8.7448, +1.1106] % main, [-8.9812, +4.3135] %
+    extended. So the operationally dangerous case -- the metric UNDER-predicting the
+    mismatch, i.e. a real shortfall below MM -- is bounded by 1.1 % (main) and 4.3 %
+    (extended). Use the signed bound when you argue that a placed bank actually covers.
+  * PHYSICAL TEMPLATES ARE NOT QUADRATIC. With each waveform ending at its own f_ISCO, the
+    criterion fails at 16/21 main and 39/39 extended points at MM = 0.97. This is the moving
+    hard cutoff, not a defective metric: at the worst direction of each failing cell the
+    lost-support term is 14-78 % of mu_phys (median 60 %). Place banks with the fixed-support
+    metric, and expect measured physical mismatches to exceed its prediction; that gap is
+    one of the candidate explanations part D.5 must weigh.
+  * BOUNDARY-LIMITED CELLS. Where the admissible direction fraction is tiny -- 1.2e-6 at
+    (5,5), 4.0e-4 at (50,50) -- "worst over direction" is a worst over a sliver and passes
+    almost vacuously. The flag `boundary_limited` is a real field in all 180 rows of
+    out/data/quadratic_validity.json and all 180 cells of out/data/qdef_guidance.json. It
+    must survive into anything you derive from them; never average over it silently.
+  * THE CUTOFF IS THE ACTUAL LAST NONZERO BIN, never floor(f_ISCO/df): at
+    (48.971084, 5.189652) the ratio is 2597.9999999999995 and LAL keeps bin 2598. And never
+    PyCBC's f_final to truncate a signal -- it ends one bin early, moving mu_common by up to
+    24 % at (50,50). Both objectives jump when the last bin changes, so nothing may be quoted
+    finer than the local jump: 5.75e-5 (main) and 5.36e-4 (extended) at MM = 0.97.
+
+What q1bC did NOT establish, so you may not assume it:
+  Between-mass behaviour (60 points is a lattice, not a map; its contours interpolate
+  samples only); physical-support angular convergence (those maxima are sampled lower
+  bounds); any continuous-MM threshold; and any bank guarantee at boundary-limited points.
+
+
 GOAL
 ====
 Three parts in dependency order: the threshold needs the bank's size, and the volume needs
