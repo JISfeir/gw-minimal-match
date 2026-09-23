@@ -382,3 +382,61 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
   verifier that was itself wrong. Caught only because the arithmetic disagreed with Table III
   under *both* conventions. The same shape as q1bC's round-8 worker reporting work it had not
   done. Numbers get read from the source, every time, including by the reviewer.
+
+## 2026-09-23
+
+- **The real blocker in qDEF was a missing file, not the Codex quota.** The project's
+  `.codex/hooks.json` runs `python3 .claude/hooks/provenance_gate.py` by a RELATIVE path.
+  Codex finds that config by walking up from the job directory but runs it with the job as
+  cwd, so it needs a job-local target. Job q1bC had one — a deliberate no-op shim written in
+  its day, docstring: *"provide a successful job-local target instead of letting every Stop
+  event feed an error back into the model indefinitely"*. **qDEF had no `.claude` at all**, so
+  every Stop event returned an error and the lead answered `[[BLOCKED]]` for three rounds
+  while we chased quota. Shim copied in; `jobs/qdef-resume.sh` now installs it if absent.
+  Rounds 1–5 of qDEF (≈21M tokens, no science) are largely attributable to this.
+- **Round 6 then ran end to end** — every codex call succeeded — and delivered D-1: four banks
+  at MM = 0.97, main and extended, hexagonal and square, deterministic (two re-runs reproduce
+  the delivered files byte for byte). Counts 1049 / 1069 / 342 / 403.
+- **And the r06 verifier refuted it, three ways. The banks are not usable.**
+  1. **The main banks do not cover at MM = 0.97.** 1500 injections per region, seed 20260923:
+     the fraction with $\mu > 0.03$ is **1.93 %** (hexagonal) and **7.87 %** (square) against
+     an ideal of 0. Ten holes per bank re-checked with real TaylorF2 waveform matches confirm
+     9/10 and 6/10, so the corrected figures are ~1.7 % and ~4.7 % — **real holes, not a
+     quadratic-predictor artefact**. They cluster on the $\eta = 1/4$ side (29/29 hexagonal,
+     83/118 square), which points at the projection rule: putting daughters on the line
+     leaves a gap just inside it. This is the same 2.6 %/7.4 % shortfall r04/r05 left open.
+  2. **The extended banks are contaminated by a degenerate-metric artefact.** Templates run
+     away to $(m_1, m_2) = (215.95, 0.0695)\,M_\odot$, far outside the $[5,50]$ box. There
+     $f_{\rm ISCO} = 20.34$ Hz leaves **12 support bins**, the metric has condition number
+     $1.8\times10^6$, and the fertility test returns 0.000401 against a boundary point **143 s
+     away** in chirp time. The real TaylorF2 match of such a template against (50,5), (30,5),
+     (50,50), (17.5,17.5) and (40,20) is **0.054–0.092**: it covers nothing. Contamination is
+     41 % of the hexagonal bank and 26 % of the square one, so **any D-2 hexagonal/square
+     ratio taken from these extended banks is invalid**. The growth stops only where
+     `analytic_metric` raises "insufficient support" — an implementation accident, not a
+     physical boundary. The main banks are clean by comparison ($m_2^{\min}$ 4.23/3.98,
+     $m_1^{\max}$ 32.7/32.8).
+  3. **The delivered check cannot fail on a bank defect** — the third time this shape has
+     appeared in this project. Its negative controls feed synthetic arrays to helper
+     functions; two of the three are never called on a delivered bank, and the spacing check
+     tests a metadata scalar rather than measured inter-template distances. Injected defects:
+     deleting every 5th main-square template (1069 → 855, a 20 % covering failure) → **PASS,
+     exit 0**; replacing the main-hexagonal bank with the square lattice's rows → **PASS,
+     exit 0**.
+- **This is a result, not just a failure**, and it belongs in the paper: placing with a local
+  metric in the extended region breaks down because the metric goes degenerate where TaylorF2
+  loses support, and the fertility criterion stops being numerically meaningful before any
+  physical boundary is reached.
+- **A prediction of mine was wrong.** Trimming the worker's mandated reading from ~50k to ~12k
+  tokens was predicted here to cut a worker call from ~5M to ~1M. Round 6's workers cost
+  **3.68M and 4.58M**. The context was not the lever; the hook was. Caveat in both directions:
+  the token counter now includes `reasoning_output_tokens`, which it previously dropped, so
+  these figures are not directly comparable with the earlier ones.
+- **Decision: stop running qDEF as a team job.** Next step is to rework D-1 interactively —
+  the $\eta = 1/4$ projection rule and the fertility test are the two defects — and then send
+  the result to an independent blind review, which is step 4 of the plan. The team's
+  verification is what caught every error in this project, including two of the assistant's;
+  what is being dropped is the round loop, not the check.
+- Harness fixes committed in `/home/juan/agent-team` as `0b4de7d`: codex's real error is now
+  reported instead of its harmless stdin notice, the `item.completed` envelope is understood
+  so partial output can be salvaged, and `reasoning_output_tokens` is counted.

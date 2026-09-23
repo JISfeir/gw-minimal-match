@@ -37,6 +37,36 @@ for the circular figure.
   Nothing from a job's `out/` is copied in as an image; stale job PNGs (q12's
   `snr_vs_mismatch.png`, `metric_comparison.png`) are not ported.
 
+### WHERE THE PROJECT IS — 2026-09-23, read this first
+
+A fresh session should start here, then read [[log]] 2026-09-23.
+
+**Done and safe:** job q1bC is **frozen** — `checks.py` 76 PASS / 0 FAIL, `out/manifest.json`
+written and verified, qDEF's GATE simulated by hand and passing every step. Parts A, B and C
+are independently verified. Three known errata in the frozen package are pre-registered in
+`structure/objective-qDEF.txt` and queued for the port in step 5 below.
+
+**In progress:** job qDEF (`jobs/2026-09-21_223117_derive-qdef`) delivered D-1 in round 6 —
+four banks at MM = 0.97 — and its own verifier refuted them three ways: the main banks do not
+cover (1.7 % and 4.7 % real holes clustered on the eta = 1/4 side), the extended banks are
+26–41 % contaminated by a degenerate-metric runaway to 217 Msun, and the delivered check
+cannot fail on a bank defect. Numbers and causes in [[log]] 2026-09-23.
+
+**Decision taken 2026-09-23:** stop running qDEF as a team job. Rework D-1 interactively —
+the two defects are the eta = 1/4 projection rule and the fertility test — then send the
+result to an independent blind review (step 4). The team's independent check caught every
+error in this project, including two of the assistant's, so the check stays; the round loop
+is what is being dropped.
+
+**Not done, and visible:** `figures/` is empty and `scripts/make_figures.py` is still a
+35-line scaffold. Eight figures' worth of verified data sit in q1bC's frozen `out/`, but F5
+forbids shipping a job's PNGs and `jobs/` is git-ignored, so the port must bring the data into
+`data/` first (the JSONs are 2.1 MB; the .npz are 190 MB and stay out). This is step 5 and it
+does not depend on qDEF.
+
+**GitHub:** `github.com/JISfeir/gw-minimal-match` is **PRIVATE** and its last push was
+2026-09-14. Anyone given the link today sees a 404. Decide visibility and push before sharing.
+
 ### Steps
 
 - [x] **0. Housekeeping** (Sun 13) — installed `python-is-python3`, `poppler-utils`,
