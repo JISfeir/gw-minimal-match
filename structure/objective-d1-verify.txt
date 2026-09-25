@@ -1,0 +1,124 @@
+INDEPENDENT AUDIT OF THE D-1 REBUILD (main region, hexagonal lattice)
+=====================================================================
+You are auditing work done INTERACTIVELY BY A CLAUDE SESSION on 2026-09-23, after job
+qDEF's round-6 banks were refuted three ways. You are on Codex specifically so that the
+check comes from a different model family than the work. Your product is the check. A
+round that confirms everything and breaks nothing is a failed round -- but do not
+manufacture a refutation either; report what you measure.
+
+DO NOT EDIT ANYTHING OUTSIDE YOUR OWN JOB DIRECTORY. In particular ~/gw-minimal-match/
+work/d1/ and ~/gw-minimal-match/results/d1/ are READ-ONLY inputs. Re-derive with YOUR OWN
+code in your work/. Do not "fix" the files you are auditing.
+
+WHAT IS BEING AUDITED
+---------------------
+  code     ~/gw-minimal-match/work/d1/geometry.py, placement.py, audit.py
+  bank     ~/gw-minimal-match/results/d1/banks/bank_main_hexagonal_mm097.{txt,json}
+  caches   ~/gw-minimal-match/results/d1/boundary_*.npz, strip_*.npz  (regenerable)
+  metric   ~/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out/lib  (FROZEN, trusted
+           input -- reproduced independently at 60 mass points to <= 9.2e-8; do not re-derive)
+  python   ~/gw-minimal-match/.venv/bin/python   (do not install anything)
+
+Prior art you should read before starting, because it is what this rebuild answers:
+  jobs/2026-09-21_223117_derive-qdef/reports/r06-verifier.md   (the refutation)
+  jobs/2026-09-21_223117_derive-qdef/out/data/bank_main_hexagonal_mm097.txt  (the OLD bank)
+  structure/objective-qDEF.txt   (part D, and the pre-registered rules)
+  wiki/conventions.md, wiki/todo.md
+
+Setting: TaylorF2 3.5PN, chirp times (tau0,tau3) at f0 = 20 Hz, aLIGOZeroDetHighPower,
+20-1024 Hz, m1,m2 in [5,50], m1>=m2, main region = M <= 35. MM = 0.97, so mu_max = 0.03
+and covering radius R = sqrt(0.03) = 0.17320508.
+
+THE CLAIMS. Attack each one.
+----------------------------
+C1. The bank covers. 990 templates; fraction of injections with mu > 0.03 is
+    0.0037 +- 0.0011 (seed 20260923, 3000 draws) and 0.0017 +- 0.0007 (seed 77771);
+    worst mu 0.041 and 0.065. The OLD bank was 1049 templates at 0.0220 +- 0.0033.
+C2. The count is right. Proper area of the main region, by Monte Carlo integration of
+    sqrt(det g) with the mass->chirp-time Jacobian, is 35.4, so the constant-metric ideal
+    is 454 hexagonal templates. The old bank was 2.31x that, and 10x at M in [10,12)
+    (133 templates where the ideal is 13).
+C3. AMENDMENT 1, eta = 1/4. The pre-registered rule projected non-physical daughters onto
+    the line DURING growth. Claim: that collapses them onto a 1-D curve with nothing to
+    re-space them -- measured on the OLD bank, proper spacing along the line 0.680, against
+    2R = 0.346, with 179/208 gaps wider than 2R. Replaced by: grow without projecting,
+    push back after reproduction (Cokelaer 2007 p. 6, "once the reproduction is over"),
+    then a greedy covering repair of the eta = 1/4 strip.
+C4. AMENDMENT 2, fertility. The pre-registered rule tested a cell's own covering ellipse
+    with the metric AT THE CELL. Claim: that is void where TaylorF2 loses support -- at
+    (215.9504, 0.06952) Msun the metric has condition number 1.8e6 and the mu = 0.03
+    ellipse a 4.6e4 s semi-axis, so a cell 143 s away tested fertile, and it scored MORE
+    fertile (0.000401) than a genuine neighbour at (60,50) (0.0165). Replaced by: the
+    metric AT THE REGION BOUNDARY POINT.
+C5. A BUG WAS FOUND AND FIXED, and it mattered more than the amendments. Sampling the
+    boundary 400 points per edge left proper gaps up to 1.6457 (30.6 % wider than R, 18 %
+    wider than 2R) on the main region's long edges, so the fertility test was blind to
+    stretches of its own boundary. Fixed by resampling at R/4 in proper length. Effect on
+    the lattice ALONE: worst mu 1204 -> 0.0855, templates at M < 12 from 0 -> 92.
+C6. The covering test is valid. An exact hexagonal lattice at MM = 0.97 gives 0 holes with
+    worst mu 0.02975 against a theoretical 0.03; one spaced for MM = 0.90 and tested at
+    0.97 gives 0.627. Spacing sqrt(3)R is therefore EXACTLY critical -- zero margin.
+C7. The main region is a ribbon about 1.6 covering radii wide: proper area 35.4, proper
+    perimeter 255.7 against 21.1 for a disc of equal area; edges of proper length 114.6,
+    11.9, 129.2; the corner at (5,5) is a cusp of angular width 0.001-0.1 degrees in the
+    local metric. Consequence claimed: the spec's interior/border split is near-vacuous
+    here (73.6 % of injections are within one covering radius of a boundary), and the
+    0.7698 hexagonal/square ratio is an asymptotic boundary-free number that may not apply.
+
+WHERE THIS IS WEAKEST -- the author's own list, pre-registered so you can hold it to it
+---------------------------------------------------------------------------------------
+W1. CIRCULARITY. The greedy strip repair adds templates until a deterministic strip grid
+    is covered, and the covering claim C1 is measured with the same quadratic criterion.
+    The defence offered is that the repair is confined to a declared strip, runs on a
+    deterministic grid, and is judged by independent RANDOM draws over the whole region.
+    Decide whether that defence holds. Note the hole fraction fell 0.0280 -> 0.0150 ->
+    0.0060 as the repair grid went 120x5 -> 240x10 -> 400x16: the repair is doing real
+    work, so C1 is a property of grow+repair, not of the lattice.
+W2. The connector is a STAND-IN, not Cokelaer's explicit mother/daughter/adjacent-daughter
+    connectors: it rejects a daughter within 0.5 x local spacing of any existing cell.
+    Three qDEF verifier rounds flagged this as never written faithfully. It still is not.
+W3. The lattice ALONE still leaves about 14.7 % of the region uncovered. The author first
+    attributed this to the metric's condition number (57-126) BY ELIMINATION and was wrong
+    -- most of it was the C5 bug. The residual cause is now asserted to be critical spacing
+    plus metric variation, and that attribution is NOT independently established.
+W4. All covering numbers use the QUADRATIC form, not real waveform matches. r06 checked 10
+    holes per bank with real TaylorF2 matches and confirmed 9/10 and 6/10.
+W5. Only main/hexagonal exists. Extended and both square lattices are not rebuilt.
+
+WHAT I WANT FROM YOU
+--------------------
+1. Re-measure C1 with YOUR OWN injection code and YOUR OWN seeds. Then re-measure a sample
+   of the holes AND a sample of the claimed-covered points with REAL TaylorF2 matches
+   (q1bC's out/lib filtering, common fixed support at the actual last nonzero bin -- never
+   floor(f_ISCO/df), never PyCBC f_final). Does the quadratic form flatter this bank?
+2. Try to BREAK the bank the way r06 broke the old one. Delete every 5th template; swap in
+   a different lattice; perturb the repair templates. Does the covering measurement notice?
+   Build the negative controls that the old checks.py lacked.
+3. Settle W1. Is C1 a real covering claim or a fitted one? Concretely: does the bank cover
+   regions of the eta = 1/4 strip that the repair grid never sampled?
+4. Settle W3. Is the residual lattice deficit critical spacing, or the connector stand-in,
+   or something neither? A synthetic experiment with a controlled metric gradient is
+   allowed and encouraged.
+5. Audit C2 and C7 independently -- the area and perimeter integrals, and the cusp angle.
+   These reframe D-2, so an error here is expensive.
+6. Read placement.py for defects that no measurement above would catch, the way r06 found
+   the docstring that contradicted its code.
+
+RULES
+-----
+- Every number comes from your own code, from q1bC's frozen out/data, or from a named paper
+  with its equation/table/page. Say which, every time.
+- Fix and record every seed. Keep each script under ~20 minutes on this laptop.
+- If two measurements disagree by a few per cent, report both. An order of magnitude is a
+  bug: stop and say so.
+- Say explicitly what you did NOT check.
+- If a claim above is right, say it is right and show your independent number. Confirmations
+  are worth as much as refutations here, PROVIDED they are independently derived.
+
+DELIVERABLE
+-----------
+out/report.html, self-contained, opens from file:// with NO network. Per claim C1-C7 and
+weakness W1-W5: your verdict (CONFIRMED / REFUTED / OPEN), your own number next to the
+claimed one, and how you got it. Plus out/checks.py that exits 0 only when its positive
+checks pass AND its negative controls are rejected, and which CAN fail on a bank defect --
+paste its output in your final report.

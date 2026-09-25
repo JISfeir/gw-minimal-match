@@ -440,3 +440,83 @@ Append-only. What was ingested, decided, corrected, and when. Newest at the bott
 - Harness fixes committed in `/home/juan/agent-team` as `0b4de7d`: codex's real error is now
   reported instead of its harmless stdin notice, the `item.completed` envelope is understood
   so partial output can be salvaged, and `reasoning_output_tokens` is counted.
+
+## 2026-09-25 — D-1 reworked interactively, audited four times, and re-scoped
+
+- **D-1 was rebuilt by hand** (`work/d1/`), after the 2026-09-23 decision to stop running
+  qDEF as a team job. Both pre-registered rules were amended, each with a dated reason:
+  the $\eta=1/4$ projection (grow without projecting, push back after reproduction per
+  Cokelaer 2007 p. 6, then repair the boundary strip) and the fertility test (judge the
+  distance with the metric at the **region boundary point**, not at the cell). The old
+  rule scored the 217 $M_\odot$ runaway as MORE fertile (0.000401) than a real neighbour
+  at (60,50) (0.0165); the new one makes it sterile by four orders of magnitude.
+- **Job `2026-09-23_185036_derive-d1verify`**, 4 rounds, 13.68M tokens, all roles on Codex
+  `gpt-6-astra` so the check was a different model family from the work (which was Claude).
+  Rounds 2 and 4 lost their verifier to Codex quota; r04's worker findings are therefore
+  UNVERIFIED except where re-derived by hand.
+- **Current bank**: main hexagonal only, 1772 templates = 744 lattice + 129 pushed back +
+  899 boundary repair, sha256 `f01f79ce…2954e2`. Extended and both square lattices are
+  NOT built.
+- **Reference counts that did not exist before**, by Monte Carlo integration of
+  $\sqrt{\det g}$ with the mass$\to$chirp-time Jacobian: main proper area 35.4, so 454
+  hexagonal / 587 square; extended 7.08, so 91 / 118. Against these the **old qDEF bank
+  was 2.31x over-dense overall and 10x at $M\in[10,12)$** — 133 templates where the ideal
+  is 13.
+- **The main region is a ribbon**, not a 2-D patch: proper perimeter 255.7 against 21.1
+  for a disc of equal area, edges of proper length 114.6 / 11.9 / 129.2, effective width
+  1.60 covering radii. The (5,5) corner is a cusp 0.001–0.1 degrees wide in the local
+  metric. The extended region IS 2-D (width 1.99 R, four edges ~10). Consequences: the
+  spec's interior/border split is near-vacuous in main (73.6 % of injections are border),
+  and the 0.7698 hexagonal/square ratio is an asymptotic boundary-free number that may not
+  apply there. This bears on D-2 regardless of how the bank is placed.
+- **The covering test is validated**, which is separate from whether the bank passes it:
+  an exact lattice returns 0 holes with worst $\mu$ = 0.02975 against a theoretical 0.03,
+  and a lattice spaced for MM = 0.90 returns 63 %. Spacing $\sqrt3 R$ is therefore exactly
+  critical — zero margin.
+- **Three bugs, all the same shape: a grid standing in for a continuum with no margin.**
+  (a) The region boundary was sampled 400 points per edge, leaving proper gaps up to
+  1.6457 — 30.6 % wider than R — so the fertility test was blind to stretches of its own
+  boundary. Fixing it moved the lattice-alone worst $\mu$ from 1204 to 0.0855 and populated
+  the low-mass cusp (templates at $M<12$ went 0 -> 92). (b) The repair grid was sampled
+  uniformly in total mass, leaving adjacent samples 1.6556 apart, 9.6 R. (c) The strip
+  depth was measured with the metric at the edge point. Also found: `equal_mass_strip`
+  excluded $s=0$, so the one curve the strip exists to protect was never tested.
+- **`repair_boundary` could exhaust `max_added` or give up on samples and still write a
+  bank** — the counts went to metadata and nothing read them. It now raises.
+- **THE ASSISTANT WAS WRONG ABOUT THE CAUSE THREE TIMES**: `cond(g)` by elimination; the
+  $\delta/2$ margin (the fill distance of a 2-D cell is $\delta/\sqrt2$, refuted by the
+  r03 verifier with a counterexample reproduced here to twelve digits); and a claimed
+  factor-five metric variation that its own printed eigenvalues (1.810 vs 1.784) already
+  contradicted. The FIXES were right each time; the causal stories were not. Rule adopted:
+  no causal attribution without a targeted experiment that separates it from alternatives.
+- **The covering chase was corrupting the deliverable.** D's product is the template count
+  — that IS "how dense must the bank be" — and it swung **990 -> 1293 -> 1772** across
+  three repair configurations in one day. That swing is a property of the repair, not of
+  the physics or of Cokelaer's method.
+- **WHAT $\mathbf{MM}=0.97$ ACTUALLY IS, checked against the sources.** It is a design
+  choice, not a derived constant. Owen 1996: "The minimal match, which is chosen by the
+  experimenter based upon what he or she considers to be an acceptable loss of ideal event
+  rate"; and "The fiducial value of MM has been chosen as 0.97 to correspond to an event
+  rate of roughly 90 percent of the ideal event rate." Owen & Sathyaprakash 1999: "the
+  fraction of event rate retained is approximately $FF^3$. Therefore it has become
+  conventional to regard $FF = 97\%$ — i.e., 10 % loss of event rate — as a reasonable
+  goal." Cokelaer 2007 gives 95 % -> 15 % and 97 % -> 9 %; $1-0.97^3 = 0.0873$, so the
+  three are consistent.
+  **It is still the convention — but as a PERCENTILE, not a worst case.** Sakon et al.
+  2023 (the O4 GstLAL bank): "the minimal match is typically set to 97 % such that the
+  loss in event rate is at an acceptable amount of ~10 %", and the deployed banks "have
+  fitting factors above 97 % for 90 % of the injections across the entire O4 template bank
+  parameter space." Cite Sakon for the convention only, never as a methodological
+  comparison — it is 4-D aligned-spin, 1.8e6 templates, binary-tree placement.
+- **Consequence, and the re-scope.** Strict covering at 0.97 is FALSE for our bank: the
+  worst mismatch an adaptive search reaches is 0.032221 at (25.6652, 5.8170), verified by
+  hand. But that is a 7.4 % excess measured with a predictor whose own worst error at
+  $\mu=0.03$ is 8.74–8.98 % (q1bC part C) — smaller than the error bar of the instrument.
+  And against the criterion the field actually uses, the bank passes overwhelmingly:
+  2 holes in 12000 injections, ~99.98 % above 0.97 against O4's 90 %.
+  **D is therefore reported against both bars — worst case and percentile — and not tuned
+  further.** The remaining time goes to E, F and the figures.
+- Still open and now declared as not-done rather than pursued: Cokelaer's faithful
+  connectors (W2, open since qDEF r04), the causal attribution of the lattice's residual
+  deficit (W3), independent audit of the area/perimeter/cusp integrals (C2/C7), and
+  waveform matches against the current bank.

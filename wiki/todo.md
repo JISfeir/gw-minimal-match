@@ -37,32 +37,59 @@ for the circular figure.
   Nothing from a job's `out/` is copied in as an image; stale job PNGs (q12's
   `snr_vs_mismatch.png`, `metric_comparison.png`) are not ported.
 
-### WHERE THE PROJECT IS — 2026-09-23, read this first
+### WHERE THE PROJECT IS — 2026-09-25, read this first
 
-A fresh session should start here, then read [[log]] 2026-09-23.
+A fresh session should start here, then read [[log]] 2026-09-25.
+
+**The question, and which half is answered.** "SNR loss from template mismatch, and the
+bank density it requires" splits into the six claims in `structure/claims.yaml`.
+**A, B and C are DONE and frozen** in job q1bC — that is the SNR-loss half. **D, E and F
+are the density half: D is one quarter built, E and F have not been started.**
 
 **Done and safe:** job q1bC is **frozen** — `checks.py` 76 PASS / 0 FAIL, `out/manifest.json`
-written and verified, qDEF's GATE simulated by hand and passing every step. Parts A, B and C
-are independently verified. Three known errata in the frozen package are pre-registered in
-`structure/objective-qDEF.txt` and queued for the port in step 5 below.
+written and verified. Parts A, B and C are independently verified. Three known errata are
+pre-registered in `structure/objective-qDEF.txt` and queued for the port in step 5.
 
-**In progress:** job qDEF (`jobs/2026-09-21_223117_derive-qdef`) delivered D-1 in round 6 —
-four banks at MM = 0.97 — and its own verifier refuted them three ways: the main banks do not
-cover (1.7 % and 4.7 % real holes clustered on the eta = 1/4 side), the extended banks are
-26–41 % contaminated by a degenerate-metric runaway to 217 Msun, and the delivered check
-cannot fail on a bank defect. Numbers and causes in [[log]] 2026-09-23.
+**D-1, reworked by hand 2026-09-23→25** (`work/d1/`, tracked; banks in `results/d1/`, which
+is git-ignored and rebuildable). One bank exists: **main hexagonal, 1772 templates**.
+Extended and both square lattices are NOT built. Audited four rounds on Codex
+(`jobs/2026-09-23_185036_derive-d1verify`, 13.68M tokens); rounds 2 and 4 lost their
+verifier to quota, so r04's worker findings are unverified except where re-derived by hand.
 
-**Decision taken 2026-09-23:** stop running qDEF as a team job. Rework D-1 interactively —
-the two defects are the eta = 1/4 projection rule and the fertility test — then send the
-result to an independent blind review (step 4). The team's independent check caught every
-error in this project, including two of the assistant's, so the check stays; the round loop
-is what is being dropped.
+**The decision that closes D, taken 2026-09-25 after checking the sources.** MM = 0.97 is a
+design convention, not a derived constant, and the modern criterion is a **percentile, not
+a worst case**: the O4 GstLAL bank quotes "fitting factors above 97 % for 90 % of the
+injections" (Sakon et al. 2023). Our bank fails strict worst-case covering (worst
+mu = 0.032221, a 7.4 % excess measured with a predictor whose own error at mu = 0.03 is
+8.74–8.98 %) and passes the field's criterion by a wide margin (2 holes in 12000, ~99.98 %
+against 90 % required). **D is reported against BOTH bars and is not tuned further.**
+Chasing strict covering had swung the template count — which IS the deliverable — from
+990 to 1293 to 1772 in one day on repair settings alone.
+
+**Reference counts, new and independent** (proper-area integration): main 454 hexagonal /
+587 square; extended 91 / 118. The old qDEF bank was 2.31x over-dense, and 10x at
+M in [10,12).
+
+**Structural finding for D-2:** the main region is a ribbon 1.60 covering radii wide
+(proper perimeter 255.7 against 21.1 for a disc of equal area; the (5,5) corner is a cusp
+0.001–0.1 degrees wide). So the interior/border split is near-vacuous there (73.6 % border)
+and the 0.7698 hexagonal/square ratio is an asymptotic boundary-free number that may not
+apply. The extended region IS 2-D.
+
+**Declared not-done rather than pursued** (time, not dismissal): Cokelaer's faithful
+connectors (open since qDEF r04), the causal attribution of the lattice's residual deficit,
+independent audit of the area/perimeter/cusp integrals, and waveform matches on the current
+bank.
 
 **Not done, and visible:** `figures/` is empty and `scripts/make_figures.py` is still a
-35-line scaffold. Eight figures' worth of verified data sit in q1bC's frozen `out/`, but F5
-forbids shipping a job's PNGs and `jobs/` is git-ignored, so the port must bring the data into
-`data/` first (the JSONs are 2.1 MB; the .npz are 190 MB and stay out). This is step 5 and it
-does not depend on qDEF.
+35-line scaffold. This is step 5 and it does not depend on D.
+
+**SCHEDULE: the plan runs to Sun 27 and today is Fri 25.** Steps 4, 5, 7, 8, 9, 10 and 11
+are all open. D-1 consumed the buffer. Next, in order: finish D (three remaining banks,
+one build each, no tuning), E and F in a declared-approximate form (rho* from N via the
+trials factor, with the naive bound replacing the nu_eff calibration; V_eff from D's
+injections), then figures, paper, page. Something else will have to be cut — decide it
+explicitly, as step 6 was.
 
 **GitHub:** `github.com/JISfeir/gw-minimal-match` is **PRIVATE** and its last push was
 2026-09-14. Anyone given the link today sees a 404. Decide visibility and push before sharing.
