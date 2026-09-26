@@ -26,12 +26,29 @@ from scipy.interpolate import griddata
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from audit import draw
 from geometry import analytic_metric, tau
-from threshold import OPERATING_POINTS, naive_trials, solve_threshold
+from threshold import (OPERATING_POINTS, SECONDS_PER_YEAR, T_OBS, naive_trials,
+                       solve_threshold)
 from volume import interpolate_ff, load_fitting_factors
 
 RESULTS = Path("/home/juan/gw-minimal-match/results/d1")
 MM_GRID = (0.95, 0.96, 0.97, 0.98, 0.99)
 VALIDATED_FROM = 0.97
+
+
+def calibrated_trials():
+    """N_eff per year from the measured nu_eff, keyed by bank.
+
+    The naive bound counts every template and every sample as independent. It is a
+    genuine upper bound -- the efverify r01 verifier proved that from the Gaussian
+    correlation inequality -- but it is a loose one, and how loose depends on the bank,
+    which is why it cannot be divided out as a constant.
+    """
+    path = RESULTS / "part_e_nu_eff.json"
+    if not path.exists():
+        return {}
+    blob = json.loads(path.read_text())
+    return {key: entry["nu_eff_per_second"] * T_OBS * SECONDS_PER_YEAR
+            for key, entry in blob["banks"].items()}
 
 
 def prepare(region, n, seed):
@@ -53,6 +70,7 @@ def match_against(bank_tau, point, metric):
 
 
 def run(region, n=2000, seed=20260927, bootstrap=400):
+    measured = calibrated_trials()
     injections, point, metric, ff = prepare(region, n, seed)
     rng = np.random.default_rng(seed + 1)
     indices = rng.integers(0, n, size=(bootstrap, n))
@@ -66,14 +84,19 @@ def run(region, n=2000, seed=20260927, bootstrap=400):
             match = match_against(raw[:, 2:4], point, metric)
             combined = ff * match
             n_trials = naive_trials(len(raw))
+            key_cal = f"{region}_{lattice}_mm{round(mm * 100):03d}"
+            n_trials_cal = measured.get(key_cal)
             entry = {"minimal_match": mm, "n_templates": int(len(raw)),
+                     "n_trials_naive": n_trials,
+                     "n_trials_calibrated": n_trials_cal,
                      "outside_validated_range": mm < VALIDATED_FROM,
                      "losses": {
                          "worst_case_1_minus_MM3": 1.0 - mm ** 3,
                          "linear_expansion": 3.0 * (1.0 - mm),
                          "population_taylorf2": 1.0 - float(np.mean(match ** 3)),
                          "population_imrphenomd_approx": 1.0 - float(np.mean(combined ** 3))},
-                     "rho_star": {}, "v_eff": {}, "v_eff_error": {}}
+                     "rho_star": {}, "v_eff": {}, "v_eff_error": {},
+                     "rho_star_calibrated": {}, "v_eff_calibrated": {}}
             boot_tf2 = np.mean(match[indices] ** 3, axis=1)
             boot_imr = np.mean(combined[indices] ** 3, axis=1)
             for name, (fap, _) in OPERATING_POINTS.items():
@@ -85,6 +108,13 @@ def run(region, n=2000, seed=20260927, bootstrap=400):
                 entry["v_eff_error"][name] = {
                     "taylorf2": float(boot_tf2.std(ddof=1)) / rho ** 3,
                     "imrphenomd_approx": float(boot_imr.std(ddof=1)) / rho ** 3}
+                if n_trials_cal:
+                    rho_c = solve_threshold(fap, n_trials_cal)
+                    entry["rho_star_calibrated"][name] = rho_c
+                    entry["v_eff_calibrated"][name] = {
+                        "taylorf2": float(np.mean(match ** 3)) / rho_c ** 3,
+                        "imrphenomd_approx": float(np.mean(combined ** 3)) / rho_c ** 3,
+                        "taylorf2_error": float(boot_tf2.std(ddof=1)) / rho_c ** 3}
             rows[f"{lattice}_mm{round(mm * 100):03d}"] = entry
     return rows
 
@@ -108,6 +138,17 @@ def summarise(region, rows):
                   f"{v['losses']['population_taylorf2']:9.5f} "
                   f"{ve['taylorf2']:12.6e} {err['taylorf2']:10.2e} "
                   f"{ve['imrphenomd_approx']:12.6e}  {flag}")
+        if series[0][1].get("v_eff_calibrated"):
+            print(f"    {'MM':>5s} {'rho* naive':>11s} {'rho* calib':>11s} "
+                  f"{'V_eff naive':>13s} {'V_eff calib':>13s}")
+            for mm, v in series:
+                print(f"    {mm:5.2f} {v['rho_star']['far_1_per_100yr']:11.4f} "
+                      f"{v['rho_star_calibrated']['far_1_per_100yr']:11.4f} "
+                      f"{v['v_eff']['far_1_per_100yr']['taylorf2']:13.6e} "
+                      f"{v['v_eff_calibrated']['far_1_per_100yr']['taylorf2']:13.6e}")
+            best_c = max(series,
+                         key=lambda s: s[1]["v_eff_calibrated"]["far_1_per_100yr"]["taylorf2"])
+            print(f"    -> CALIBRATED taylorf2 max at MM = {best_c[0]:.2f}")
         for leg in ("taylorf2", "imrphenomd_approx"):
             best = max(series, key=lambda s: s[1]["v_eff"]["far_1_per_100yr"][leg])
             mm, v = best

@@ -1,345 +1,486 @@
 claims:
-  - id: owen-matched-filter-loss
-    statement: >
-      For normalized templates in Owen's Gaussian-noise model, mismatch reduces the
-      expected recovered SNR by the normalized template overlap.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)"
-      - "page/index.html::sections 3-4"
-    numbers: []
+- id: owen-matched-filter-loss
+  statement: 'For normalized templates in Owen''s Gaussian-noise model, mismatch reduces the
+    expected recovered SNR by the normalized template overlap.
 
-  - id: owen-local-metric
-    statement: >
-      The Hessian of the match at coincident parameters defines a local metric with
-      1-M = g_ij Delta-lambda^i Delta-lambda^j in Owen's convention.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (11)-(13)"
-      - "page/index.html::section 5"
-    numbers: []
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)
+  - page/index.html::sections 3-4
+  numbers: []
+- id: owen-local-metric
+  statement: 'The Hessian of the match at coincident parameters defines a local metric with
+    1-M = g_ij Delta-lambda^i Delta-lambda^j in Owen''s convention.
 
-  - id: owen-volume-count
-    statement: >
-      Under Owen's hypercubic covering model, the template count is proper parameter-space
-      volume divided by the cell volume set by the minimal match.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (14)-(16), (43)"
-      - "page/index.html::sections 6 and 9"
-    numbers:
-      - owen_mm_fiducial
-      - recomputed_initial_template_count
-      - recomputed_advanced_template_count
-      - owen_reported_initial_template_count
-      - owen_reported_advanced_template_count
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (11)-(13)
+  - page/index.html::section 5
+  numbers: []
+- id: owen-volume-count
+  statement: 'Under Owen''s hypercubic covering model, the template count is proper parameter-space
+    volume divided by the cell volume set by the minimal match.
 
-  - id: owen-event-rate-scaling
-    statement: >
-      With a homogeneous Euclidean source distribution and fixed threshold, the worst-case
-      retained event rate scales as MM cubed.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eq. (23) and surrounding discussion"
-      - "scripts/reproduce_owen1995.py::compute"
-    numbers:
-      - owen_mm_fiducial
-      - owen_mm097_rate_fraction
-      - owen_mm097_rate_loss
-      - owen_event_loss_benchmark
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (14)-(16), (43)
+  - page/index.html::sections 6 and 9
+  numbers:
+  - owen_mm_fiducial
+  - recomputed_initial_template_count
+  - recomputed_advanced_template_count
+  - owen_reported_initial_template_count
+  - owen_reported_advanced_template_count
+- id: owen-event-rate-scaling
+  statement: 'With a homogeneous Euclidean source distribution and fixed threshold, the worst-case
+    retained event rate scales as MM cubed.
 
-  - id: owen-historical-psd
-    statement: >
-      The reproduction uses Owen's analytic initial- and advanced-LIGO benchmark PSDs,
-      which are historical inputs rather than current detector curves.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eq. (17) and Sec. II B"
-      - "scripts/reproduce_owen1995.py::reproduce_case"
-    numbers:
-      - owen_initial_fs_hz
-      - owen_initial_f0_hz
-      - owen_advanced_fs_hz
-      - owen_advanced_f0_hz
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eq. (23) and surrounding discussion
+  - scripts/reproduce_owen1995.py::compute
+  numbers:
+  - owen_mm_fiducial
+  - owen_mm097_rate_fraction
+  - owen_mm097_rate_loss
+  - owen_event_loss_benchmark
+- id: owen-historical-psd
+  statement: 'The reproduction uses Owen''s analytic initial- and advanced-LIGO benchmark
+    PSDs, which are historical inputs rather than current detector curves.
 
-  - id: owen-metric-reproduced
-    statement: >
-      Direct quadrature of Owen's noise moments followed by time projection reproduces
-      the printed two-dimensional metric components to their shown precision.
-    evidence:
-      - "scripts/reproduce_owen1995.py::normalized_moments"
-      - "scripts/reproduce_owen1995.py::dimensionless_premetric"
-      - "scripts/reproduce_owen1995.py::projected_metric"
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (18), (33), (34), (38), (40), (42)"
-    numbers:
-      - recomputed_initial_metric_11
-      - recomputed_initial_metric_12
-      - recomputed_initial_metric_22
-      - recomputed_advanced_metric_11
-      - recomputed_advanced_metric_12
-      - recomputed_advanced_metric_22
-      - recomputed_initial_sqrt_det
-      - recomputed_advanced_sqrt_det
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eq. (17) and Sec. II B
+  - scripts/reproduce_owen1995.py::reproduce_case
+  numbers:
+  - owen_initial_fs_hz
+  - owen_initial_f0_hz
+  - owen_advanced_fs_hz
+  - owen_advanced_f0_hz
+- id: owen-metric-reproduced
+  statement: 'Direct quadrature of Owen''s noise moments followed by time projection reproduces
+    the printed two-dimensional metric components to their shown precision.
 
-  - id: owen-eigensystem-reproduced
-    statement: >
-      Diagonalizing the full-precision recomputed metrics yields one stiff and one soft
-      direction and the square-grid spacings reported in the note.
-    evidence:
-      - "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem"
-      - "scripts/reproduce_owen1995.py::reproduce_case"
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (48)-(54)"
-    numbers:
-      - recomputed_initial_eigenvalue_stiff
-      - recomputed_initial_eigenvalue_soft
-      - recomputed_advanced_eigenvalue_stiff
-      - recomputed_advanced_eigenvalue_soft
-      - recomputed_initial_spacing_stiff_ms
-      - recomputed_initial_spacing_soft_ms
-      - recomputed_advanced_spacing_stiff_ms
-      - recomputed_advanced_spacing_soft_ms
+    '
+  evidence:
+  - scripts/reproduce_owen1995.py::normalized_moments
+  - scripts/reproduce_owen1995.py::dimensionless_premetric
+  - scripts/reproduce_owen1995.py::projected_metric
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (18), (33), (34), (38), (40), (42)
+  numbers:
+  - recomputed_initial_metric_11
+  - recomputed_initial_metric_12
+  - recomputed_initial_metric_22
+  - recomputed_advanced_metric_11
+  - recomputed_advanced_metric_12
+  - recomputed_advanced_metric_22
+  - recomputed_initial_sqrt_det
+  - recomputed_advanced_sqrt_det
+- id: owen-eigensystem-reproduced
+  statement: 'Diagonalizing the full-precision recomputed metrics yields one stiff and one
+    soft direction and the square-grid spacings reported in the note.
 
-  - id: owen-domain-area-reproduced
-    statement: >
-      Integrating the analytic mass-to-chirp-time Jacobian over Owen's unbounded
-      component-mass domain reproduces his Monte Carlo coordinate areas to the precision
-      expected from the printed historical values.
-    evidence:
-      - "scripts/reproduce_owen1995.py::chirp_time_area"
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (35)-(36) and Sec. III B"
-    numbers:
-      - owen_minimum_mass_solar
-      - recomputed_initial_area_s2
-      - recomputed_advanced_area_s2
-      - owen_reported_initial_area_s2
-      - owen_reported_advanced_area_s2
+    '
+  evidence:
+  - scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem
+  - scripts/reproduce_owen1995.py::reproduce_case
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (48)-(54)
+  numbers:
+  - recomputed_initial_eigenvalue_stiff
+  - recomputed_initial_eigenvalue_soft
+  - recomputed_advanced_eigenvalue_stiff
+  - recomputed_advanced_eigenvalue_soft
+  - recomputed_initial_spacing_stiff_ms
+  - recomputed_initial_spacing_soft_ms
+  - recomputed_advanced_spacing_stiff_ms
+  - recomputed_advanced_spacing_soft_ms
+- id: owen-domain-area-reproduced
+  statement: 'Integrating the analytic mass-to-chirp-time Jacobian over Owen''s unbounded
+    component-mass domain reproduces his Monte Carlo coordinate areas to the precision expected
+    from the printed historical values.
 
-  - id: owen-editorial-inconsistencies
-    statement: >
-      Owen Eqs. (44)-(45) must scale with (1-MM)^-1 rather than MM^-1, Eq. (49) contains
-      a self-referential basis-vector label, and recomputation exposes small numerical
-      inconsistencies among the printed matrices, eigenvalues, and spacings.
-    evidence:
-      - "scripts/reproduce_owen1995.py::compute"
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (16), (43)-(45), (49)-(54)"
-      - "page/index.html::section 8.4"
-    numbers: []
+    '
+  evidence:
+  - scripts/reproduce_owen1995.py::chirp_time_area
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (35)-(36) and Sec. III B
+  numbers:
+  - owen_minimum_mass_solar
+  - recomputed_initial_area_s2
+  - recomputed_advanced_area_s2
+  - owen_reported_initial_area_s2
+  - owen_reported_advanced_area_s2
+- id: owen-editorial-inconsistencies
+  statement: 'Owen Eqs. (44)-(45) must scale with (1-MM)^-1 rather than MM^-1, Eq. (49) contains
+    a self-referential basis-vector label, and recomputation exposes small numerical inconsistencies
+    among the printed matrices, eigenvalues, and spacings.
 
-  - id: owen-historical-compute-cost
-    statement: >
-      Owen's online-search compute estimates are historical consequences of his PSD,
-      waveform, filtering algorithm, and source-domain assumptions, not modern budgets.
-    evidence:
-      - "Owen, arXiv:gr-qc/9511032v1, Eqs. (55)-(61) and Sec. III D"
-      - "page/index.html::section 9.4"
-    numbers:
-      - owen_reported_initial_gflops
-      - owen_reported_advanced_gflops
-      - owen_event_loss_benchmark
+    '
+  evidence:
+  - scripts/reproduce_owen1995.py::compute
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (16), (43)-(45), (49)-(54)
+  - page/index.html::section 8.4
+  numbers: []
+- id: owen-historical-compute-cost
+  statement: 'Owen''s online-search compute estimates are historical consequences of his PSD,
+    waveform, filtering algorithm, and source-domain assumptions, not modern budgets.
 
-  - id: q1bc-hook-loop-token-reconciliation
-    statement: >
-      The first two q1bC Astra PI sessions consumed substantial quota while a broken
-      relative Stop-hook path repeatedly returned errors; only planning reports survived,
-      and the agent-team counter was reconciled before resumption.
-    evidence:
-      - "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::token_usage_record and hook error events"
-      - "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::token_usage_record and hook error events"
-      - "jobs/2026-09-14_041516_derive-q1bc/reports/r01-verifier.md::worker-output inventory"
-      - "jobs/2026-09-14_041516_derive-q1bc/.claude/hooks/provenance_gate.py::job-local compatibility shim"
-    numbers:
-      - q1bc_astra_loop_tokens_r01
-      - q1bc_astra_loop_tokens_r02
-      - q1bc_astra_loop_tokens_total
-      - q1bc_reconciled_job_tokens_before_resume
+    '
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (55)-(61) and Sec. III D
+  - page/index.html::section 9.4
+  numbers:
+  - owen_reported_initial_gflops
+  - owen_reported_advanced_gflops
+  - owen_event_loss_benchmark
+- id: q1bc-hook-loop-token-reconciliation
+  statement: 'The first two q1bC Astra PI sessions consumed substantial quota while a broken
+    relative Stop-hook path repeatedly returned errors; only planning reports survived, and
+    the agent-team counter was reconciled before resumption.
 
+    '
+  evidence:
+  - /home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::token_usage_record
+    and hook error events
+  - /home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::token_usage_record
+    and hook error events
+  - jobs/2026-09-14_041516_derive-q1bc/reports/r01-verifier.md::worker-output inventory
+  - jobs/2026-09-14_041516_derive-q1bc/.claude/hooks/provenance_gate.py::job-local compatibility
+    shim
+  numbers:
+  - q1bc_astra_loop_tokens_r01
+  - q1bc_astra_loop_tokens_r02
+  - q1bc_astra_loop_tokens_total
+  - q1bc_reconciled_job_tokens_before_resume
 figures:
-  - file: figures/d_covering_cumulative.pdf
-    produced_by: scripts/make_figures.py::figure_covering
-    shows: >
-      Cumulative fraction of injections against the best match found in the bank, one panel per region, hexagonal and square overlaid, interior and border injections drawn apart.
-      The reader should take that three of the four banks keep every injection right of MM = 0.97 and that the extended hexagonal interior curve crosses it.
-    from_scratch: >
-      the injection draw, the chirp-time map of each injection, the quadratic mismatch against every template of each bank, the border classification, and the empirical CDF
-    from_library: >
-      q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric); numpy; matplotlib
-    choices:
-      - "3000 injections per region, uniform in component mass over the region -- a declared sampling choice, not an astrophysical population"
-      - "seed 20260925, fixed before measuring"
-      - "mismatch evaluated with the INJECTION's metric rather than the template's; the two differ and this is the convention the covering claim is stated in"
-      - "log ordinate, without which a 1-in-1000 failure is invisible"
-      - "border defined as within one covering radius of any region edge in the injection metric, on a boundary resampled at R/4 in proper length"
-      - "colour follows the lattice and the region is the facet, so the reader learns one mapping"
-    supports: [covering-at-mm097]
-  - file: figures/d_covering_cumulative.png
-    produced_by: scripts/make_figures.py::figure_covering
-    shows: >
-      Cumulative fraction of injections against the best match found in the bank, one panel per region, hexagonal and square overlaid, interior and border injections drawn apart.
-      The reader should take that three of the four banks keep every injection right of MM = 0.97 and that the extended hexagonal interior curve crosses it.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      the injection draw, the chirp-time map of each injection, the quadratic mismatch against every template of each bank, the border classification, and the empirical CDF
-    from_library: >
-      q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric); numpy; matplotlib
-    choices:
-      - "3000 injections per region, uniform in component mass over the region -- a declared sampling choice, not an astrophysical population"
-      - "seed 20260925, fixed before measuring"
-      - "mismatch evaluated with the INJECTION's metric rather than the template's; the two differ and this is the convention the covering claim is stated in"
-      - "log ordinate, without which a 1-in-1000 failure is invisible"
-      - "border defined as within one covering radius of any region edge in the injection metric, on a boundary resampled at R/4 in proper length"
-      - "colour follows the lattice and the region is the facet, so the reader learns one mapping"
-    supports: [covering-at-mm097]
-  - file: figures/d_counts_and_ratio.pdf
-    produced_by: scripts/make_figures.py::figure_counts
-    shows: >
-      Top: bank size against nominal minimal match, both regions and both lattices, log ordinate.
-      Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and Cokelaer 2007's measured 0.717-0.719.
-      The reader should take that the two regions do not share a ratio, so lattice efficiency alone does not set it.
-    from_scratch: >
-      every bank in the MM grid was placed by work/d1/placement.py; the counts and the ratio are read from those banks
-    from_library: >
-      numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed from his Tables I-III
-    choices:
-      - "ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule F2)"
-      - "the counts are FULL banks, including the boundary repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and 0.4225 and are reported in the text, not here"
-      - "the two references are legend entries rather than in-plot annotations, because at this ordinate range every in-plot label crosses a measured series"
-      - "MM grid 0.95-0.99 in steps of 0.01"
-    supports: [covering-at-mm097]
-  - file: figures/d_counts_and_ratio.png
-    produced_by: scripts/make_figures.py::figure_counts
-    shows: >
-      Top: bank size against nominal minimal match, both regions and both lattices, log ordinate.
-      Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and Cokelaer 2007's measured 0.717-0.719.
-      The reader should take that the two regions do not share a ratio, so lattice efficiency alone does not set it.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      every bank in the MM grid was placed by work/d1/placement.py; the counts and the ratio are read from those banks
-    from_library: >
-      numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed from his Tables I-III
-    choices:
-      - "ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule F2)"
-      - "the counts are FULL banks, including the boundary repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and 0.4225 and are reported in the text, not here"
-      - "the two references are legend entries rather than in-plot annotations, because at this ordinate range every in-plot label crosses a measured series"
-      - "MM grid 0.95-0.99 in steps of 0.01"
-    supports: [covering-at-mm097]
-  - file: figures/d_mismatch_map_main_hex.pdf
-    produced_by: scripts/make_figures.py::figure_mismatch_map
-    shows: >
-      Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal bank, with the adaptive-search witness marked.
-      The reader should take that the grid finds no hole and the adaptive search does.
-    from_scratch: >
-      the 90x90 grid, its restriction to the region, the metric at each grid point and the minimum over all 1772 templates
-    from_library: >
-      q1bC out/lib analytic_metric and tau; numpy; matplotlib
-    choices:
-      - "shown against both component masses rather than total mass, because the metric depends on both (rule F3)"
-      - "90x90 grid over [5, 31] Msun, giving 1892 cells inside the region"
-      - "two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above it, so a failing cell cannot be mistaken for a dark passing one"
-      - "the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit and was reproduced by hand to 14 digits, not recomputed by this figure"
-    supports: [covering-at-mm097]
-  - file: figures/d_mismatch_map_main_hex.png
-    produced_by: scripts/make_figures.py::figure_mismatch_map
-    shows: >
-      Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal bank, with the adaptive-search witness marked.
-      The reader should take that the grid finds no hole and the adaptive search does.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      the 90x90 grid, its restriction to the region, the metric at each grid point and the minimum over all 1772 templates
-    from_library: >
-      q1bC out/lib analytic_metric and tau; numpy; matplotlib
-    choices:
-      - "shown against both component masses rather than total mass, because the metric depends on both (rule F3)"
-      - "90x90 grid over [5, 31] Msun, giving 1892 cells inside the region"
-      - "two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above it, so a failing cell cannot be mistaken for a dark passing one"
-      - "the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit and was reproduced by hand to 14 digits, not recomputed by this figure"
-    supports: [covering-at-mm097]
-  - file: figures/e_threshold_vs_mm.pdf
-    produced_by: scripts/make_figures.py::figure_threshold
-    shows: >
-      Detection threshold against nominal minimal match for the main hexagonal bank, at the pre-registered operating point and its two sensitivities.
-      The reader should take that rho* moves 1.46 % while the bank triples, because the dependence on the trials count is logarithmic.
-    from_scratch: >
-      the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection, and the rare-tail Poisson comparison
-    from_library: >
-      the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
-    choices:
-      - "the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff; it over-counts trials, so every rho* plotted is an upper bound"
-      - "FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T); 5 sigma from its one-sided global probability 2.8665e-7"
-      - "MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated range there"
-      - "main hexagonal only; the other three banks differ by less than 0.25 in rho*"
-    supports: [detection-threshold]
-  - file: figures/e_threshold_vs_mm.png
-    produced_by: scripts/make_figures.py::figure_threshold
-    shows: >
-      Detection threshold against nominal minimal match for the main hexagonal bank, at the pre-registered operating point and its two sensitivities.
-      The reader should take that rho* moves 1.46 % while the bank triples, because the dependence on the trials count is logarithmic.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection, and the rare-tail Poisson comparison
-    from_library: >
-      the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
-    choices:
-      - "the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff; it over-counts trials, so every rho* plotted is an upper bound"
-      - "FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T); 5 sigma from its one-sided global probability 2.8665e-7"
-      - "MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated range there"
-      - "main hexagonal only; the other three banks differ by less than 0.25 in rho*"
-    supports: [detection-threshold]
-  - file: figures/f_volume_losses.pdf
-    produced_by: scripts/make_figures.py::figure_volume_losses
-    shows: >
-      The three fractional detection-volume losses kept apart against nominal minimal match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured population average 1 - <M^3>.
-      The reader should take that the population loss is a factor 4 to 9 below the worst case.
-    from_scratch: >
-      the population average from the injection matches of every bank in the MM grid
-    from_library: >
-      numpy; matplotlib. The two curves are closed forms, not fits
-    choices:
-      - "TaylorF2 injections only, so this is discretisation loss alone; the template-family leg is a separate quantity and is not mixed in here"
-      - "log ordinate, because the measured series and the worst case differ by nearly a decade"
-      - "2000 injections per bank, seed 20260927"
-      - "the legend sits outside the axes because with six series every in-plot corner crosses one"
-    supports: [volume-loss-rule]
-  - file: figures/f_volume_losses.png
-    produced_by: scripts/make_figures.py::figure_volume_losses
-    shows: >
-      The three fractional detection-volume losses kept apart against nominal minimal match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured population average 1 - <M^3>.
-      The reader should take that the population loss is a factor 4 to 9 below the worst case.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      the population average from the injection matches of every bank in the MM grid
-    from_library: >
-      numpy; matplotlib. The two curves are closed forms, not fits
-    choices:
-      - "TaylorF2 injections only, so this is discretisation loss alone; the template-family leg is a separate quantity and is not mixed in here"
-      - "log ordinate, because the measured series and the worst case differ by nearly a decade"
-      - "2000 injections per bank, seed 20260927"
-      - "the legend sits outside the axes because with six series every in-plot corner crosses one"
-    supports: [volume-loss-rule]
-  - file: figures/f_veff_vs_mm.pdf
-    produced_by: scripts/make_figures.py::figure_veff
-    shows: >
-      Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with bootstrap uncertainties, for TaylorF2 and for IMRPhenomD injections.
-      The reader should take that there is no interior maximum, and that the whole variation is 1.9-3.7 % across a threefold change in bank size.
-    from_scratch: >
-      the population <M^3> from injections, the bootstrap over injections, and the combination with rho* from part E
-    from_library: >
-      q1bC part B's frozen ff_full at 28 mass points for the IMRPhenomD leg; scipy griddata for its interpolation; numpy; matplotlib
-    choices:
-      - "the IMRPhenomD leg is a DECLARED APPROXIMATION: the specified quantity is the best match of an IMRPhenomD signal against the whole TaylorF2 bank, and instead the continuous-family fitting factor is interpolated and composed multiplicatively with the discretisation match, assuming the two losses are independent"
-      - "griddata linear inside the hull of the 28 points, nearest outside it"
-      - "400 bootstrap resamples of 2000 injections; the bars are sampling uncertainty only and do not cover the naive trials model, which biases the slope toward coarse banks"
-      - "MM below 0.97 shaded as outside the validated range"
-      - "operating point FAR = 1/(100 yr); the two sensitivities are not drawn here"
-    supports: [volume-loss-rule]
-  - file: figures/f_veff_vs_mm.png
-    produced_by: scripts/make_figures.py::figure_veff
-    shows: >
-      Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with bootstrap uncertainties, for TaylorF2 and for IMRPhenomD injections.
-      The reader should take that there is no interior maximum, and that the whole variation is 1.9-3.7 % across a threefold change in bank size.
-      Raster copy of the same call, for the HTML page.
-    from_scratch: >
-      the population <M^3> from injections, the bootstrap over injections, and the combination with rho* from part E
-    from_library: >
-      q1bC part B's frozen ff_full at 28 mass points for the IMRPhenomD leg; scipy griddata for its interpolation; numpy; matplotlib
-    choices:
-      - "the IMRPhenomD leg is a DECLARED APPROXIMATION: the specified quantity is the best match of an IMRPhenomD signal against the whole TaylorF2 bank, and instead the continuous-family fitting factor is interpolated and composed multiplicatively with the discretisation match, assuming the two losses are independent"
-      - "griddata linear inside the hull of the 28 points, nearest outside it"
-      - "400 bootstrap resamples of 2000 injections; the bars are sampling uncertainty only and do not cover the naive trials model, which biases the slope toward coarse banks"
-      - "MM below 0.97 shaded as outside the validated range"
-      - "operating point FAR = 1/(100 yr); the two sensitivities are not drawn here"
-    supports: [volume-loss-rule]
+- file: figures/d_covering_cumulative.pdf
+  produced_by: scripts/make_figures.py::figure_covering
+  shows: 'Cumulative fraction of injections against the best match found in the bank, one
+    panel per region, hexagonal and square overlaid, interior and border injections drawn
+    apart. The reader should take that three of the four banks keep every injection right
+    of MM = 0.97 and that the extended hexagonal interior curve crosses it.
+
+    '
+  from_scratch: 'the injection draw, the chirp-time map of each injection, the quadratic mismatch
+    against every template of each bank, the border classification, and the empirical CDF
+
+    '
+  from_library: 'q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric);
+    numpy; matplotlib
+
+    '
+  choices:
+  - 3000 injections per region, uniform in component mass over the region -- a declared sampling
+    choice, not an astrophysical population
+  - seed 20260925, fixed before measuring
+  - mismatch evaluated with the INJECTION's metric rather than the template's; the two differ
+    and this is the convention the covering claim is stated in
+  - log ordinate, without which a 1-in-1000 failure is invisible
+  - border defined as within one covering radius of any region edge in the injection metric,
+    on a boundary resampled at R/4 in proper length
+  - colour follows the lattice and the region is the facet, so the reader learns one mapping
+  supports:
+  - covering-at-mm097
+- file: figures/d_covering_cumulative.png
+  produced_by: scripts/make_figures.py::figure_covering
+  shows: 'Cumulative fraction of injections against the best match found in the bank, one
+    panel per region, hexagonal and square overlaid, interior and border injections drawn
+    apart. The reader should take that three of the four banks keep every injection right
+    of MM = 0.97 and that the extended hexagonal interior curve crosses it. Raster copy of
+    the same call, for the HTML page.
+
+    '
+  from_scratch: 'the injection draw, the chirp-time map of each injection, the quadratic mismatch
+    against every template of each bank, the border classification, and the empirical CDF
+
+    '
+  from_library: 'q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric);
+    numpy; matplotlib
+
+    '
+  choices:
+  - 3000 injections per region, uniform in component mass over the region -- a declared sampling
+    choice, not an astrophysical population
+  - seed 20260925, fixed before measuring
+  - mismatch evaluated with the INJECTION's metric rather than the template's; the two differ
+    and this is the convention the covering claim is stated in
+  - log ordinate, without which a 1-in-1000 failure is invisible
+  - border defined as within one covering radius of any region edge in the injection metric,
+    on a boundary resampled at R/4 in proper length
+  - colour follows the lattice and the region is the facet, so the reader learns one mapping
+  supports:
+  - covering-at-mm097
+- file: figures/d_counts_and_ratio.pdf
+  produced_by: scripts/make_figures.py::figure_counts
+  shows: 'Top: bank size against nominal minimal match, both regions and both lattices, log
+    ordinate. Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and
+    Cokelaer 2007''s measured 0.717-0.719. The reader should take that the two regions do
+    not share a ratio, so lattice efficiency alone does not set it.
+
+    '
+  from_scratch: 'every bank in the MM grid was placed by work/d1/placement.py; the counts
+    and the ratio are read from those banks
+
+    '
+  from_library: 'numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric
+    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed
+    from his Tables I-III
+
+    '
+  choices:
+  - ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule
+    F2)
+  - the counts are FULL banks, including the boundary repair, which is 50.7 % of the main
+    hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and
+    0.4225 and are reported in the text, not here
+  - the two references are legend entries rather than in-plot annotations, because at this
+    ordinate range every in-plot label crosses a measured series
+  - MM grid 0.95-0.99 in steps of 0.01
+  supports:
+  - covering-at-mm097
+- file: figures/d_counts_and_ratio.png
+  produced_by: scripts/make_figures.py::figure_counts
+  shows: 'Top: bank size against nominal minimal match, both regions and both lattices, log
+    ordinate. Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and
+    Cokelaer 2007''s measured 0.717-0.719. The reader should take that the two regions do
+    not share a ratio, so lattice efficiency alone does not set it. Raster copy of the same
+    call, for the HTML page.
+
+    '
+  from_scratch: 'every bank in the MM grid was placed by work/d1/placement.py; the counts
+    and the ratio are read from those banks
+
+    '
+  from_library: 'numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric
+    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed
+    from his Tables I-III
+
+    '
+  choices:
+  - ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule
+    F2)
+  - the counts are FULL banks, including the boundary repair, which is 50.7 % of the main
+    hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and
+    0.4225 and are reported in the text, not here
+  - the two references are legend entries rather than in-plot annotations, because at this
+    ordinate range every in-plot label crosses a measured series
+  - MM grid 0.95-0.99 in steps of 0.01
+  supports:
+  - covering-at-mm097
+- file: figures/d_mismatch_map_main_hex.pdf
+  produced_by: scripts/make_figures.py::figure_mismatch_map
+  shows: 'Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal
+    bank, with the adaptive-search witness marked. The reader should take that the grid finds
+    no hole and the adaptive search does.
+
+    '
+  from_scratch: 'the 90x90 grid, its restriction to the region, the metric at each grid point
+    and the minimum over all 1772 templates
+
+    '
+  from_library: 'q1bC out/lib analytic_metric and tau; numpy; matplotlib
+
+    '
+  choices:
+  - shown against both component masses rather than total mass, because the metric depends
+    on both (rule F3)
+  - 90x90 grid over [5, 31] Msun, giving 1892 cells inside the region
+  - 'two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above
+    it, so a failing cell cannot be mistaken for a dark passing one'
+  - the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit
+    and was reproduced by hand to 14 digits, not recomputed by this figure
+  supports:
+  - covering-at-mm097
+- file: figures/d_mismatch_map_main_hex.png
+  produced_by: scripts/make_figures.py::figure_mismatch_map
+  shows: 'Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal
+    bank, with the adaptive-search witness marked. The reader should take that the grid finds
+    no hole and the adaptive search does. Raster copy of the same call, for the HTML page.
+
+    '
+  from_scratch: 'the 90x90 grid, its restriction to the region, the metric at each grid point
+    and the minimum over all 1772 templates
+
+    '
+  from_library: 'q1bC out/lib analytic_metric and tau; numpy; matplotlib
+
+    '
+  choices:
+  - shown against both component masses rather than total mass, because the metric depends
+    on both (rule F3)
+  - 90x90 grid over [5, 31] Msun, giving 1892 cells inside the region
+  - 'two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above
+    it, so a failing cell cannot be mistaken for a dark passing one'
+  - the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit
+    and was reproduced by hand to 14 digits, not recomputed by this figure
+  supports:
+  - covering-at-mm097
+- file: figures/e_threshold_vs_mm.pdf
+  produced_by: scripts/make_figures.py::figure_threshold
+  shows: 'Detection threshold against nominal minimal match for the main hexagonal bank, at
+    the pre-registered operating point and its two sensitivities. The reader should take that
+    rho* moves 1.46 % while the bank triples, because the dependence on the trials count is
+    logarithmic.
+
+    '
+  from_scratch: 'the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection,
+    and the rare-tail Poisson comparison
+
+    '
+  from_library: 'the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there
+    on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
+
+    '
+  choices:
+  - the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff;
+    it over-counts trials, so every rho* plotted is an upper bound
+  - FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T);
+    5 sigma from its one-sided global probability 2.8665e-7
+  - MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated
+    range there
+  - main hexagonal only; the other three banks differ by less than 0.25 in rho*
+  supports:
+  - detection-threshold
+- file: figures/e_threshold_vs_mm.png
+  produced_by: scripts/make_figures.py::figure_threshold
+  shows: 'Detection threshold against nominal minimal match for the main hexagonal bank, at
+    the pre-registered operating point and its two sensitivities. The reader should take that
+    rho* moves 1.46 % while the bank triples, because the dependence on the trials count is
+    logarithmic. Raster copy of the same call, for the HTML page.
+
+    '
+  from_scratch: 'the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection,
+    and the rare-tail Poisson comparison
+
+    '
+  from_library: 'the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there
+    on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
+
+    '
+  choices:
+  - the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff;
+    it over-counts trials, so every rho* plotted is an upper bound
+  - FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T);
+    5 sigma from its one-sided global probability 2.8665e-7
+  - MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated
+    range there
+  - main hexagonal only; the other three banks differ by less than 0.25 in rho*
+  supports:
+  - detection-threshold
+- file: figures/f_volume_losses.pdf
+  produced_by: scripts/make_figures.py::figure_volume_losses
+  shows: 'The three fractional detection-volume losses kept apart against nominal minimal
+    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured
+    population average 1 - <M^3>. The reader should take that the population loss is a factor
+    4 to 9 below the worst case.
+
+    '
+  from_scratch: 'the population average from the injection matches of every bank in the MM
+    grid
+
+    '
+  from_library: 'numpy; matplotlib. The two curves are closed forms, not fits
+
+    '
+  choices:
+  - TaylorF2 injections only, so this is discretisation loss alone; the template-family leg
+    is a separate quantity and is not mixed in here
+  - log ordinate, because the measured series and the worst case differ by nearly a decade
+  - 2000 injections per bank, seed 20260927
+  - the legend sits outside the axes because with six series every in-plot corner crosses
+    one
+  supports:
+  - volume-loss-rule
+- file: figures/f_volume_losses.png
+  produced_by: scripts/make_figures.py::figure_volume_losses
+  shows: 'The three fractional detection-volume losses kept apart against nominal minimal
+    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured
+    population average 1 - <M^3>. The reader should take that the population loss is a factor
+    4 to 9 below the worst case. Raster copy of the same call, for the HTML page.
+
+    '
+  from_scratch: 'the population average from the injection matches of every bank in the MM
+    grid
+
+    '
+  from_library: 'numpy; matplotlib. The two curves are closed forms, not fits
+
+    '
+  choices:
+  - TaylorF2 injections only, so this is discretisation loss alone; the template-family leg
+    is a separate quantity and is not mixed in here
+  - log ordinate, because the measured series and the worst case differ by nearly a decade
+  - 2000 injections per bank, seed 20260927
+  - the legend sits outside the axes because with six series every in-plot corner crosses
+    one
+  supports:
+  - volume-loss-rule
+- file: figures/f_veff_vs_mm.pdf
+  produced_by: scripts/make_figures.py::figure_veff
+  shows: 'Change in effective detection volume from the coarse end of the MM grid, under two
+    models of the trials factor -- the naive bound and a nu_eff calibrated on simulated Gaussian
+    noise -- for both regions and both lattices. The reader should take that the SIGN of the
+    trend is set by the trials model, not by the bank: naive falls 1.9-3.7 %, calibrated rises
+    0.2-1.8 %.'
+  from_scratch: the population <M^3> from injections and its bootstrap; the calibration of
+    nu_eff from the maximum of |z| over templates and time in 100 simulated noise segments,
+    by closed-form MLE on the distribution of the maximum; the power-law fit of N_eff against
+    template count with a paired bootstrap; and both threshold solutions
+  from_library: q1bC out/lib coloured_noise, kernel and psd_grid, whose single-sample statistic
+    P(|z|>r)=exp(-r^2/2) was verified there and re-verified here as a control; q1bC part B's
+    frozen ff_full for the IMRPhenomD leg; scipy griddata and brentq; numpy FFT; matplotlib
+  choices:
+  - TWO trials models are drawn rather than one, because the difference between them is the
+    result; plotting only the calibrated curve would hide that the conclusion is model-dependent
+  - the ordinate is the relative change from MM = 0.95, not the absolute V_eff, because the
+    claim is the sign and the ~2 % size of the trend (rule F2); absolute values are in data/part_f_optimum.json
+  - nu_eff calibrated on 100 segments of 32 s, seed 20260926, with the SAME noise driving
+    every bank so the comparison across MM is paired and the slope uncertainty is not inflated
+  - N_eff estimated by closed-form MLE on the distribution of the per-segment maximum; threshold-wise
+    estimates over r = 5.4-6.6 scatter by about a factor 3, so the LEVEL of N_eff is good
+    to roughly +-50 %, which moves rho* by 0.05 and is immaterial; the exponent is what matters
+    and is well determined
+  - 'alpha fitted WITHIN each region and lattice family, never pooled: the pooled fit gives
+    1.29 purely because the two regions have different N_eff levels, which is a Simpson effect
+    and not a scaling'
+  - the IMRPhenomD leg is not drawn here; it is a declared approximation and appears in data/part_f_optimum.json
+    only
+  - bootstrap bars are sampling uncertainty on <M^3> only; they do not carry the uncertainty
+    on nu_eff itself
+  supports:
+  - volume-loss-rule
+  - detection-threshold
+- file: figures/f_veff_vs_mm.png
+  produced_by: scripts/make_figures.py::figure_veff
+  shows: 'Change in effective detection volume from the coarse end of the MM grid, under two
+    models of the trials factor -- the naive bound and a nu_eff calibrated on simulated Gaussian
+    noise -- for both regions and both lattices. The reader should take that the SIGN of the
+    trend is set by the trials model, not by the bank: naive falls 1.9-3.7 %, calibrated rises
+    0.2-1.8 %. Raster copy of the same call, for the HTML page.'
+  from_scratch: the population <M^3> from injections and its bootstrap; the calibration of
+    nu_eff from the maximum of |z| over templates and time in 100 simulated noise segments,
+    by closed-form MLE on the distribution of the maximum; the power-law fit of N_eff against
+    template count with a paired bootstrap; and both threshold solutions
+  from_library: q1bC out/lib coloured_noise, kernel and psd_grid, whose single-sample statistic
+    P(|z|>r)=exp(-r^2/2) was verified there and re-verified here as a control; q1bC part B's
+    frozen ff_full for the IMRPhenomD leg; scipy griddata and brentq; numpy FFT; matplotlib
+  choices:
+  - TWO trials models are drawn rather than one, because the difference between them is the
+    result; plotting only the calibrated curve would hide that the conclusion is model-dependent
+  - the ordinate is the relative change from MM = 0.95, not the absolute V_eff, because the
+    claim is the sign and the ~2 % size of the trend (rule F2); absolute values are in data/part_f_optimum.json
+  - nu_eff calibrated on 100 segments of 32 s, seed 20260926, with the SAME noise driving
+    every bank so the comparison across MM is paired and the slope uncertainty is not inflated
+  - N_eff estimated by closed-form MLE on the distribution of the per-segment maximum; threshold-wise
+    estimates over r = 5.4-6.6 scatter by about a factor 3, so the LEVEL of N_eff is good
+    to roughly +-50 %, which moves rho* by 0.05 and is immaterial; the exponent is what matters
+    and is well determined
+  - 'alpha fitted WITHIN each region and lattice family, never pooled: the pooled fit gives
+    1.29 purely because the two regions have different N_eff levels, which is a Simpson effect
+    and not a scaling'
+  - the IMRPhenomD leg is not drawn here; it is a declared approximation and appears in data/part_f_optimum.json
+    only
+  - bootstrap bars are sampling uncertainty on <M^3> only; they do not carry the uncertainty
+    on nu_eff itself
+  supports:
+  - volume-loss-rule
+  - detection-threshold

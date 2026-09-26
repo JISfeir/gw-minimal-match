@@ -286,56 +286,69 @@ earlier -- which is why the two are never merged.
 
 
 def figure_veff():
+    """The claim is the SIGN and the ~2 % size of the trend, so the ordinate is the
+    relative change from the coarse end. Both trials models are drawn, because the
+    difference between them is the result."""
     opt = json.loads((DATA / "part_f_optimum.json").read_text())
-    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.2), sharex=True)
-    for ax, leg, title in zip(axes, ("taylorf2", "imrphenomd_approx"),
-                              ("TaylorF2 — discretisation only",
-                               "IMRPhenomD — declared approximation")):
-        for region in ("main", "extended"):
-            for lattice in ("hexagonal", "square"):
-                key = f"{region}_{lattice}"
-                colour, dash, marker = STYLE[key]
+    nu = json.loads((DATA / "part_e_nu_eff.json").read_text())
+    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.4), sharey=True)
+    for ax, region in zip(axes, ("main", "extended")):
+        for lattice, colour, marker in (("hexagonal", BLUE, "o"), ("square", ORANGE, "s")):
+            for field, dash, fill, tag in (("v_eff", (0, (5, 2)), "none", "naive trials"),
+                                           ("v_eff_calibrated", "-", colour,
+                                            "calibrated $\\nu_{\\rm eff}$")):
                 xs, ys, es = [], [], []
+                base = None
                 for mm in MM_GRID:
                     e = opt.get(region, {}).get(f"{lattice}_mm{round(mm * 100):03d}")
-                    if e:
-                        xs.append(mm)
-                        ys.append(e["v_eff"]["far_1_per_100yr"][leg])
-                        es.append(e["v_eff_error"]["far_1_per_100yr"][leg])
+                    if not e or not e.get(field):
+                        continue
+                    v = e[field]["far_1_per_100yr"]["taylorf2"]
+                    err = (e["v_eff_error"]["far_1_per_100yr"]["taylorf2"]
+                           if field == "v_eff"
+                           else e[field]["far_1_per_100yr"]["taylorf2_error"])
+                    base = base or v
+                    xs.append(mm); ys.append(100 * (v / base - 1)); es.append(100 * err / base)
                 if xs:
-                    ax.errorbar(xs, np.asarray(ys) * 1e3, yerr=np.asarray(es) * 1e3,
-                                color=colour, linestyle=dash, marker=marker, ms=4.5,
-                                lw=1.6, capsize=2.5, label=LABEL[key])
+                    ax.errorbar(xs, ys, yerr=es, color=colour, linestyle=dash,
+                                marker=marker, ms=5, lw=1.6, capsize=2.5,
+                                markerfacecolor=fill, markeredgecolor=colour,
+                                label=f"{lattice}, {tag}")
+        ax.axhline(0.0, color=MUTED, lw=0.8)
         ax.axvspan(0.945, VALIDATED_FROM, color=MUTED, alpha=0.12, lw=0)
         ax.grid(True, alpha=0.5)
         ax.set_xlabel("nominal minimal match MM")
-        ax.set_title(title, fontsize=8.5, color=INK, loc="left")
-    axes[0].set_ylabel("$V_{\\rm eff}$  [arb. units $\\times 10^{3}$]")
+        ax.set_title(f"{region} region", fontsize=9, color=INK, loc="left")
+    axes[0].set_ylabel("change in $V_{\\rm eff}$ from MM = 0.95  [%]")
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.subplots_adjust(bottom=0.26)
-    fig.legend(handles, labels, fontsize=7.5, ncol=4, loc="lower center",
-               bbox_to_anchor=(0.5, -0.02))
-    save(fig, "f_veff_vs_mm", """
-Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with
-bootstrap uncertainties (400 resamples of 2000 injections). Shaded: below MM = 0.97 the
-quadratic predictor is outside the range q1bC validated, so points there are
-provisional.
-HOW THIS COULD FAIL (F4): the pre-registered hypothesis was that the threshold rise and
-the finer bank roughly balance between MM = 0.97 and 0.99, producing an interior maximum
-there. That would appear as a peak inside the plotted range. None appears: every grid
-maximum sits at the coarse edge, so the hypothesis is refuted as stated.
-NOT MONOTONIC, and the earlier wording that said so was wrong: main hexagonal RISES from
-MM = 0.95 to 0.96 by 1.088e-6 before falling. The efverify r01 audit caught it, and its
-larger samples (8000 injections per region) do not reproduce that 0.96 maximum -- every
-one of its maxima is at 0.95. Treat the 0.96 point as within sampling noise.
-Note the ordinate range: the whole variation is 1.9 % (main hexagonal) to 3.7 % (extended
-square) across a threefold change in bank size, so the honest reading is that MM barely
-moves V_eff, not that one should place coarse.
-CONDITIONAL ON THE TRIALS MODEL, which the error bars do not cover. With N_eff growing as
-N^alpha rather than N, the maximum leaves MM = 0.95 at alpha = 0.85 / 0.68 / 0.46 / 0.66
-in the order plotted, and at alpha = 0.5 the preferred values are MM = 0.98 / 0.97 / 0.95
-/ 0.96. A calibrated nu_eff would therefore be likely to move the optimum to finer banks,
-and the curve above is what the naive bound gives, not what the search would do.
+    fig.subplots_adjust(bottom=0.30)
+    fig.legend(handles, labels, fontsize=7.5, ncol=2, loc="lower center",
+               bbox_to_anchor=(0.5, -0.06))
+    alpha_main = nu["alpha_fit"]["main_hexagonal"]
+    save(fig, "f_veff_vs_mm", f"""
+Change in effective detection volume from the coarse end of the grid, under two models
+of the trials factor. Dashed with open markers: the naive bound
+N_templates x f_sample x T_obs. Solid with filled markers: nu_eff calibrated on
+simulated Gaussian noise (100 segments of 32 s, seed 20260926, the same noise for every
+bank). Bootstrap uncertainties, 400 resamples of 2000 injections. Shaded: below
+MM = 0.97 the quadratic predictor is outside the range q1bC validated.
+THE RESULT IS THE DIFFERENCE BETWEEN THE TWO MODELS. The naive bound makes V_eff fall
+by 1.9-3.7 % across the grid; the calibrated one makes it rise by 0.2-1.8 %. The sign of
+the trend, and with it the located optimum, is set by the trials model rather than by
+the physics of the bank. Calibrated maxima sit at MM = 0.99 / 0.99 / 0.98 / 0.97 against
+0.96 / 0.95 / 0.95 / 0.95 under the naive bound.
+WHY: N_eff grows as N_templates^alpha with alpha = {alpha_main['alpha']:.3f} +- \
+{alpha_main['alpha_bootstrap_sd']:.3f} (main hexagonal; 95 % CI \
+[{alpha_main['alpha_ci95'][0]:.3f}, {alpha_main['alpha_ci95'][1]:.3f}]), not alpha = 1.
+Templates added by refining a bank overlap their neighbours at MM by construction, so
+they add redundancy rather than independent trials, and the threshold barely moves:
+rho* rises 0.24 % across the grid under calibration against 1.46 % under the naive bound.
+HOW THIS COULD FAIL (F4): if the two models agreed, the dashed and solid curves would
+lie on top of each other and the choice would not matter. They do not. If instead the
+calibrated curves showed a clear interior peak, the pre-registered hypothesis would be
+supported; they are flat to within about 2 % and NOT monotonic -- extended hexagonal
+wobbles by more than its error bar -- so no optimum is resolved inside the grid, and the
+maxima quoted for the extended region should not be read as located.
 """)
 
 
