@@ -148,4 +148,198 @@ claims:
       - q1bc_astra_loop_tokens_total
       - q1bc_reconciled_job_tokens_before_resume
 
-figures: []
+figures:
+  - file: figures/d_covering_cumulative.pdf
+    produced_by: scripts/make_figures.py::figure_covering
+    shows: >
+      Cumulative fraction of injections against the best match found in the bank, one panel per region, hexagonal and square overlaid, interior and border injections drawn apart.
+      The reader should take that three of the four banks keep every injection right of MM = 0.97 and that the extended hexagonal interior curve crosses it.
+    from_scratch: >
+      the injection draw, the chirp-time map of each injection, the quadratic mismatch against every template of each bank, the border classification, and the empirical CDF
+    from_library: >
+      q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric); numpy; matplotlib
+    choices:
+      - "3000 injections per region, uniform in component mass over the region -- a declared sampling choice, not an astrophysical population"
+      - "seed 20260925, fixed before measuring"
+      - "mismatch evaluated with the INJECTION's metric rather than the template's; the two differ and this is the convention the covering claim is stated in"
+      - "log ordinate, without which a 1-in-1000 failure is invisible"
+      - "border defined as within one covering radius of any region edge in the injection metric, on a boundary resampled at R/4 in proper length"
+      - "colour follows the lattice and the region is the facet, so the reader learns one mapping"
+    supports: [covering-at-mm097]
+  - file: figures/d_covering_cumulative.png
+    produced_by: scripts/make_figures.py::figure_covering
+    shows: >
+      Cumulative fraction of injections against the best match found in the bank, one panel per region, hexagonal and square overlaid, interior and border injections drawn apart.
+      The reader should take that three of the four banks keep every injection right of MM = 0.97 and that the extended hexagonal interior curve crosses it.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      the injection draw, the chirp-time map of each injection, the quadratic mismatch against every template of each bank, the border classification, and the empirical CDF
+    from_library: >
+      q1bC out/lib analytic_metric and tau (frozen 3.5PN projected-phase metric); numpy; matplotlib
+    choices:
+      - "3000 injections per region, uniform in component mass over the region -- a declared sampling choice, not an astrophysical population"
+      - "seed 20260925, fixed before measuring"
+      - "mismatch evaluated with the INJECTION's metric rather than the template's; the two differ and this is the convention the covering claim is stated in"
+      - "log ordinate, without which a 1-in-1000 failure is invisible"
+      - "border defined as within one covering radius of any region edge in the injection metric, on a boundary resampled at R/4 in proper length"
+      - "colour follows the lattice and the region is the facet, so the reader learns one mapping"
+    supports: [covering-at-mm097]
+  - file: figures/d_counts_and_ratio.pdf
+    produced_by: scripts/make_figures.py::figure_counts
+    shows: >
+      Top: bank size against nominal minimal match, both regions and both lattices, log ordinate.
+      Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and Cokelaer 2007's measured 0.717-0.719.
+      The reader should take that the two regions do not share a ratio, so lattice efficiency alone does not set it.
+    from_scratch: >
+      every bank in the MM grid was placed by work/d1/placement.py; the counts and the ratio are read from those banks
+    from_library: >
+      numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed from his Tables I-III
+    choices:
+      - "ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule F2)"
+      - "the counts are FULL banks, including the boundary repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and 0.4225 and are reported in the text, not here"
+      - "the two references are legend entries rather than in-plot annotations, because at this ordinate range every in-plot label crosses a measured series"
+      - "MM grid 0.95-0.99 in steps of 0.01"
+    supports: [covering-at-mm097]
+  - file: figures/d_counts_and_ratio.png
+    produced_by: scripts/make_figures.py::figure_counts
+    shows: >
+      Top: bank size against nominal minimal match, both regions and both lattices, log ordinate.
+      Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and Cokelaer 2007's measured 0.717-0.719.
+      The reader should take that the two regions do not share a ratio, so lattice efficiency alone does not set it.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      every bank in the MM grid was placed by work/d1/placement.py; the counts and the ratio are read from those banks
+    from_library: >
+      numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed from his Tables I-III
+    choices:
+      - "ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule F2)"
+      - "the counts are FULL banks, including the boundary repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and 0.4225 and are reported in the text, not here"
+      - "the two references are legend entries rather than in-plot annotations, because at this ordinate range every in-plot label crosses a measured series"
+      - "MM grid 0.95-0.99 in steps of 0.01"
+    supports: [covering-at-mm097]
+  - file: figures/d_mismatch_map_main_hex.pdf
+    produced_by: scripts/make_figures.py::figure_mismatch_map
+    shows: >
+      Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal bank, with the adaptive-search witness marked.
+      The reader should take that the grid finds no hole and the adaptive search does.
+    from_scratch: >
+      the 90x90 grid, its restriction to the region, the metric at each grid point and the minimum over all 1772 templates
+    from_library: >
+      q1bC out/lib analytic_metric and tau; numpy; matplotlib
+    choices:
+      - "shown against both component masses rather than total mass, because the metric depends on both (rule F3)"
+      - "90x90 grid over [5, 31] Msun, giving 1892 cells inside the region"
+      - "two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above it, so a failing cell cannot be mistaken for a dark passing one"
+      - "the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit and was reproduced by hand to 14 digits, not recomputed by this figure"
+    supports: [covering-at-mm097]
+  - file: figures/d_mismatch_map_main_hex.png
+    produced_by: scripts/make_figures.py::figure_mismatch_map
+    shows: >
+      Mismatch to the nearest template over the (m1, m2) plane for the main-region hexagonal bank, with the adaptive-search witness marked.
+      The reader should take that the grid finds no hole and the adaptive search does.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      the 90x90 grid, its restriction to the region, the metric at each grid point and the minimum over all 1772 templates
+    from_library: >
+      q1bC out/lib analytic_metric and tau; numpy; matplotlib
+    choices:
+      - "shown against both component masses rather than total mass, because the metric depends on both (rule F3)"
+      - "90x90 grid over [5, 31] Msun, giving 1892 cells inside the region"
+      - "two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above it, so a failing cell cannot be mistaken for a dark passing one"
+      - "the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit and was reproduced by hand to 14 digits, not recomputed by this figure"
+    supports: [covering-at-mm097]
+  - file: figures/e_threshold_vs_mm.pdf
+    produced_by: scripts/make_figures.py::figure_threshold
+    shows: >
+      Detection threshold against nominal minimal match for the main hexagonal bank, at the pre-registered operating point and its two sensitivities.
+      The reader should take that rho* moves 1.46 % while the bank triples, because the dependence on the trials count is logarithmic.
+    from_scratch: >
+      the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection, and the rare-tail Poisson comparison
+    from_library: >
+      the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
+    choices:
+      - "the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff; it over-counts trials, so every rho* plotted is an upper bound"
+      - "FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T); 5 sigma from its one-sided global probability 2.8665e-7"
+      - "MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated range there"
+      - "main hexagonal only; the other three banks differ by less than 0.25 in rho*"
+    supports: [detection-threshold]
+  - file: figures/e_threshold_vs_mm.png
+    produced_by: scripts/make_figures.py::figure_threshold
+    shows: >
+      Detection threshold against nominal minimal match for the main hexagonal bank, at the pre-registered operating point and its two sensitivities.
+      The reader should take that rho* moves 1.46 % while the bank triples, because the dependence on the trials count is logarithmic.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection, and the rare-tail Poisson comparison
+    from_library: >
+      the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
+    choices:
+      - "the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff; it over-counts trials, so every rho* plotted is an upper bound"
+      - "FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T); 5 sigma from its one-sided global probability 2.8665e-7"
+      - "MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated range there"
+      - "main hexagonal only; the other three banks differ by less than 0.25 in rho*"
+    supports: [detection-threshold]
+  - file: figures/f_volume_losses.pdf
+    produced_by: scripts/make_figures.py::figure_volume_losses
+    shows: >
+      The three fractional detection-volume losses kept apart against nominal minimal match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured population average 1 - <M^3>.
+      The reader should take that the population loss is a factor 4 to 9 below the worst case.
+    from_scratch: >
+      the population average from the injection matches of every bank in the MM grid
+    from_library: >
+      numpy; matplotlib. The two curves are closed forms, not fits
+    choices:
+      - "TaylorF2 injections only, so this is discretisation loss alone; the template-family leg is a separate quantity and is not mixed in here"
+      - "log ordinate, because the measured series and the worst case differ by nearly a decade"
+      - "2000 injections per bank, seed 20260927"
+      - "the legend sits outside the axes because with six series every in-plot corner crosses one"
+    supports: [volume-loss-rule]
+  - file: figures/f_volume_losses.png
+    produced_by: scripts/make_figures.py::figure_volume_losses
+    shows: >
+      The three fractional detection-volume losses kept apart against nominal minimal match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured population average 1 - <M^3>.
+      The reader should take that the population loss is a factor 4 to 9 below the worst case.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      the population average from the injection matches of every bank in the MM grid
+    from_library: >
+      numpy; matplotlib. The two curves are closed forms, not fits
+    choices:
+      - "TaylorF2 injections only, so this is discretisation loss alone; the template-family leg is a separate quantity and is not mixed in here"
+      - "log ordinate, because the measured series and the worst case differ by nearly a decade"
+      - "2000 injections per bank, seed 20260927"
+      - "the legend sits outside the axes because with six series every in-plot corner crosses one"
+    supports: [volume-loss-rule]
+  - file: figures/f_veff_vs_mm.pdf
+    produced_by: scripts/make_figures.py::figure_veff
+    shows: >
+      Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with bootstrap uncertainties, for TaylorF2 and for IMRPhenomD injections.
+      The reader should take that there is no interior maximum, and that the whole variation is 1.9-3.7 % across a threefold change in bank size.
+    from_scratch: >
+      the population <M^3> from injections, the bootstrap over injections, and the combination with rho* from part E
+    from_library: >
+      q1bC part B's frozen ff_full at 28 mass points for the IMRPhenomD leg; scipy griddata for its interpolation; numpy; matplotlib
+    choices:
+      - "the IMRPhenomD leg is a DECLARED APPROXIMATION: the specified quantity is the best match of an IMRPhenomD signal against the whole TaylorF2 bank, and instead the continuous-family fitting factor is interpolated and composed multiplicatively with the discretisation match, assuming the two losses are independent"
+      - "griddata linear inside the hull of the 28 points, nearest outside it"
+      - "400 bootstrap resamples of 2000 injections; the bars are sampling uncertainty only and do not cover the naive trials model, which biases the slope toward coarse banks"
+      - "MM below 0.97 shaded as outside the validated range"
+      - "operating point FAR = 1/(100 yr); the two sensitivities are not drawn here"
+    supports: [volume-loss-rule]
+  - file: figures/f_veff_vs_mm.png
+    produced_by: scripts/make_figures.py::figure_veff
+    shows: >
+      Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with bootstrap uncertainties, for TaylorF2 and for IMRPhenomD injections.
+      The reader should take that there is no interior maximum, and that the whole variation is 1.9-3.7 % across a threefold change in bank size.
+      Raster copy of the same call, for the HTML page.
+    from_scratch: >
+      the population <M^3> from injections, the bootstrap over injections, and the combination with rho* from part E
+    from_library: >
+      q1bC part B's frozen ff_full at 28 mass points for the IMRPhenomD leg; scipy griddata for its interpolation; numpy; matplotlib
+    choices:
+      - "the IMRPhenomD leg is a DECLARED APPROXIMATION: the specified quantity is the best match of an IMRPhenomD signal against the whole TaylorF2 bank, and instead the continuous-family fitting factor is interpolated and composed multiplicatively with the discretisation match, assuming the two losses are independent"
+      - "griddata linear inside the hull of the 28 points, nearest outside it"
+      - "400 bootstrap resamples of 2000 injections; the bars are sampling uncertainty only and do not cover the naive trials model, which biases the slope toward coarse banks"
+      - "MM below 0.97 shaded as outside the validated range"
+      - "operating point FAR = 1/(100 yr); the two sensitivities are not drawn here"
+    supports: [volume-loss-rule]
