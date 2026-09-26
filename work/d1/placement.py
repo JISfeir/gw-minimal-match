@@ -510,7 +510,12 @@ def build(region, lattice, boundary, collision_fraction=0.5, verbose=True,
 def write_bank(result, output_dir):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"bank_{result['region']}_{result['lattice']}_mm097"
+    # Two-decimal MM only, so the tag reproduces the established "mm097" spelling of the
+    # headline banks rather than orphaning them under a new name.
+    if abs(MM * 100 - round(MM * 100)) > 1e-9:
+        raise ValueError(f"MM={MM} needs more than two decimals; the bank naming would "
+                         f"collide with a neighbouring value")
+    stem = f"bank_{result['region']}_{result['lattice']}_mm{round(MM * 100):03d}"
     rows = np.column_stack([result["masses"], result["tau"],
                             result["inside_region"], result["origin"]])
     path = output_dir / f"{stem}.txt"

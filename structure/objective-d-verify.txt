@@ -1,0 +1,116 @@
+INDEPENDENT AUDIT OF PART D (all four banks, MM = 0.97)
+========================================================
+You are auditing work done INTERACTIVELY BY A CLAUDE SESSION. You are on Codex so the
+check comes from a different model family than the work. Your product is the check.
+A round that breaks nothing is a failed round -- but do not manufacture a refutation.
+
+DO NOT EDIT ANYTHING OUTSIDE YOUR OWN JOB DIRECTORY. `~/gw-minimal-match/work/d1/` and
+`~/gw-minimal-match/results/d1/` are READ-ONLY inputs. Re-derive with YOUR OWN code.
+
+INPUTS
+------
+  code    ~/gw-minimal-match/work/d1/{geometry,placement,audit,report_d}.py
+  banks   ~/gw-minimal-match/results/d1/banks/bank_{main,extended}_{hexagonal,square}_mm097.txt
+  result  ~/gw-minimal-match/results/d1/part_d_mm097.json
+  metric  ~/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out/lib   (FROZEN, trusted)
+  python  ~/gw-minimal-match/.venv/bin/python        (do not install anything)
+
+Prior art, read before starting:
+  structure/objective-qDEF.txt            part D as pre-registered
+  jobs/2026-09-23_185036_derive-d1verify/reports/r0{1,3,4}-*.md   the previous audit
+  wiki/log.md 2026-09-25, wiki/todo.md, structure/claims.yaml
+  papers/0706.4437 (Cokelaer 2007), gr-qc-9511032 (Owen 1996), 2211.16674 (Sakon 2023)
+
+Setting: TaylorF2 3.5PN, chirp times at f0 = 20 Hz, aLIGOZeroDetHighPower, 20-1024 Hz,
+m1,m2 in [5,50], m1>=m2. main: M <= 35. extended: 35 < M <= 100. MM = 0.97, mu_max = 0.03,
+R = 0.17320508.
+
+THE CLAIMS
+----------
+C1. Counts and composition.
+      main hexagonal     1772 =  744 lattice +  129 pushed +  899 repair
+      main square        2273 = 1524 lattice +   86 pushed +  663 repair
+      extended hexagonal  336 =  169 lattice +   10 pushed +  157 repair
+      extended square     488 =  400 lattice +    5 pushed +   83 repair
+C2. Covering at MM = 0.97, 3000 uniform injections per bank, seed 20260925, quadratic
+    mismatch in the injection's own metric. Fraction at or above MM / worst mu:
+      main hexagonal     100.000 % / 0.029734      main square     100.000 % / 0.024269
+      extended hexagonal  99.933 % / 0.032978      extended square 100.000 % / 0.018790
+    BUT an adaptive Nelder-Mead hunt on main hexagonal reached mu = 0.032221 at
+    (25.66516036451489, 5.816990546682762) -- uniform sampling does not find it.
+C3. All four banks are 3.69-4.14x the constant-metric ideal (main 454/587, extended
+    91/118, from proper-area integration of sqrt(det g) with the mass->chirp-time
+    Jacobian; proper areas 35.4 and 7.08). The previous qDEF bank was 2.31x.
+C4. THE HEADLINE CLAIM, AND THE ONE I MOST WANT BROKEN. The hexagonal/square template
+    ratio is NOT a well-defined property of these banks, because it depends on what is
+    counted:
+                 lattice only   + push-back   full bank
+      main         0.4882         0.5422       0.7796
+      extended     0.4225         0.4420       0.6885
+    Against references 0.7698 (ideal constant metric) and 0.717-0.719 (Cokelaer 2007
+    measured). The boundary repair is 50.7 % of the main hexagonal bank but only 29.2 %
+    of the main square one, and 46.7 % vs 17.0 % in extended -- so the full-bank ratio
+    is dominated by the boundary treatment, not by lattice efficiency.
+C5. Both regions are boundary-dominated at this covering radius: 79.3 % of main
+    injections and 93.9 % of extended injections lie within one covering radius of a
+    region boundary in the injection metric. The spec's interior/border split is
+    therefore near-vacuous, and 0.7698 -- an asymptotic boundary-free number -- may not
+    be the right reference at all.
+C6. main region geometry: proper area 35.4, proper perimeter 255.7 against 21.1 for a
+    disc of equal area; edge proper lengths 114.6 / 11.9 / 129.2; the (5,5) corner is a
+    cusp 0.001-0.1 degrees wide in the local metric. extended: area 7.08, perimeter 41.1.
+    THIS WAS QUEUED FOR INDEPENDENT AUDIT FOUR TIMES IN THE PREVIOUS JOB AND NEVER DONE.
+    It is a priority here because C4 and C5 rest on it.
+
+WHERE THIS IS WEAKEST -- pre-registered by the author so you can hold it to it
+------------------------------------------------------------------------------
+W1. The boundary repair is mine, not Cokelaer's, and it contributes 17-51 % of each
+    bank. Every count, and therefore C4 and C3, is partly a measurement of my repair.
+W2. Cokelaer's explicit mother/daughter/adjacent-daughter connectors are STILL not
+    implemented; `placement.py` uses a proximity threshold at 0.5 x local spacing. Open
+    since qDEF r04. So "lattice only" counts are not Cokelaer's lattice either.
+W3. The repair's margin argument -- cover each grid sample to radius R - fill, where
+    fill is half the longer cell diagonal -- was refuted as a general implication by the
+    previous r03 (a square cell's centre is delta/sqrt(2) from its corners) and again by
+    r04 (half the longer diagonal is not the exact fill of a general parallelogram; a
+    clipped equilateral cell gives implemented 0.05 against actual 0.0577). It is a
+    local-flatness heuristic, and it is load-bearing for every covering number here.
+W4. All covering numbers are the QUADRATIC form, not waveform matches. No waveform check
+    has been run against ANY of these four banks.
+W5. The author was wrong about a causal mechanism three times in the previous audit.
+    Treat every causal statement above as unverified.
+W6. MM curves (D-4), the sensitivities (D-3: global metric anchored at 12.5+6.25 and
+    40+20; non-physical cells discarded) and D-5's excess attribution are NOT done.
+
+WHAT I WANT FROM YOU, in order
+------------------------------
+1. Re-measure C1 and C2 with your own code and your own seeds. Then run YOUR OWN adaptive
+   hunt on ALL FOUR banks -- seeded from lattice interstices, not at random, as you did in
+   r04. What is the true worst mismatch per bank? Is any bank's strict covering real?
+2. Break C4 or confirm it. Is the ratio ambiguity a genuine property of a
+   boundary-dominated region, or an artefact of my repair? A decisive test: construct the
+   ratio for a region that is NOT boundary-dominated at this MM (a sub-region of extended,
+   or a synthetic constant-metric region) and see whether it converges to 0.7698.
+3. Audit C6 independently -- the area and perimeter integrals, the cusp angle, and the
+   border fraction of C5. Everything in C4 and C5 rests on these and they have never been
+   checked.
+4. Run a waveform check (W4) on a sample of the claimed holes AND claimed-covered points
+   for at least the two main banks, with common fixed support at the ACTUAL last nonzero
+   bin -- never floor(f_ISCO/df), never PyCBC f_final.
+5. Say whether C3's 3.7-4.1x over-density is defensible or whether it means the method is
+   wrong. The previous bank was 2.31x and was called grossly over-dense.
+
+RULES
+-----
+Every number from your own code, from q1bC's frozen out/data, or from a named paper with
+its equation/table/page. Fix and record every seed. Keep each script under ~20 minutes.
+Report both numbers when two disagree by a few per cent; stop on an order of magnitude.
+Say explicitly what you did NOT check. Confirmations count as much as refutations if
+independently derived.
+
+DELIVERABLE
+-----------
+out/report.html, self-contained, opens from file:// with NO network. Per claim C1-C6 and
+weakness W1-W6: verdict (CONFIRMED / REFUTED / OPEN), your number beside the claimed one,
+and how you got it. Plus out/checks.py exiting 0 only when positive checks pass AND
+negative controls are rejected, and which CAN fail on a bank defect -- paste its output.

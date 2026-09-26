@@ -6,6 +6,7 @@ rebuilt; see wiki/log.md 2026-09-23.
 """
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -16,7 +17,11 @@ if str(Q1BC) not in sys.path:
     sys.path.insert(0, str(Q1BC))
 from lib.metric import analytic_metric, masses, tau, total_eta  # noqa: E402
 
-MM = 0.97
+# The minimal match is a DESIGN CONVENTION, not a derived constant: Owen 1996 sets 0.97
+# as a fiducial "chosen by the experimenter", corresponding to 1 - 0.97^3 = 8.7 % of the
+# ideal event rate.  Part F needs curves over MM, so it is settable; every cache file is
+# keyed by the resulting spacing, so different values never collide.
+MM = float(os.environ.get("GWMM_MINIMAL_MATCH", "0.97"))
 MU_MAX = 1.0 - MM                      # 0.03, the covering radius squared
 COVERING_RADIUS = float(np.sqrt(MU_MAX))
 MLO, MHI, MSPLIT = 5.0, 50.0, 35.0
