@@ -1,0 +1,127 @@
+INDEPENDENT AUDIT OF PARTS E AND F, AND THE MM CURVE (D-4)
+===========================================================
+You are on Codex so the check comes from a different model family than the work, which a
+Claude session did interactively. Your product is the check.
+
+THERE IS NO GATE IN THIS JOB. Do not verify q1bC, re-run its check or hash its manifest;
+a previous job wasted a whole round on a gate imported from a different contract. q1bC is
+frozen and trusted: import out/lib and out/data. Its check was re-run by the human in a
+clean environment on 2026-09-25 -- exit 0, output sha256 7b73a664...6475 matching the
+manifest, SUMMARY failed=0. Do not put any cache under a path with a component named
+"work": the frozen package's "no work access" test will trip. Use out/cache/.
+
+WRITE EVIDENCE INCREMENTALLY to out/data/. Five rounds across three jobs have been killed
+mid-flight by the Codex usage limit. Quota is scarce; a round that dies with half its
+results on disk is worth far more than one that dies with none.
+
+DO NOT EDIT ANYTHING OUTSIDE YOUR OWN JOB DIRECTORY. ~/gw-minimal-match/work/d1/ and
+~/gw-minimal-match/results/d1/ are READ-ONLY.
+
+INPUTS
+------
+  code    work/d1/{geometry,placement,audit,report_d,threshold,volume,optimum}.py
+  banks   results/d1/banks/bank_{main,extended}_{hexagonal,square}_mm{095,096,097,098,099}.txt
+  results results/d1/part_{d_mm097,e_mm097,f_mm097,f_optimum}.json
+  frozen  jobs/2026-09-14_041516_derive-q1bc/out/{lib,data}
+  python  ~/gw-minimal-match/.venv/bin/python   (do not install anything)
+Prior art: structure/objective-qDEF.txt parts E and F (pre-registration),
+structure/objective-d-verify.txt and jobs/2026-09-25_112044_derive-dverify/reports/
+(the audit of the MM=0.97 banks), wiki/log.md, papers/gr-qc-0404096 (Croce 2004, the
+direct predecessor of part F), papers/1303.2005 (Keppel 2013), papers/gr-qc-9511032.
+
+THE CLAIMS
+----------
+E1. rho* solves FAP = 1 - (1 - p(rho*))^N exactly, with p(rho) = exp(-rho^2/2) from
+    q1bC part A. At FAR = 1/(100 yr), T_obs = 1 yr, FAP = 1 - exp(-0.01):
+    main hex 8.5996, main square 8.6286, extended hex 8.4041, extended square 8.4484.
+    At FAR = 1/yr: 8.0463 / 8.0772 / 7.8370 / 7.8844. At 5 sigma (FAP = 2.8665e-7):
+    9.7403 / 9.7658 / 9.5681 / 9.6070.
+E2. The rare-tail Poisson approximation FAP ~ 1 - exp(-N p) agrees with the exact
+    combination to a worst relative error of 3.40e-16 on rho*, at every operating point
+    and every bank. The objective asked for this to be shown or quantified, not assumed.
+E3. N_eff is the NAIVE BOUND N_templates * 2048 Hz * 1 yr. It is not a calibrated
+    nu_eff, it over-counts trials, and therefore every rho* above is an UPPER bound.
+F1. The three volume losses, kept apart. At MM = 0.97: 1 - MM^3 = 0.08733 exactly;
+    3(1 - MM) = 0.09000, which is 3.1 % higher; and the population-average
+    1 - <M^3> = 0.02126 / 0.01522 / 0.01355 / 0.00975 in
+    main-hex / main-sq / ext-hex / ext-sq order. So the population loss is 4-9x SMALLER
+    than the worst case.
+F2. In the extended region the template family, not the bank, costs the volume. The
+    IMRPhenomD leg loses 0.503 in extended and 0.192 in main, of which the continuous
+    TaylorF2 family alone accounts for 0.495 and 0.174. Discretisation adds about one
+    point in extended.
+F3. THE HEADLINE. The pre-registered hypothesis -- that between MM = 0.97 and 0.99 the
+    threshold increase costs about as much volume as the finer bank recovers, so an
+    optimum exists there -- is REFUTED. V_eff = <M^3>/rho*^3 decreases monotonically
+    over MM = 0.95-0.99 in all four region/lattice combinations. From 0.95 to 0.99 in
+    main hexagonal the bank triples (1271 -> 3725), <M^3> gains 2.48 % and rho*^3 costs
+    4.43 %, so V_eff falls 1.87 %. Located maxima: MM = 0.96 (main hex) and 0.95 for the
+    other three -- at the coarse edge of the grid and below the validated range.
+F4. The whole effect is small: V_eff varies 1.9 % (main hex) to 3.7 % (extended square)
+    across a threefold change in bank size. The practical reading is that MM barely
+    moves the effective volume in this range, not that one should place at 0.95.
+D4. MM curve counts, main / extended, hexagonal then square:
+      0.95  1271 1621 | 240 337      0.96  1500 1937 | 283 389
+      0.97  1772 2273 | 336 488      0.98  2338 2890 | 433 653
+      0.99  3725 4665 | 726 1136
+    N grows more slowly than (1-MM)^-1: 3725 against the 5316 that area scaling predicts
+    from the 0.97 point. Claimed cause: the boundary contribution scales as
+    (1-MM)^-1/2 while the area contribution scales as (1-MM)^-1.
+D5. The hexagonal/square ratio behaves differently in the two regions across the curve:
+    main stays at 0.774-0.809, at or above the ideal 0.7698; extended falls monotonically
+    0.712, 0.728, 0.689, 0.663, 0.639, crossing down through Cokelaer's measured
+    0.717-0.719.
+
+WHERE THIS IS WEAKEST -- the author's own list
+-----------------------------------------------
+W1. E3's naive trials model BIASES F3. A calibrated nu_eff grows sublinearly with the
+    template count, so rho* would rise less than modelled, the threshold would cost less,
+    and V_eff could turn over -- moving the optimum to higher MM. The thing part E
+    declared it was not doing is what decides the sign of part F's conclusion. THIS IS
+    THE MOST IMPORTANT THING FOR YOU TO ATTACK. A cheap partial test: repeat F3 with
+    N_eff proportional to N_templates^alpha for a few alpha < 1 and find the alpha at
+    which the optimum moves inside the grid.
+F_W2. The IMRPhenomD leg is NOT the specified quantity. Part F asks for the best match of
+    an IMRPhenomD signal against the whole TaylorF2 BANK. Instead q1bC's frozen ff_full,
+    the fitting factor of the CONTINUOUS family at 28 mass points, is interpolated
+    (griddata linear, nearest outside the hull) and composed multiplicatively with the
+    discretisation match, assuming the two losses are independent. That is not
+    established. <ff^3> alone is reported beside it as a rigorous upper bound.
+W3. Every covering number is the quadratic form, never a waveform match. No waveform
+    check has been run against ANY of the twenty banks.
+W4. Only the MM = 0.97 banks have been audited (job 2026-09-25_112044_derive-dverify).
+    The other sixteen have been seen by nobody but the author. That audit REFUTED strict
+    covering for both hexagonal banks: witnesses at (25.66516036451493, 5.816990546682748)
+    with mu = 0.032221 and (38.374673950832516, 5.606087551134845) with mu = 0.036153.
+W5. D-3, the pre-registered sensitivities -- a global metric anchored at 12.5+6.25 and
+    40+20 Msun, and discarding non-physical cells instead of projecting -- is NOT done.
+W6. The region geometry (proper area 35.4 / 7.08, perimeter 255.7 / 41.1, the (5,5) cusp
+    angle) has now been queued for independent audit SIX times across two jobs and never
+    once done. D5's interpretation rests on it.
+W7. The author was wrong about a causal mechanism three times in a previous audit. Treat
+    every causal statement here -- D4's scaling explanation, D5's shape explanation, W1's
+    bias direction -- as unverified.
+
+PRIORITIES, RUTHLESSLY ORDERED. Finishing (1) and (2) well is a good round.
+--------------------------------------------------------------------------
+1. E1, E2, F1 and F3 arithmetic, recomputed independently from the banks and the frozen
+   metric with your own injections and seeds. These are cheap and they are load-bearing.
+2. W1: does a sublinear trials model move the optimum? This decides whether F3 survives.
+3. F2: is the extended-region conclusion robust to the interpolation in F_W2? Try nearest
+   and cubic; try <ff^3> alone. Does "the family, not the bank" hold under all of them?
+4. D4's scaling claim and D5's ratio trend.
+5. W6's geometry, if anything is left.
+
+RULES
+-----
+Every number from your own code, from q1bC's frozen out/data, or from a named paper with
+its equation/table/page. Fix and record every seed. Keep each script under ~20 minutes.
+Report both numbers when two disagree by a few per cent; stop on an order of magnitude.
+Say explicitly what you did NOT check. Independently derived confirmations count.
+
+DELIVERABLE
+-----------
+out/report.html, self-contained, opens from file:// with NO network. Per claim and
+weakness: verdict (CONFIRMED / REFUTED / OPEN), your number beside the claimed one, and
+how you got it. Plus out/checks.py exiting 0 only when positive checks pass AND negative
+controls are rejected -- paste its output in your final report.
