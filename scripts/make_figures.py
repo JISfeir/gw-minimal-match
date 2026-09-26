@@ -157,7 +157,9 @@ metric varies. The ordinate spans 0.60-0.86 so that the 5-point gap between thos
 references is legible (rule F2).
 HOW THIS COULD FAIL (F4): if lattice efficiency alone set the ratio, both regions would
 sit on one horizontal line near 0.77. They do not: main stays at or above the ideal
-while extended falls monotonically through Cokelaer's band to 0.639. The ratio is
+(0.7744-0.8090) while extended falls through Cokelaer's band to 0.639 -- not
+monotonically, since it first rises from 0.7122 to 0.7275, an earlier wording that said
+otherwise was wrong and the efverify r01 audit caught it. The ratio is
 therefore not a property of the two lattices here. The counts include the boundary
 repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square
 one, and that asymmetry is the candidate explanation this figure does not itself prove.
@@ -227,6 +229,11 @@ p = exp(-rho^2/2) from q1bC part A.
 HOW THIS COULD FAIL (F4): rho* depends on the trials count only logarithmically, so
 tripling the bank between MM = 0.95 and 0.99 should move it by of order 1 %. It moves
 1.46 %. A curve that rose steeply would mean the trials model or the tail was wrong.
+The naive trials count is now known to be a genuine UPPER bound, not merely a plausible
+one: for a finite bank-and-time grid in centred Gaussian noise with fixed templates, the
+Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1) gives
+FAP(rho) <= 1 - (1 - exp(-rho^2/2))^N, proved by the efverify r01 verifier. It still does
+not calibrate the effective trials, nor cover a continuous-time search.
 WHAT THIS FIGURE DOES NOT SHOW: the trials count is the naive bound
 N_templates x f_sample x T_obs, not a calibrated nu_eff estimated from simulated noise.
 It over-counts trials, so every rho* here is an upper bound, and the pre-registered
@@ -272,8 +279,9 @@ HOW THIS COULD FAIL (F4): if the worst case described what a bank actually costs
 measured points would lie on the black curve. They lie a factor 4 to 9 below it, and
 the gap widens with MM. If instead the population loss were an artefact of too few
 injections, the four measured series would scatter rather than order themselves cleanly
-by lattice and region. The linear expansion sits 3.1 % above the exact curve at
-MM = 0.97, which is why the two are never merged.
+by lattice and region. The linear expansion sits 3.060909 % above the
+exact curve at MM = 0.97 -- where the exact value is 0.087327, not the 0.08733 quoted
+earlier -- which is why the two are never merged.
 """)
 
 
@@ -313,13 +321,21 @@ bootstrap uncertainties (400 resamples of 2000 injections). Shaded: below MM = 0
 quadratic predictor is outside the range q1bC validated, so points there are
 provisional.
 HOW THIS COULD FAIL (F4): the pre-registered hypothesis was that the threshold rise and
-the finer bank roughly balance between MM = 0.97 and 0.99, producing an interior
-maximum. That would appear here as a visible peak. There is none: every curve decreases
-monotonically, so the hypothesis is refuted. Note the ordinate range -- the whole
-variation is 1.9 % (main hexagonal) to 3.7 % (extended square) across a threefold
-change in bank size, so the honest reading is that MM barely moves V_eff, not that one
-should place coarse. The error bars are the sampling uncertainty only; they do not
-cover the naive trials model, which biases the slope toward coarse banks.
+the finer bank roughly balance between MM = 0.97 and 0.99, producing an interior maximum
+there. That would appear as a peak inside the plotted range. None appears: every grid
+maximum sits at the coarse edge, so the hypothesis is refuted as stated.
+NOT MONOTONIC, and the earlier wording that said so was wrong: main hexagonal RISES from
+MM = 0.95 to 0.96 by 1.088e-6 before falling. The efverify r01 audit caught it, and its
+larger samples (8000 injections per region) do not reproduce that 0.96 maximum -- every
+one of its maxima is at 0.95. Treat the 0.96 point as within sampling noise.
+Note the ordinate range: the whole variation is 1.9 % (main hexagonal) to 3.7 % (extended
+square) across a threefold change in bank size, so the honest reading is that MM barely
+moves V_eff, not that one should place coarse.
+CONDITIONAL ON THE TRIALS MODEL, which the error bars do not cover. With N_eff growing as
+N^alpha rather than N, the maximum leaves MM = 0.95 at alpha = 0.85 / 0.68 / 0.46 / 0.66
+in the order plotted, and at alpha = 0.5 the preferred values are MM = 0.98 / 0.97 / 0.95
+/ 0.96. A calibrated nu_eff would therefore be likely to move the optimum to finer banks,
+and the curve above is what the naive bound gives, not what the search would do.
 """)
 
 

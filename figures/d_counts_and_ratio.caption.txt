@@ -5,7 +5,9 @@ metric varies. The ordinate spans 0.60-0.86 so that the 5-point gap between thos
 references is legible (rule F2).
 HOW THIS COULD FAIL (F4): if lattice efficiency alone set the ratio, both regions would
 sit on one horizontal line near 0.77. They do not: main stays at or above the ideal
-while extended falls monotonically through Cokelaer's band to 0.639. The ratio is
+(0.7744-0.8090) while extended falls through Cokelaer's band to 0.639 -- not
+monotonically, since it first rises from 0.7122 to 0.7275, an earlier wording that said
+otherwise was wrong and the efverify r01 audit caught it. The ratio is
 therefore not a property of the two lattices here. The counts include the boundary
 repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square
 one, and that asymmetry is the candidate explanation this figure does not itself prove.
