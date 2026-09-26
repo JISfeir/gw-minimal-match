@@ -43,6 +43,42 @@ def compute() -> dict:
     registry: dict = {}
 
     # ---- the convention itself -------------------------------------------------
+    # Region geometry, corrected 2026-09-26 by the geomverify r01 audit and confirmed
+    # here by a third method (Gauss-Legendre in (m1, m2)). The first values came from a
+    # Monte Carlo with no convergence study.
+    registry["proper_area_main"] = entry(
+        35.717393158, "s^-2 (metric units)", "proper area of the main region",
+        "geomverify r01 deterministic quadrature; independent Gauss-Legendre here gives "
+        "35.717382 at order 120",
+        caveat="the earlier Monte Carlo value 35.4 was low by 0.89 %, within its own "
+               "sampling error but quoted without one")
+    registry["proper_area_extended"] = entry(
+        7.434835530, "s^-2 (metric units)", "proper area of the extended region",
+        "geomverify r01; independent Gauss-Legendre here gives 7.434579 at order 120",
+        caveat="the earlier Monte Carlo value 7.08 was low by 4.77 %")
+    registry["proper_perimeter_main"] = entry(
+        255.743181875, "s^-1 (metric units)", "proper perimeter of the main region",
+        "geomverify r01, agreeing with this project's value to ten digits",
+        caveat="a disc of the same proper area would have perimeter 21.2; the region is "
+               "a ribbon, not a blob")
+    registry["effective_width_main"] = entry(
+        1.612668, "covering radii", "effective width 2A/P of the main region",
+        "geomverify r01",
+        caveat="a global summary, NOT a local width bound; it is why the region is "
+               "boundary-dominated and why an asymptotic ratio has almost no interior "
+               "in which to be measured")
+    registry["effective_width_extended"] = entry(
+        2.088516, "covering radii", "effective width 2A/P of the extended region",
+        "geomverify r01", caveat="as above")
+    registry["cusp_limiting_angle"] = entry(
+        0.0, "degrees", "limiting angle between the two region edges at (5,5) Msun",
+        "geomverify r01, derived analytically: differentiating the two mass rays gives "
+        "positively parallel tangents, so the limit is exactly zero",
+        caveat="a TRUE cusp, now proved rather than inferred from secants. The finite "
+               "secant angles scale linearly, 0.103330 degrees per Msun of equal "
+               "component increment; a finite-angle floor and numerical cancellation "
+               "were both refuted")
+
     registry["minimal_match_headline"] = entry(
         0.97, "dimensionless", "the headline minimal match",
         "Owen 1996 gr-qc/9511032: a fiducial 'chosen by the experimenter', "
@@ -67,7 +103,12 @@ def compute() -> dict:
             "results/d1/banks, counted by scripts/export_figure_data.py",
             caveat=f"includes the boundary repair, which is "
                    f"{row['composition']['boundary_repair']} of these templates; the "
-                   f"repair is this project's, not Cokelaer's")
+                   f"repair is this project's, not Cokelaer's. Against the "
+                   f"constant-metric ideal this is "
+                   f"{row['n_templates'] / row['constant_metric_ideal']:.2f}x, but that "
+                   f"ideal is NOT a universal lower bound for a finite region -- the "
+                   f"geomverify r01 audit derived strip and disc counterexamples -- so "
+                   f"the factor is a comparison, not a verdict of redundancy")
         registry[f"covering_fraction_{key}_mm097"] = entry(
             row["all"]["fraction_at_or_above"], "fraction",
             f"fraction of injections at or above MM = 0.97, {key.replace('_', ' ')}",

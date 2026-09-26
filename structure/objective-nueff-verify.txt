@@ -1,0 +1,103 @@
+INDEPENDENT AUDIT OF THE nu_eff CALIBRATION AND THE REVERSAL OF PART F
+=======================================================================
+You are on Codex so the check comes from a different model family than the work.
+
+NO GATE IN THIS JOB. Do not verify q1bC, re-run its check or hash its manifest -- a
+previous job lost a whole round to a gate imported from a different contract. q1bC is
+frozen and trusted; import out/lib. Keep caches under out/cache/, never under a path
+with a component named "work", or the frozen package's "no work access" test trips.
+WRITE EVIDENCE INCREMENTALLY to out/data/: rounds keep dying on the usage limit.
+Read-only: ~/gw-minimal-match/work/d1/ and ~/gw-minimal-match/results/d1/.
+
+WHAT CHANGED SINCE YOUR LAST ROUND (job 2026-09-26_024127_derive-efverify)
+--------------------------------------------------------------------------
+You reported that part F's conclusion was conditional on the naive trials model, and
+that with N_eff ~ N^alpha the V_eff maximum leaves MM = 0.95 at alpha between 0.46 and
+0.85. That was the highest-priority open item and it has now been measured. The measured
+alpha is about 0.15, far below your thresholds, and PART F'S CONCLUSION REVERSED.
+
+  code    work/d1/nu_eff.py (new), work/d1/optimum.py (extended), work/d1/threshold.py
+  data    results/d1/part_e_nu_eff.json, part_e_nu_eff_maxima.npz (per-segment maxima),
+          part_f_optimum.json (now carries both trials models)
+  figure  figures/f_veff_vs_mm.{pdf,png} and its caption
+
+THE CLAIMS
+----------
+N1. METHOD. Colour Gaussian noise with the analytic PSD (q1bC coloured_noise), filter
+    through every template of a bank, take max |z| over templates and time per segment.
+    100 segments of 32 s, seed 20260926, THE SAME NOISE for every bank so the comparison
+    is paired. Controls run before measuring: the single-sample statistic gives
+    <|z|^2> = 1.983 against 2 and a tail within sampling error of exp(-r^2/2); the t=0
+    sample of the IFFT series reproduces the frozen fixed_lag to ten digits.
+N2. ESTIMATOR. For N_eff independent samples the maximum obeys
+    P(M<=r) = (1-exp(-r^2/2))^N_eff, giving the closed-form MLE
+    N_eff = -S / sum_i log(1 - exp(-M_i^2/2)) with SE ~ N_eff/sqrt(S).
+N3. N_eff is far below the naive bound and the gap WIDENS with bank size. Main
+    hexagonal, MM = 0.95 to 0.99: N_eff/segment = 1.203e7, 1.205e7, 1.300e7, 1.316e7,
+    1.417e7 against naive 8.33e7, 9.83e7, 1.161e8, 1.532e8, 2.441e8; ratios 0.144,
+    0.123, 0.112, 0.0859, 0.0581. nu_eff = 4.063e5 per second at MM = 0.97.
+N4. THE EXPONENT, fitted WITHIN each family by paired bootstrap over the shared
+    segments (600 resamples): alpha = 0.1568 +- 0.0360 (main hex), 0.1500 +- 0.0375
+    (main square), 0.1516 +- 0.0548 (extended hex), 0.2214 +- 0.0426 (extended square).
+    Claimed mechanism: refining a bank adds templates that overlap their neighbours at
+    MM by construction, so they add redundancy rather than independent trials.
+N5. THE POOLED FIT IS DISCARDED. Fitting all twenty banks together gives alpha = 1.2922,
+    and that is claimed to be a Simpson effect -- the two regions have different N_eff
+    levels (about 1.3e7 against 1.0e6) so the pooled slope measures the between-region
+    difference, not a scaling. Check whether that reading is right.
+N6. CONSEQUENCE. rho* rises 0.24 % across the MM grid under calibration against 1.46 %
+    naive, while <M^3> gains 2.48 %, so V_eff goes from FALLING 1.87/2.33/3.29/3.74 % to
+    RISING 1.76/1.23/0.63/0.24 % in main-hex/main-square/extended-hex/extended-square
+    order. Located maxima move from 0.96/0.95/0.95/0.95 to 0.99/0.99/0.98/0.97.
+N7. NOT MONOTONIC, and stated as such: extended hexagonal calibrated V_eff runs
+    1.90425, 1.91367, 1.90825, 1.91676, 1.91624 (x1e-3), wobbling by more than its error
+    bar, so no optimum is resolved inside the grid and the extended maxima are not
+    located.
+
+WEAKNESSES, pre-registered by the author
+-----------------------------------------
+W1. 100 segments only. The MLE SE is about 10 %, but threshold-wise estimates over
+    r = 5.4-6.6 scatter by roughly a factor 3, so the LEVEL of N_eff is good to perhaps
+    +-50 %. The author argues this is immaterial because rho* depends on ln(N_eff), so a
+    factor 1.5 moves rho* by 0.05. CHECK THAT ARGUMENT, and check it does not also
+    excuse an error in the exponent, which is what actually matters.
+W2. nu_eff is extrapolated to a year as a RATE: N_eff = nu_eff * T_obs. That assumes
+    segments are independent and stationary. The half-segment check gives 0.4319 against
+    an expected 0.5, which the author reads as consistent; decide whether it is.
+W3. Segment length was not varied. Only T_seg = 32 s, the native q1bC grid, was used;
+    the half-segment check is a substitute, not a variation of df.
+W4. The estimator assumes the per-sample statistic is exactly exp(-r^2/2) and that the
+    maximum's distribution is the independent-sample extreme value. Neighbouring time
+    samples and neighbouring templates are correlated, which is the whole point, so
+    N_eff is a SUMMARY of a correlated search, not a count of anything.
+W5. One detector, analytic PSD, no glitches, no signal-consistency test, no coincidence.
+    Real-search trials factors are dominated by non-Gaussian transients, which this does
+    not model and does not claim to.
+W6. The author has been wrong about a causal mechanism three times in this project, and
+    in your last round you refuted three of his descriptive claims. Treat N4's mechanism
+    and N5's Simpson reading as unverified.
+
+PRIORITIES
+----------
+1. Re-measure N_eff for at least two main-hexagonal banks with YOUR own noise, YOUR own
+   seeds and YOUR own estimator, and check the controls in N1 yourself. Does alpha
+   survive? It is the number the whole reversal rests on.
+2. Attack W1 and W4: is the MLE biased when the underlying samples are correlated rather
+   than independent? A synthetic test with a known correlation structure would settle it.
+3. Check N5. Is the pooled 1.29 really a Simpson effect, or is something else going on?
+4. Recompute N6 from the JSONs and confirm the sign reversal and the located maxima.
+5. Whatever is left: W2, W3, and whether the figure's caption overstates anything.
+
+RULES
+-----
+Every number from your own code, from q1bC's frozen out/data, or from a named paper with
+its equation/table/page. Fix and record every seed. Keep each script under ~20 minutes --
+note that filtering one 1772-template bank through 100 segments takes about 140 s.
+Say explicitly what you did NOT check. Independently derived confirmations count.
+
+DELIVERABLE
+-----------
+out/report.html, self-contained, no network. Per claim N1-N7 and weakness W1-W6: verdict
+(CONFIRMED / REFUTED / OPEN), your number beside the claimed one, and how you got it.
+Plus out/checks.py exiting 0 only when positives pass AND negative controls are rejected;
+paste its output.

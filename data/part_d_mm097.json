@@ -8,8 +8,8 @@
       "pushed_back": 129,
       "boundary_repair": 899
     },
-    "constant_metric_ideal": 454,
-    "over_density_vs_ideal": 3.9030837004405288,
+    "constant_metric_ideal": 458,
+    "over_density_vs_ideal": 3.868995633187773,
     "seed": 20260925,
     "n_injections": 3000,
     "all": {
@@ -54,8 +54,8 @@
       "pushed_back": 86,
       "boundary_repair": 663
     },
-    "constant_metric_ideal": 587,
-    "over_density_vs_ideal": 3.8722316865417374,
+    "constant_metric_ideal": 595,
+    "over_density_vs_ideal": 3.820168067226891,
     "seed": 20260925,
     "n_injections": 3000,
     "all": {
@@ -100,8 +100,8 @@
       "pushed_back": 10,
       "boundary_repair": 157
     },
-    "constant_metric_ideal": 91,
-    "over_density_vs_ideal": 3.6923076923076925,
+    "constant_metric_ideal": 95,
+    "over_density_vs_ideal": 3.536842105263158,
     "seed": 20260925,
     "n_injections": 3000,
     "all": {
@@ -146,8 +146,8 @@
       "pushed_back": 5,
       "boundary_repair": 83
     },
-    "constant_metric_ideal": 118,
-    "over_density_vs_ideal": 4.135593220338983,
+    "constant_metric_ideal": 124,
+    "over_density_vs_ideal": 3.935483870967742,
     "seed": 20260925,
     "n_injections": 3000,
     "all": {

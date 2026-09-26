@@ -22,10 +22,17 @@ from geometry import (COVERING_RADIUS, MU_MAX, Boundary, analytic_metric,
 
 BANKS = Path("/home/juan/gw-minimal-match/results/d1/banks")
 CACHE = Path("/home/juan/gw-minimal-match/results/d1")
-# Constant-metric ideals, from the proper-area integration (see wiki/log.md 2026-09-25).
-AREA_IDEAL = {("main", "hexagonal"): 454, ("main", "square"): 587,
-              ("extended", "hexagonal"): 91, ("extended", "square"): 118}
-PROPER_AREA = {"main": 35.4, "extended": 7.08}
+# Constant-metric ideals from the proper area. CORRECTED 2026-09-26: the first
+# values came from a Monte Carlo with no convergence study and were low by 0.89 %
+# (main) and 4.77 % (extended). The geomverify r01 audit recomputed them by
+# deterministic quadrature, and a third method here -- Gauss-Legendre in (m1, m2)
+# rather than their (M, m2) -- agrees to 4-5 digits.
+PROPER_AREA = {"main": 35.717393158, "extended": 7.434835530}
+_HEX_CELL = 3 * 3 ** 0.5 / 2 * 0.03
+_SQUARE_CELL = 2 * 0.03
+AREA_IDEAL = {(r, "hexagonal"): round(PROPER_AREA[r] / _HEX_CELL)
+              for r in PROPER_AREA} | {
+              (r, "square"): round(PROPER_AREA[r] / _SQUARE_CELL) for r in PROPER_AREA}
 
 
 def draw(region, n, rng):

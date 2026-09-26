@@ -59,6 +59,27 @@
     "unit": "fraction",
     "value": 1.0
   },
+  "cusp_limiting_angle": {
+    "caveat": "a TRUE cusp, now proved rather than inferred from secants. The finite secant angles scale linearly, 0.103330 degrees per Msun of equal component increment; a finite-angle floor and numerical cancellation were both refuted",
+    "meaning": "limiting angle between the two region edges at (5,5) Msun",
+    "source": "geomverify r01, derived analytically: differentiating the two mass rays gives positively parallel tangents, so the limit is exactly zero",
+    "unit": "degrees",
+    "value": 0.0
+  },
+  "effective_width_extended": {
+    "caveat": "as above",
+    "meaning": "effective width 2A/P of the extended region",
+    "source": "geomverify r01",
+    "unit": "covering radii",
+    "value": 2.088516
+  },
+  "effective_width_main": {
+    "caveat": "a global summary, NOT a local width bound; it is why the region is boundary-dominated and why an asymptotic ratio has almost no interior in which to be measured",
+    "meaning": "effective width 2A/P of the main region",
+    "source": "geomverify r01",
+    "unit": "covering radii",
+    "value": 1.612668
+  },
   "hex_square_ratio_extended_mm097": {
     "caveat": "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region",
     "meaning": "hexagonal/square template ratio, extended region, MM = 0.97",
@@ -88,28 +109,28 @@
     "value": 0.97
   },
   "n_templates_extended_hexagonal_mm097": {
-    "caveat": "includes the boundary repair, which is 157 of these templates; the repair is this project's, not Cokelaer's",
+    "caveat": "includes the boundary repair, which is 157 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.54x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy",
     "meaning": "bank size, extended hexagonal, MM = 0.97",
     "source": "results/d1/banks, counted by scripts/export_figure_data.py",
     "unit": "templates",
     "value": 336
   },
   "n_templates_extended_square_mm097": {
-    "caveat": "includes the boundary repair, which is 83 of these templates; the repair is this project's, not Cokelaer's",
+    "caveat": "includes the boundary repair, which is 83 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.94x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy",
     "meaning": "bank size, extended square, MM = 0.97",
     "source": "results/d1/banks, counted by scripts/export_figure_data.py",
     "unit": "templates",
     "value": 488
   },
   "n_templates_main_hexagonal_mm097": {
-    "caveat": "includes the boundary repair, which is 899 of these templates; the repair is this project's, not Cokelaer's",
+    "caveat": "includes the boundary repair, which is 899 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.87x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy",
     "meaning": "bank size, main hexagonal, MM = 0.97",
     "source": "results/d1/banks, counted by scripts/export_figure_data.py",
     "unit": "templates",
     "value": 1772
   },
   "n_templates_main_square_mm097": {
-    "caveat": "includes the boundary repair, which is 663 of these templates; the repair is this project's, not Cokelaer's",
+    "caveat": "includes the boundary repair, which is 663 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.82x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy",
     "meaning": "bank size, main square, MM = 0.97",
     "source": "results/d1/banks, counted by scripts/export_figure_data.py",
     "unit": "templates",
@@ -157,6 +178,27 @@
     "source": "work/d1/optimum.py, TaylorF2 injections",
     "unit": "fraction",
     "value": 0.015339014731487466
+  },
+  "proper_area_extended": {
+    "caveat": "the earlier Monte Carlo value 7.08 was low by 4.77 %",
+    "meaning": "proper area of the extended region",
+    "source": "geomverify r01; independent Gauss-Legendre here gives 7.434579 at order 120",
+    "unit": "s^-2 (metric units)",
+    "value": 7.43483553
+  },
+  "proper_area_main": {
+    "caveat": "the earlier Monte Carlo value 35.4 was low by 0.89 %, within its own sampling error but quoted without one",
+    "meaning": "proper area of the main region",
+    "source": "geomverify r01 deterministic quadrature; independent Gauss-Legendre here gives 35.717382 at order 120",
+    "unit": "s^-2 (metric units)",
+    "value": 35.717393158
+  },
+  "proper_perimeter_main": {
+    "caveat": "a disc of the same proper area would have perimeter 21.2; the region is a ribbon, not a blob",
+    "meaning": "proper perimeter of the main region",
+    "source": "geomverify r01, agreeing with this project's value to ten digits",
+    "unit": "s^-1 (metric units)",
+    "value": 255.743181875
   },
   "rho_star_naive_extended_hexagonal": {
     "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
