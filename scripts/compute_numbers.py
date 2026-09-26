@@ -70,14 +70,15 @@ def compute() -> dict:
     registry["effective_width_extended"] = entry(
         2.088516, "covering radii", "effective width 2A/P of the extended region",
         "geomverify r01", caveat="as above")
-    registry["cusp_limiting_angle"] = entry(
-        0.0, "degrees", "limiting angle between the two region edges at (5,5) Msun",
-        "geomverify r01, derived analytically: differentiating the two mass rays gives "
-        "positively parallel tangents, so the limit is exactly zero",
-        caveat="a TRUE cusp, now proved rather than inferred from secants. The finite "
-               "secant angles scale linearly, 0.103330 degrees per Msun of equal "
-               "component increment; a finite-angle floor and numerical cancellation "
-               "were both refuted")
+    registry["cusp_secant_coefficient"] = entry(
+        0.103329707269, "degrees per Msun",
+        "leading coefficient of the secant angle between the two region edges at "
+        "(5,5) Msun, for equal component increments",
+        "geomverify r01, verified to eps = 1e-12",
+        caveat="the LIMIT is exactly zero and is an analytic result, not a measurement, "
+               "so it is stated in words rather than cited from here: differentiating "
+               "the two mass rays gives positively parallel tangents. A finite-angle "
+               "floor and numerical cancellation were both refuted")
 
     registry["minimal_match_headline"] = entry(
         0.97, "dimensionless", "the headline minimal match",
