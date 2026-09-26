@@ -1,0 +1,102 @@
+{
+  "convention": {
+    "f_sample_hz": 2048.0,
+    "t_obs_years": 1.0,
+    "seconds_per_year": 31557600.0,
+    "trials_model": "naive bound N = N_templates * f_sample * T_obs; NOT a calibrated nu_eff; over-counts trials, so rho* is an upper bound"
+  },
+  "operating_points": {
+    "far_1_per_100yr": {
+      "target_fap": 0.009950166250831893,
+      "definition": "FAR = 1/(100 yr), T_obs = 1 yr, FAP = 1 - exp(-FAR T_obs)"
+    },
+    "far_1_per_yr": {
+      "target_fap": 0.6321205588285577,
+      "definition": "FAR = 1/yr, permissive sensitivity -- NOT a detection significance"
+    },
+    "five_sigma": {
+      "target_fap": 2.866515718791933e-07,
+      "definition": "5 sigma by its one-sided global probability, 2.8665e-7"
+    }
+  },
+  "banks": {
+    "main_hexagonal": {
+      "n_templates": 1772,
+      "n_trials_naive": 114524297625600.0,
+      "rho_star": {
+        "far_1_per_100yr": 8.599648633372817,
+        "far_1_per_yr": 8.046341792733802,
+        "five_sigma": 9.74030865767716
+      },
+      "rho_star_poisson": {
+        "far_1_per_100yr": 8.599648633372817,
+        "far_1_per_yr": 8.046341792733802,
+        "five_sigma": 9.74030865767716
+      },
+      "poisson_relative_error": {
+        "far_1_per_100yr": 0.0,
+        "far_1_per_yr": 0.0,
+        "five_sigma": 0.0
+      }
+    },
+    "main_square": {
+      "n_templates": 2273,
+      "n_trials_naive": 146903909990400.0,
+      "rho_star": {
+        "far_1_per_100yr": 8.628553760790158,
+        "far_1_per_yr": 8.077227224169677,
+        "five_sigma": 9.765838219640731
+      },
+      "rho_star_poisson": {
+        "far_1_per_100yr": 8.628553760790158,
+        "far_1_per_yr": 8.077227224169677,
+        "five_sigma": 9.765838219640731
+      },
+      "poisson_relative_error": {
+        "far_1_per_100yr": 0.0,
+        "far_1_per_yr": 0.0,
+        "five_sigma": 0.0
+      }
+    },
+    "extended_hexagonal": {
+      "n_templates": 336,
+      "n_trials_naive": 21715668172800.0,
+      "rho_star": {
+        "far_1_per_100yr": 8.404073457262635,
+        "far_1_per_yr": 7.836970735117695,
+        "five_sigma": 9.568077487375245
+      },
+      "rho_star_poisson": {
+        "far_1_per_100yr": 8.404073457262635,
+        "far_1_per_yr": 7.836970735117692,
+        "five_sigma": 9.568077487375245
+      },
+      "poisson_relative_error": {
+        "far_1_per_100yr": 0.0,
+        "far_1_per_yr": 3.3999556067761176e-16,
+        "five_sigma": 0.0
+      }
+    },
+    "extended_square": {
+      "n_templates": 488,
+      "n_trials_naive": 31539422822400.0,
+      "rho_star": {
+        "far_1_per_100yr": 8.448364289425925,
+        "far_1_per_yr": 7.884447906789101,
+        "five_sigma": 9.607003450410373
+      },
+      "rho_star_poisson": {
+        "far_1_per_100yr": 8.448364289425923,
+        "far_1_per_yr": 7.884447906789099,
+        "five_sigma": 9.607003450410373
+      },
+      "poisson_relative_error": {
+        "far_1_per_100yr": 2.1026044551885152e-16,
+        "far_1_per_yr": 3.3794823564069855e-16,
+        "five_sigma": 0.0
+      }
+    }
+  },
+  "worst_poisson_relative_error": 3.3999556067761176e-16,
+  "source": "counts from results/d1/part_d_mm097.json"
+}

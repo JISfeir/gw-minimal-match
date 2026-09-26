@@ -1,0 +1,11 @@
+Top: bank size against nominal minimal match, both regions and both lattices.
+Bottom: the measured hexagonal/square count ratio against its two references -- the
+ideal constant-metric value 0.7698 and the 0.717-0.719 Cokelaer 2007 measures once the
+metric varies. The ordinate spans 0.60-0.86 so that the 5-point gap between those two
+references is legible (rule F2).
+HOW THIS COULD FAIL (F4): if lattice efficiency alone set the ratio, both regions would
+sit on one horizontal line near 0.77. They do not: main stays at or above the ideal
+while extended falls monotonically through Cokelaer's band to 0.639. The ratio is
+therefore not a property of the two lattices here. The counts include the boundary
+repair, which is 50.7 % of the main hexagonal bank and 17.0 % of the extended square
+one, and that asymmetry is the candidate explanation this figure does not itself prove.

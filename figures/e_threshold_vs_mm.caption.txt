@@ -1,0 +1,11 @@
+Detection threshold against nominal minimal match, at the pre-registered operating
+point and its two sensitivities, solving FAP = 1 - (1 - p)^N exactly with
+p = exp(-rho^2/2) from q1bC part A.
+HOW THIS COULD FAIL (F4): rho* depends on the trials count only logarithmically, so
+tripling the bank between MM = 0.95 and 0.99 should move it by of order 1 %. It moves
+1.46 %. A curve that rose steeply would mean the trials model or the tail was wrong.
+WHAT THIS FIGURE DOES NOT SHOW: the trials count is the naive bound
+N_templates x f_sample x T_obs, not a calibrated nu_eff estimated from simulated noise.
+It over-counts trials, so every rho* here is an upper bound, and the pre-registered
+figure -- a measured false-alarm rate on simulated noise against the nu_eff prediction
+-- was not produced.

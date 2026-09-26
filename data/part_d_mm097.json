@@ -1,0 +1,188 @@
+{
+  "main_hexagonal": {
+    "region": "main",
+    "lattice": "hexagonal",
+    "n_templates": 1772,
+    "composition": {
+      "lattice": 744,
+      "pushed_back": 129,
+      "boundary_repair": 899
+    },
+    "constant_metric_ideal": 454,
+    "over_density_vs_ideal": 3.9030837004405288,
+    "seed": 20260925,
+    "n_injections": 3000,
+    "all": {
+      "n": 3000,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.029733521082557057,
+      "median_mismatch": 0.004801439229165833,
+      "match_at_90th_percentile": 0.9830292504247307,
+      "match_at_99th_percentile": 0.9757092240607823
+    },
+    "border_fraction_injection_metric": 0.799,
+    "border_fraction_boundary_metric": 0.7933333333333333,
+    "interior": {
+      "n": 603,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.029733521082557057,
+      "median_mismatch": 0.012660677280818856,
+      "match_at_90th_percentile": 0.978062134503233,
+      "match_at_99th_percentile": 0.9729603311287287
+    },
+    "border": {
+      "n": 2397,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.029536080016013988,
+      "median_mismatch": 0.0038604951489863374,
+      "match_at_90th_percentile": 0.9872272535997618,
+      "match_at_99th_percentile": 0.9775979191749217
+    }
+  },
+  "main_square": {
+    "region": "main",
+    "lattice": "square",
+    "n_templates": 2273,
+    "composition": {
+      "lattice": 1524,
+      "pushed_back": 86,
+      "boundary_repair": 663
+    },
+    "constant_metric_ideal": 587,
+    "over_density_vs_ideal": 3.8722316865417374,
+    "seed": 20260925,
+    "n_injections": 3000,
+    "all": {
+      "n": 3000,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.024268714193963897,
+      "median_mismatch": 0.003959545815281761,
+      "match_at_90th_percentile": 0.9888112311956821,
+      "match_at_99th_percentile": 0.9813441626921953
+    },
+    "border_fraction_injection_metric": 0.799,
+    "border_fraction_boundary_metric": 0.7933333333333333,
+    "interior": {
+      "n": 603,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.02413852647254172,
+      "median_mismatch": 0.006170817599064904,
+      "match_at_90th_percentile": 0.9860905950613028,
+      "match_at_99th_percentile": 0.979396634152676
+    },
+    "border": {
+      "n": 2397,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.024268714193963897,
+      "median_mismatch": 0.0034546619084397426,
+      "match_at_90th_percentile": 0.9900085735447952,
+      "match_at_99th_percentile": 0.9832819320509109
+    }
+  },
+  "extended_hexagonal": {
+    "region": "extended",
+    "lattice": "hexagonal",
+    "n_templates": 336,
+    "composition": {
+      "lattice": 169,
+      "pushed_back": 10,
+      "boundary_repair": 157
+    },
+    "constant_metric_ideal": 91,
+    "over_density_vs_ideal": 3.6923076923076925,
+    "seed": 20260925,
+    "n_injections": 3000,
+    "all": {
+      "n": 3000,
+      "fraction_below_minimal_match": 0.0006666666666666666,
+      "monte_carlo_error": 0.00047124735975289457,
+      "fraction_at_or_above": 0.9993333333333333,
+      "worst_mismatch": 0.03297758402415063,
+      "median_mismatch": 0.002873343166192371,
+      "match_at_90th_percentile": 0.9896768743017506,
+      "match_at_99th_percentile": 0.9785386587698455
+    },
+    "border_fraction_injection_metric": 0.9383333333333334,
+    "border_fraction_boundary_metric": 0.9393333333333334,
+    "interior": {
+      "n": 185,
+      "fraction_below_minimal_match": 0.010810810810810811,
+      "monte_carlo_error": 0.007602964279814021,
+      "fraction_at_or_above": 0.9891891891891892,
+      "worst_mismatch": 0.03297758402415063,
+      "median_mismatch": 0.010073596252112293,
+      "match_at_90th_percentile": 0.9789278475898786,
+      "match_at_99th_percentile": 0.9709674710683182
+    },
+    "border": {
+      "n": 2815,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.027260360182614463,
+      "median_mismatch": 0.002684343366432168,
+      "match_at_90th_percentile": 0.9907791750850004,
+      "match_at_99th_percentile": 0.9806349922310944
+    }
+  },
+  "extended_square": {
+    "region": "extended",
+    "lattice": "square",
+    "n_templates": 488,
+    "composition": {
+      "lattice": 400,
+      "pushed_back": 5,
+      "boundary_repair": 83
+    },
+    "constant_metric_ideal": 118,
+    "over_density_vs_ideal": 4.135593220338983,
+    "seed": 20260925,
+    "n_injections": 3000,
+    "all": {
+      "n": 3000,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.01878972065461651,
+      "median_mismatch": 0.0025731975991221357,
+      "match_at_90th_percentile": 0.9923026419636656,
+      "match_at_99th_percentile": 0.9864177046422088
+    },
+    "border_fraction_injection_metric": 0.9383333333333334,
+    "border_fraction_boundary_metric": 0.9393333333333334,
+    "interior": {
+      "n": 185,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.017095465857041803,
+      "median_mismatch": 0.004703946983255582,
+      "match_at_90th_percentile": 0.9902617037230227,
+      "match_at_99th_percentile": 0.983209372296183
+    },
+    "border": {
+      "n": 2815,
+      "fraction_below_minimal_match": 0.0,
+      "monte_carlo_error": 0.0,
+      "fraction_at_or_above": 1.0,
+      "worst_mismatch": 0.01878972065461651,
+      "median_mismatch": 0.002454492935009088,
+      "match_at_90th_percentile": 0.9926349924166769,
+      "match_at_99th_percentile": 0.9867784566138216
+    }
+  },
+  "ratio_main": 0.7795864496260448,
+  "ratio_extended": 0.6885245901639344
+}

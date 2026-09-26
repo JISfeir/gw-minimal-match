@@ -1,0 +1,10 @@
+Cumulative distribution of the best match each injection finds in the bank, at
+nominal MM = 0.97, interior and border injections apart. 3000 injections per region,
+uniform in component mass, seed 20260925; the match is the quadratic form evaluated
+with the injection's own metric.
+HOW THIS COULD FAIL (F4): if the banks did not cover, a visible fraction of each curve
+would lie left of the MM = 0.97 line. The extended hexagonal curve does cross it -- 2
+injections in 3000 -- and that is the measured covering failure, not a plotting
+artefact. A bank that covered perfectly would show every curve reaching 1 strictly to
+the right of the line. The log ordinate is what makes a 1-in-1000 failure visible at
+all; on a linear scale all four curves would look identical.

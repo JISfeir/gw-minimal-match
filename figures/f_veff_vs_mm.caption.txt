@@ -1,0 +1,12 @@
+Effective detection volume V_eff = <M^3>/rho*^3 against nominal minimal match, with
+bootstrap uncertainties (400 resamples of 2000 injections). Shaded: below MM = 0.97 the
+quadratic predictor is outside the range q1bC validated, so points there are
+provisional.
+HOW THIS COULD FAIL (F4): the pre-registered hypothesis was that the threshold rise and
+the finer bank roughly balance between MM = 0.97 and 0.99, producing an interior
+maximum. That would appear here as a visible peak. There is none: every curve decreases
+monotonically, so the hypothesis is refuted. Note the ordinate range -- the whole
+variation is 1.9 % (main hexagonal) to 3.7 % (extended square) across a threefold
+change in bank size, so the honest reading is that MM barely moves V_eff, not that one
+should place coarse. The error bars are the sampling uncertainty only; they do not
+cover the naive trials model, which biases the slope toward coarse banks.

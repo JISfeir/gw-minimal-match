@@ -1,0 +1,13 @@
+{
+  "main_hexagonal": {
+    "m1": 25.66516036451493,
+    "m2": 5.816990546682748,
+    "mismatch": 0.032220597236526316
+  },
+  "extended_hexagonal": {
+    "m1": 38.374673950832516,
+    "m2": 5.606087551134845,
+    "mismatch": 0.03615253316239979
+  },
+  "source": "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand"
+}

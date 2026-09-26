@@ -1,0 +1,9 @@
+The three volume losses kept apart, against nominal minimal match: the exact worst case
+1 - MM^3, its linear expansion 3(1 - MM), and the measured population average
+1 - <M^3> from injections. TaylorF2 injections, so this is discretisation loss alone.
+HOW THIS COULD FAIL (F4): if the worst case described what a bank actually costs, the
+measured points would lie on the black curve. They lie a factor 4 to 9 below it, and
+the gap widens with MM. If instead the population loss were an artefact of too few
+injections, the four measured series would scatter rather than order themselves cleanly
+by lattice and region. The linear expansion sits 3.1 % above the exact curve at
+MM = 0.97, which is why the two are never merged.
