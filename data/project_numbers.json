@@ -1,1 +1,280 @@
-{}
+{
+  "adaptive_worst_mismatch_extended_hexagonal": {
+    "caveat": "as above; both square banks survived the same search",
+    "meaning": "worst mismatch an adaptive search reached in the extended hexagonal bank",
+    "source": "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand",
+    "unit": "dimensionless",
+    "value": 0.03615253316239979
+  },
+  "adaptive_worst_mismatch_main_hexagonal": {
+    "caveat": "a lower bound on the true worst case, not a certified maximum; it refutes strict covering at MM = 0.97 for this bank",
+    "meaning": "worst mismatch an adaptive search reached in the main hexagonal bank",
+    "source": "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand to 14 digits",
+    "unit": "dimensionless",
+    "value": 0.032220597236526316
+  },
+  "border_fraction_extended": {
+    "caveat": "as above; 0.939 under the other convention",
+    "meaning": "injections within one covering radius of a region boundary, extended",
+    "source": "work/d1/report_d.py, injection metric",
+    "unit": "fraction",
+    "value": 0.9383333333333334
+  },
+  "border_fraction_main": {
+    "caveat": "so high that the specification's interior/border split carries little information; the boundary-sample metric gives 0.793 instead",
+    "meaning": "injections within one covering radius of a region boundary, main",
+    "source": "work/d1/report_d.py, injection metric",
+    "unit": "fraction",
+    "value": 0.799
+  },
+  "covering_fraction_extended_hexagonal_mm097": {
+    "caveat": "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does",
+    "meaning": "fraction of injections at or above MM = 0.97, extended hexagonal",
+    "seed": 20260925,
+    "source": "work/d1/report_d.py, 3000 uniform injections",
+    "unit": "fraction",
+    "value": 0.9993333333333333
+  },
+  "covering_fraction_extended_square_mm097": {
+    "caveat": "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does",
+    "meaning": "fraction of injections at or above MM = 0.97, extended square",
+    "seed": 20260925,
+    "source": "work/d1/report_d.py, 3000 uniform injections",
+    "unit": "fraction",
+    "value": 1.0
+  },
+  "covering_fraction_main_hexagonal_mm097": {
+    "caveat": "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does",
+    "meaning": "fraction of injections at or above MM = 0.97, main hexagonal",
+    "seed": 20260925,
+    "source": "work/d1/report_d.py, 3000 uniform injections",
+    "unit": "fraction",
+    "value": 1.0
+  },
+  "covering_fraction_main_square_mm097": {
+    "caveat": "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does",
+    "meaning": "fraction of injections at or above MM = 0.97, main square",
+    "seed": 20260925,
+    "source": "work/d1/report_d.py, 3000 uniform injections",
+    "unit": "fraction",
+    "value": 1.0
+  },
+  "hex_square_ratio_extended_mm097": {
+    "caveat": "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region",
+    "meaning": "hexagonal/square template ratio, extended region, MM = 0.97",
+    "source": "counted from the delivered banks",
+    "unit": "dimensionless",
+    "value": 0.6885245901639344
+  },
+  "hex_square_ratio_main_mm097": {
+    "caveat": "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region",
+    "meaning": "hexagonal/square template ratio, main region, MM = 0.97",
+    "source": "counted from the delivered banks",
+    "unit": "dimensionless",
+    "value": 0.7795864496260448
+  },
+  "imrphenomd_volume_loss_extended_hexagonal": {
+    "caveat": "a DECLARED APPROXIMATION: q1bC's continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. Of this, 0.495 is the family alone -- in the extended region the waveform model, not the bank, costs the volume",
+    "meaning": "volume loss against IMRPhenomD signals, extended hexagonal, MM = 0.97",
+    "source": "work/d1/optimum.py",
+    "unit": "fraction",
+    "value": 0.5148568836364191
+  },
+  "minimal_match_headline": {
+    "caveat": "a design convention, not a derived constant; the field applies it as a percentile, not a worst case -- Sakon et al. 2023 quote fitting factors above 97 % for 90 % of injections in the O4 bank",
+    "meaning": "the headline minimal match",
+    "source": "Owen 1996 gr-qc/9511032: a fiducial 'chosen by the experimenter', corresponding to roughly 90 % of the ideal event rate",
+    "unit": "dimensionless",
+    "value": 0.97
+  },
+  "n_templates_extended_hexagonal_mm097": {
+    "caveat": "includes the boundary repair, which is 157 of these templates; the repair is this project's, not Cokelaer's",
+    "meaning": "bank size, extended hexagonal, MM = 0.97",
+    "source": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "unit": "templates",
+    "value": 336
+  },
+  "n_templates_extended_square_mm097": {
+    "caveat": "includes the boundary repair, which is 83 of these templates; the repair is this project's, not Cokelaer's",
+    "meaning": "bank size, extended square, MM = 0.97",
+    "source": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "unit": "templates",
+    "value": 488
+  },
+  "n_templates_main_hexagonal_mm097": {
+    "caveat": "includes the boundary repair, which is 899 of these templates; the repair is this project's, not Cokelaer's",
+    "meaning": "bank size, main hexagonal, MM = 0.97",
+    "source": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "unit": "templates",
+    "value": 1772
+  },
+  "n_templates_main_square_mm097": {
+    "caveat": "includes the boundary repair, which is 663 of these templates; the repair is this project's, not Cokelaer's",
+    "meaning": "bank size, main square, MM = 0.97",
+    "source": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "unit": "templates",
+    "value": 2273
+  },
+  "nu_eff_main_hexagonal_mm097": {
+    "caveat": "a summary of a correlated search, not a count of anything; the level is good to roughly +-50 %, which moves rho* by 0.05 and is immaterial",
+    "meaning": "calibrated effective independent-trials rate, main hexagonal bank at MM = 0.97",
+    "seed": 20260926,
+    "source": "work/d1/nu_eff.py, 100 segments of 32 s",
+    "unit": "per second",
+    "value": 406340.07205127587
+  },
+  "poisson_approximation_error": {
+    "caveat": "negligible, and shown rather than assumed, as part E required",
+    "meaning": "worst relative error of the rare-tail Poisson approximation on rho*, all banks",
+    "source": "efverify r01 verifier; the author's own figure of 3.40e-16 was the MM = 0.97 value, not the maximum",
+    "unit": "relative",
+    "value": 5.3065605155e-16
+  },
+  "population_volume_loss_extended_hexagonal_mm097": {
+    "caveat": "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327",
+    "meaning": "population-average discretisation volume loss, extended hexagonal",
+    "source": "work/d1/optimum.py, TaylorF2 injections",
+    "unit": "fraction",
+    "value": 0.012853735920778209
+  },
+  "population_volume_loss_extended_square_mm097": {
+    "caveat": "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327",
+    "meaning": "population-average discretisation volume loss, extended square",
+    "source": "work/d1/optimum.py, TaylorF2 injections",
+    "unit": "fraction",
+    "value": 0.00944504780895472
+  },
+  "population_volume_loss_main_hexagonal_mm097": {
+    "caveat": "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327",
+    "meaning": "population-average discretisation volume loss, main hexagonal",
+    "source": "work/d1/optimum.py, TaylorF2 injections",
+    "unit": "fraction",
+    "value": 0.020878164589205217
+  },
+  "population_volume_loss_main_square_mm097": {
+    "caveat": "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327",
+    "meaning": "population-average discretisation volume loss, main square",
+    "source": "work/d1/optimum.py, TaylorF2 injections",
+    "unit": "fraction",
+    "value": 0.015339014731487466
+  },
+  "rho_star_naive_extended_hexagonal": {
+    "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
+    "meaning": "threshold at FAR = 1/(100 yr), extended hexagonal, naive trials",
+    "source": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "unit": "dimensionless",
+    "value": 8.404073457262635
+  },
+  "rho_star_naive_extended_square": {
+    "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
+    "meaning": "threshold at FAR = 1/(100 yr), extended square, naive trials",
+    "source": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "unit": "dimensionless",
+    "value": 8.448364289425925
+  },
+  "rho_star_naive_main_hexagonal": {
+    "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
+    "meaning": "threshold at FAR = 1/(100 yr), main hexagonal, naive trials",
+    "source": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "unit": "dimensionless",
+    "value": 8.599648633372817
+  },
+  "rho_star_naive_main_square": {
+    "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
+    "meaning": "threshold at FAR = 1/(100 yr), main square, naive trials",
+    "source": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "unit": "dimensionless",
+    "value": 8.628553760790158
+  },
+  "trials_exponent_extended_hexagonal": {
+    "caveat": "95 % CI [0.0484, 0.2664]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling",
+    "meaning": "exponent in N_eff proportional to N_templates^alpha, extended hexagonal",
+    "source": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "unit": "dimensionless",
+    "value": 0.15155535600281456
+  },
+  "trials_exponent_extended_square": {
+    "caveat": "95 % CI [0.1408, 0.3116]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling",
+    "meaning": "exponent in N_eff proportional to N_templates^alpha, extended square",
+    "source": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "unit": "dimensionless",
+    "value": 0.2213630066110102
+  },
+  "trials_exponent_main_hexagonal": {
+    "caveat": "95 % CI [0.0886, 0.2258]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling",
+    "meaning": "exponent in N_eff proportional to N_templates^alpha, main hexagonal",
+    "source": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "unit": "dimensionless",
+    "value": 0.1567631434950692
+  },
+  "trials_exponent_main_square": {
+    "caveat": "95 % CI [0.0835, 0.2298]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling",
+    "meaning": "exponent in N_eff proportional to N_templates^alpha, main square",
+    "source": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "unit": "dimensionless",
+    "value": 0.1499917111418696
+  },
+  "veff_change_calibrated_extended_hexagonal": {
+    "caveat": "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, extended hexagonal, calibrated nu_eff",
+    "source": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "unit": "per cent",
+    "value": 0.6296817869276605
+  },
+  "veff_change_calibrated_extended_square": {
+    "caveat": "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, extended square, calibrated nu_eff",
+    "source": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "unit": "per cent",
+    "value": 0.2361120767102376
+  },
+  "veff_change_calibrated_main_hexagonal": {
+    "caveat": "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, main hexagonal, calibrated nu_eff",
+    "source": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "unit": "per cent",
+    "value": 1.75564454211119
+  },
+  "veff_change_calibrated_main_square": {
+    "caveat": "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, main square, calibrated nu_eff",
+    "source": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "unit": "per cent",
+    "value": 1.2339456544181893
+  },
+  "veff_change_naive_extended_hexagonal": {
+    "caveat": "the sign is set by the trials model, not by the bank",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, extended hexagonal, naive trials",
+    "source": "work/d1/optimum.py",
+    "unit": "per cent",
+    "value": -3.287639551866961
+  },
+  "veff_change_naive_extended_square": {
+    "caveat": "the sign is set by the trials model, not by the bank",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, extended square, naive trials",
+    "source": "work/d1/optimum.py",
+    "unit": "per cent",
+    "value": -3.7381328010849924
+  },
+  "veff_change_naive_main_hexagonal": {
+    "caveat": "the sign is set by the trials model, not by the bank",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, main hexagonal, naive trials",
+    "source": "work/d1/optimum.py",
+    "unit": "per cent",
+    "value": -1.8724764084520062
+  },
+  "veff_change_naive_main_square": {
+    "caveat": "the sign is set by the trials model, not by the bank",
+    "meaning": "change in V_eff from MM = 0.95 to 0.99, main square, naive trials",
+    "source": "work/d1/optimum.py",
+    "unit": "per cent",
+    "value": -2.330375625683878
+  },
+  "worst_case_volume_loss_mm097": {
+    "caveat": "the linear expansion 3(1-MM) = 0.09 is 3.060909 % larger and is a different quantity; the two are never merged",
+    "meaning": "exact worst-case fractional volume loss at MM = 0.97, sources uniform in Euclidean volume",
+    "source": "closed form 1 - MM^3",
+    "unit": "fraction",
+    "value": 0.08732700000000004
+  }
+}

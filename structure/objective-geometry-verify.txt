@@ -1,0 +1,94 @@
+INDEPENDENT AUDIT OF THE REGION GEOMETRY
+=========================================
+You are on Codex so the check comes from a different model family than the work.
+This is a NARROW, SINGLE-SUBJECT audit. Do the geometry and nothing else.
+
+THIS HAS BEEN QUEUED SIX TIMES ACROSS THREE JOBS AND NEVER ONCE DONE. Every previous
+round ran out of quota or priority before reaching it. It is the only thing asked of you
+here, so reach it.
+
+NO GATE. Do not verify q1bC, re-run its check or hash its manifest; import out/lib as a
+trusted input. Keep caches under out/cache/, never under a path containing a component
+named "work". WRITE EVIDENCE INCREMENTALLY to out/data/. Read-only:
+~/gw-minimal-match/work/d1/ and ~/gw-minimal-match/results/d1/.
+
+WHY IT MATTERS. Two headline claims of part D rest entirely on these numbers and on
+nothing else. If the geometry is wrong, both fall:
+  - that the hexagonal/square count ratio is not a well-defined property of these banks;
+  - that the spec's interior/border split is near-vacuous in both regions.
+
+SETTING. Chirp times (tau0, tau3) at f0 = 20 Hz, metric = q1bC's frozen analytic 3.5PN
+projected-phase metric (lib.metric.analytic_metric, units s^-2), aLIGOZeroDetHighPower,
+20-1024 Hz. Regions in component masses, m1 >= m2, both in [5, 50] Msun:
+  main      vertices (5,5), (30,5), (17.5,17.5)      -- total mass M <= 35
+  extended  vertices (30,5), (50,5), (50,50), (17.5,17.5)  -- 35 < M <= 100
+Every edge is a straight line in (m1, m2), so linear interpolation in mass space is
+exact and all the curvature is in the map to chirp time. Covering radius at MM = 0.97 is
+R = sqrt(0.03) = 0.1732050807568878.
+
+THE CLAIMS
+----------
+G1. PROPER AREA, by Monte Carlo integration of sqrt(det g) times the absolute Jacobian
+    determinant of the mass-to-chirp-time map, over the region in mass space:
+      main 35.4,  extended 7.08.
+    Method used: 12000 (main) / 4000 (extended) uniform draws in the region; the
+    mass-space area is the exact polygon area; the Jacobian by central differences with
+    h = 1e-5. NO CONVERGENCE STUDY AND NO ERROR BAR BEYOND THE SAMPLING SE WAS DONE.
+G2. CONSTANT-METRIC IDEAL COUNTS from G1: a square cell of covering radius R has proper
+    area 2R^2 and a hexagonal one 3*sqrt(3)R^2/2, giving
+      main 454 hexagonal / 587 square,  extended 91 / 118,  ratio 2R^2/(3 sqrt3 R^2/2) = 0.7698.
+    Against these the delivered banks are 3.69x to 4.14x over-dense, and the earlier
+    qDEF bank was 2.31x, and 10x in M in [10,12) where the ideal is 13 templates.
+G3. PROPER PERIMETER, by integrating the proper length of each edge with the metric
+    evaluated at segment midpoints, 600 segments per edge:
+      main 255.7 total, edges 114.61 / 11.91 / 129.23 in the vertex order above;
+      extended 41.1 total, edges 9.74 / 9.89 / 9.56 / 11.91.
+    A disc of the same proper area would have perimeter 2 sqrt(pi A) = 21.1 (main) and
+    9.4 (extended). Claimed consequence: main is a RIBBON of effective width
+    2A/P = 0.277 = 1.60 R, extended 0.344 = 1.99 R.
+G4. THE CUSP. At the (5,5) corner the two edges -- m2 = 5 and eta = 1/4 -- leave in
+    essentially the same chirp-time direction. Measured angle between them in the local
+    metric at (5,5): 0.001 degrees at separation eps = 0.01 Msun, 0.005 at 0.05, 0.020
+    at 0.2, 0.097 at 1.0. Claimed as a cusp of angular width 0.001-0.1 degrees. These
+    are SECANT angles at finite separation, not a limit, and no limit was taken.
+G5. BORDER FRACTION. With border defined as within one covering radius of any region
+    boundary, measured in the INJECTION's metric against a boundary resampled at R/4 in
+    proper length: 79.9 % of main injections and 93.8 % of extended injections are
+    border. Using the boundary-sample metric instead gives 79.3 % and 93.9 %.
+
+WHAT I WANT
+-----------
+1. Recompute G1 and G3 with YOUR OWN integrators and a CONVERGENCE STUDY -- refine until
+   the value stops moving, and give an error bar that is not just the sampling SE. A
+   deterministic quadrature over the mass triangle would be a genuinely different method
+   from my Monte Carlo and is preferred. Watch the (5,5) corner, where the integrand is
+   largest and my uniform sampling is thinnest.
+2. Settle G4 properly: take the LIMIT, analytically if you can. Does the angle go to
+   zero, and at what rate? Distinguish a true cusp from a small-but-finite angle and from
+   numerical cancellation -- the metric at (5,5) has eigenvalues 4.98 and 274.5, a
+   condition number of 55, so a naive angle computation could be losing digits.
+3. Check G2's arithmetic and, separately, whether the constant-metric ideal is even the
+   right reference for a region of this shape. In a region 1.6 covering radii wide, is
+   A/cell the right estimator for the number of templates, or should it be a
+   perimeter-driven one? This bears directly on calling the banks "over-dense".
+4. Recompute G5 under both metric conventions and say whether the interior/border split
+   the specification asks for carries any information in either region.
+5. If any of G1-G5 is wrong, say by how much and what it does to the two headline claims
+   named under WHY IT MATTERS.
+
+RULES
+-----
+Every number from your own code, from q1bC's frozen out/data, or from a named paper with
+its equation/table/page. Fix and record every seed. Keep each script under ~20 minutes.
+Report both numbers when two methods disagree; stop on an order of magnitude. Say
+explicitly what you did NOT check. Independently derived confirmations count as much as
+refutations. The author has been wrong about a causal mechanism three times in this
+project and about three descriptive claims in a previous round; treat every explanation
+above as unverified.
+
+DELIVERABLE
+-----------
+out/report.html, self-contained, no network. Per claim G1-G5: verdict (CONFIRMED /
+REFUTED / OPEN), your number beside the claimed one, your convergence evidence, and how
+you got it. Plus out/checks.py exiting 0 only when positives pass AND negative controls
+are rejected; paste its output.
