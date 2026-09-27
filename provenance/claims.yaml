@@ -223,6 +223,19 @@ claims:
   - population_volume_loss_extended_square_mm097
   - population_volume_loss_main_hexagonal_mm097
   - population_volume_loss_main_square_mm097
+- id: same-content-two-formats
+  statement: 'The HTML page and the PDF report the same content and the same numbers, and
+    this is enforced rather than promised: both read data/project_numbers.json through the
+    same formatter, so a value can differ between them only if one has stopped being rebuilt.'
+  status: DEMONSTRATED. All 25 numbers cited on the page appear as literal strings in the
+    PDF text; the check is a string comparison, not an inspection. Both carry all six figures,
+    which come from scripts/make_figures.py and from nowhere else (rule F5).
+  evidence:
+  - scripts/make_page.py::num -- imports fmt from scripts/make_numbers_tex.py, which is the
+    function the paper's \dataref macros are generated with
+  - scripts/make_numbers_tex.py::fmt -- the single shared formatter
+  - data/project_numbers.json -- the one registry both formats read
+  numbers: []
 figures:
 - file: figures/d_covering_cumulative.pdf
   produced_by: scripts/make_figures.py::figure_covering

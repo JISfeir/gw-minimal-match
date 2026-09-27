@@ -23,10 +23,17 @@ PLACES = {"per cent": 2, "fraction": 5, "dimensionless": 4, "relative": 3,
           "per second": 4, "templates": 0}
 
 
-def fmt(value, unit):
+def fmt(value, unit, html=False):
+    """The single formatter both output formats use. If the page and the paper ever
+    print different strings for the same registry key, one of them is not being
+    rebuilt -- which is the only way they can disagree."""
     if unit == "templates":
         return f"{int(round(value))}"
     if unit in ("relative", "per second"):
+        if html:
+            mantissa, _, exponent = f"{value:.4g}".partition("e")
+            return (f"{mantissa} &times; 10<sup>{int(exponent)}</sup>" if exponent
+                    else mantissa)
         # plain math rather than siunitx: the installed TeX is
         # texlive-latex-recommended, which does not ship siunitx, and the paper must
         # build on the machine that will be asked to rebuild it
