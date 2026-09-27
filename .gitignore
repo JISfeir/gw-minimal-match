@@ -15,9 +15,11 @@ paper/*.bbl
 paper/*.blg
 paper/*.log
 paper/*.out
-paper/*.pdf
 paper/*.fdb_latexmk
 paper/*.fls
+# main.pdf is NOT ignored: it is the deliverable, not a build intermediate, and the
+# release link has to lead to something a reader can open. It rebuilds deterministically
+# from main.tex, so committing it costs a diff only when the content changes.
 
 # agent-team jobs: each carries its own out/provenance.json; results are ported by hand
 jobs/
