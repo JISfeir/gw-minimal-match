@@ -1,15 +1,15 @@
 {
   "adaptive_worst_mismatch_extended_hexagonal": {
-    "caveat": "as above; both square banks survived the same search",
+    "caveat": "a lower bound on the true worst case, not a certified maximum. It refutes strict covering at MM = 0.97 for both hexagonal banks; both square banks survived the same search",
     "meaning": "worst mismatch an adaptive search reached in the extended hexagonal bank",
-    "source": "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand",
+    "source": "data/fig_witnesses.json at (38.374674, 5.606088) Msun; found by an independent audit and reproduced by hand to fourteen digits",
     "unit": "dimensionless",
     "value": 0.03615253316239979
   },
   "adaptive_worst_mismatch_main_hexagonal": {
-    "caveat": "a lower bound on the true worst case, not a certified maximum; it refutes strict covering at MM = 0.97 for this bank",
+    "caveat": "a lower bound on the true worst case, not a certified maximum. It refutes strict covering at MM = 0.97 for both hexagonal banks; both square banks survived the same search",
     "meaning": "worst mismatch an adaptive search reached in the main hexagonal bank",
-    "source": "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand to 14 digits",
+    "source": "data/fig_witnesses.json at (25.665160, 5.816991) Msun; found by an independent audit and reproduced by hand to fourteen digits",
     "unit": "dimensionless",
     "value": 0.032220597236526316
   },
@@ -60,25 +60,25 @@
     "value": 1.0
   },
   "cusp_secant_coefficient": {
-    "caveat": "the LIMIT is exactly zero and is an analytic result, not a measurement, so it is stated in words rather than cited from here: differentiating the two mass rays gives positively parallel tangents. A finite-angle floor and numerical cancellation were both refuted",
-    "meaning": "leading coefficient of the secant angle between the two region edges at (5,5) Msun, for equal component increments",
-    "source": "geomverify r01, verified to eps = 1e-12",
+    "caveat": "the LIMIT is exactly zero and is analytic, not measured: the two mass rays have positively parallel tangents. Only this coefficient is measured",
+    "meaning": "leading secant-angle coefficient between the two region edges at (5,5) Msun",
+    "source": "scripts/compute_geometry.py, fitted down to 1e-4 Msun separation",
     "unit": "degrees per Msun",
-    "value": 0.103329707269
+    "value": 0.10316186218701491
   },
   "effective_width_extended": {
-    "caveat": "as above",
+    "caveat": "a global summary, NOT a local width bound; it is why the region is boundary-dominated and why an asymptotic ratio has almost no interior in which to be measured",
     "meaning": "effective width 2A/P of the extended region",
-    "source": "geomverify r01",
+    "source": "scripts/compute_geometry.py",
     "unit": "covering radii",
-    "value": 2.088516
+    "value": 2.0884449553794697
   },
   "effective_width_main": {
     "caveat": "a global summary, NOT a local width bound; it is why the region is boundary-dominated and why an asymptotic ratio has almost no interior in which to be measured",
     "meaning": "effective width 2A/P of the main region",
-    "source": "geomverify r01",
+    "source": "scripts/compute_geometry.py",
     "unit": "covering radii",
-    "value": 1.612668
+    "value": 1.6126682768868112
   },
   "hex_square_ratio_extended_mm097": {
     "caveat": "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region",
@@ -94,12 +94,33 @@
     "unit": "dimensionless",
     "value": 0.7795864496260448
   },
-  "imrphenomd_volume_loss_extended_hexagonal": {
-    "caveat": "a DECLARED APPROXIMATION: q1bC's continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. Of this, 0.495 is the family alone -- in the extended region the waveform model, not the bank, costs the volume",
+  "imrphenomd_family_only_extended": {
+    "caveat": "a rigorous lower bound on the IMRPhenomD loss: the best match against a discrete subset cannot exceed the best match against the family it is drawn from. The difference from the line above is what the bank's discretisation adds",
+    "meaning": "volume loss from the continuous TaylorF2 family alone, extended",
+    "source": "work/d1/optimum.py, same injections and seed as the line above",
+    "unit": "fraction",
+    "value": 0.5077889550563801
+  },
+  "imrphenomd_family_only_main": {
+    "caveat": "a rigorous lower bound on the IMRPhenomD loss: the best match against a discrete subset cannot exceed the best match against the family it is drawn from. The difference from the line above is what the bank's discretisation adds",
+    "meaning": "volume loss from the continuous TaylorF2 family alone, main",
+    "source": "work/d1/optimum.py, same injections and seed as the line above",
+    "unit": "fraction",
+    "value": 0.17579951802989524
+  },
+  "imrphenomd_volume_loss_extended": {
+    "caveat": "a DECLARED APPROXIMATION: the frozen continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. The family-only figure beside it is the rigorous bound",
     "meaning": "volume loss against IMRPhenomD signals, extended hexagonal, MM = 0.97",
     "source": "work/d1/optimum.py",
     "unit": "fraction",
     "value": 0.5148568836364191
+  },
+  "imrphenomd_volume_loss_main": {
+    "caveat": "a DECLARED APPROXIMATION: the frozen continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. The family-only figure beside it is the rigorous bound",
+    "meaning": "volume loss against IMRPhenomD signals, main hexagonal, MM = 0.97",
+    "source": "work/d1/optimum.py",
+    "unit": "fraction",
+    "value": 0.19320094701552748
   },
   "minimal_match_headline": {
     "caveat": "a design convention, not a derived constant; the field applies it as a percentile, not a worst case -- Sakon et al. 2023 quote fitting factors above 97 % for 90 % of injections in the O4 bank",
@@ -145,11 +166,11 @@
     "value": 406340.07205127587
   },
   "poisson_approximation_error": {
-    "caveat": "negligible, and shown rather than assumed, as part E required",
-    "meaning": "worst relative error of the rare-tail Poisson approximation on rho*, all banks",
-    "source": "efverify r01 verifier; the author's own figure of 3.40e-16 was the MM = 0.97 value, not the maximum",
+    "caveat": "THIS IS FLOATING-POINT NOISE, NOT THE APPROXIMATION ERROR. The true mathematical difference at the operating point is near 6e-19, some 900 times smaller, and 1e-23 at 5 sigma. The conclusion -- that the approximation is safe -- is right; this number is a limit of double precision and must not be quoted as the error itself",
+    "meaning": "largest resolvable difference between the exact trials combination and its rare-tail Poisson form, over the reported banks and operating points",
+    "source": "work/d1/threshold.py",
     "unit": "relative",
-    "value": 5.3065605155e-16
+    "value": 3.3999556067761176e-16
   },
   "population_volume_loss_extended_hexagonal_mm097": {
     "caveat": "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327",
@@ -180,25 +201,32 @@
     "value": 0.015339014731487466
   },
   "proper_area_extended": {
-    "caveat": "the earlier Monte Carlo value 7.08 was low by 4.77 %",
+    "caveat": "order 60 gives 7.424177, so the quadrature is converged to 0.01; this is a numerical convergence estimate, not a rigorous enclosure",
     "meaning": "proper area of the extended region",
-    "source": "geomverify r01; independent Gauss-Legendre here gives 7.434579 at order 120",
+    "source": "scripts/compute_geometry.py, Gauss-Legendre order 120",
     "unit": "s^-2 (metric units)",
-    "value": 7.43483553
+    "value": 7.434578648762885
   },
   "proper_area_main": {
-    "caveat": "the earlier Monte Carlo value 35.4 was low by 0.89 %, within its own sampling error but quoted without one",
+    "caveat": "order 60 gives 35.717379, so the quadrature is converged to 2.6e-06; this is a numerical convergence estimate, not a rigorous enclosure",
     "meaning": "proper area of the main region",
-    "source": "geomverify r01 deterministic quadrature; independent Gauss-Legendre here gives 35.717382 at order 120",
+    "source": "scripts/compute_geometry.py, Gauss-Legendre order 120",
     "unit": "s^-2 (metric units)",
-    "value": 35.717393158
+    "value": 35.71738159187061
+  },
+  "proper_perimeter_extended": {
+    "caveat": "a disc of the same proper area would have perimeter 9.7: the region is a ribbon",
+    "meaning": "proper perimeter of the extended region",
+    "source": "scripts/compute_geometry.py, 600 segments per edge",
+    "unit": "s^-1 (metric units)",
+    "value": 41.10576123271369
   },
   "proper_perimeter_main": {
-    "caveat": "a disc of the same proper area would have perimeter 21.2; the region is a ribbon, not a blob",
+    "caveat": "a disc of the same proper area would have perimeter 21.2: the region is a ribbon",
     "meaning": "proper perimeter of the main region",
-    "source": "geomverify r01, agreeing with this project's value to ten digits",
+    "source": "scripts/compute_geometry.py, 600 segments per edge",
     "unit": "s^-1 (metric units)",
-    "value": 255.743181875
+    "value": 255.74310814402452
   },
   "rho_star_naive_extended_hexagonal": {
     "caveat": "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)",
@@ -255,6 +283,13 @@
     "source": "work/d1/nu_eff.py, paired bootstrap over shared segments",
     "unit": "dimensionless",
     "value": 0.1499917111418696
+  },
+  "trials_exponent_pooled": {
+    "caveat": "REPORTED BUT NOT USED, and the paper says so. It is four standard deviations ABOVE 1, the opposite of the within-family result, because the two regions differ in nu_eff by more than a factor ten at comparable template counts: the pooled slope measures the step between regions, not how either scales",
+    "meaning": "exponent from fitting all twenty banks together, ignoring region and lattice",
+    "source": "work/d1/nu_eff.py",
+    "unit": "dimensionless",
+    "value": 1.292181130338291
   },
   "veff_change_calibrated_extended_hexagonal": {
     "caveat": "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid",

@@ -10,7 +10,8 @@
         "worst_case_1_minus_MM3": 0.1426250000000001,
         "linear_expansion": 0.15000000000000013,
         "population_taylorf2": 0.03237297719748655,
-        "population_imrphenomd_approx": 0.20275313438707254
+        "population_imrphenomd_approx": 0.20275313438707254,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.56091974600392,
@@ -78,7 +79,8 @@
         "worst_case_1_minus_MM3": 0.11526400000000014,
         "linear_expansion": 0.1200000000000001,
         "population_taylorf2": 0.025116752434406586,
-        "population_imrphenomd_approx": 0.1967004650487113
+        "population_imrphenomd_approx": 0.1967004650487113,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.58024878015326,
@@ -146,7 +148,8 @@
         "worst_case_1_minus_MM3": 0.08732700000000004,
         "linear_expansion": 0.09000000000000008,
         "population_taylorf2": 0.020878164589205217,
-        "population_imrphenomd_approx": 0.19320094701552748
+        "population_imrphenomd_approx": 0.19320094701552748,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.599648633372817,
@@ -214,7 +217,8 @@
         "worst_case_1_minus_MM3": 0.05880800000000008,
         "linear_expansion": 0.06000000000000005,
         "population_taylorf2": 0.015290155309044207,
-        "population_imrphenomd_approx": 0.18855284673544115
+        "population_imrphenomd_approx": 0.18855284673544115,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.631820818298126,
@@ -282,7 +286,8 @@
         "worst_case_1_minus_MM3": 0.029700999999999977,
         "linear_expansion": 0.030000000000000027,
         "population_taylorf2": 0.008394402993460948,
-        "population_imrphenomd_approx": 0.18278313215871278
+        "population_imrphenomd_approx": 0.18278313215871278,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.685612967244639,
@@ -350,7 +355,8 @@
         "worst_case_1_minus_MM3": 0.1426250000000001,
         "linear_expansion": 0.15000000000000013,
         "population_taylorf2": 0.024690904298708682,
-        "population_imrphenomd_approx": 0.19616761713514286
+        "population_imrphenomd_approx": 0.19616761713514286,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.589285499889515,
@@ -418,7 +424,8 @@
         "worst_case_1_minus_MM3": 0.11526400000000014,
         "linear_expansion": 0.1200000000000001,
         "population_taylorf2": 0.01923890172152165,
-        "population_imrphenomd_approx": 0.1916947035431913
+        "population_imrphenomd_approx": 0.1916947035431913,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.609995335768476,
@@ -486,7 +493,8 @@
         "worst_case_1_minus_MM3": 0.08732700000000004,
         "linear_expansion": 0.09000000000000008,
         "population_taylorf2": 0.015339014731487466,
-        "population_imrphenomd_approx": 0.18846079030515395
+        "population_imrphenomd_approx": 0.18846079030515395,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.628553760790158,
@@ -554,7 +562,8 @@
         "worst_case_1_minus_MM3": 0.05880800000000008,
         "linear_expansion": 0.06000000000000005,
         "population_taylorf2": 0.010855118824008247,
-        "population_imrphenomd_approx": 0.1848061256317084
+        "population_imrphenomd_approx": 0.1848061256317084,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.656341716761986,
@@ -622,7 +631,8 @@
         "worst_case_1_minus_MM3": 0.029700999999999977,
         "linear_expansion": 0.030000000000000027,
         "population_taylorf2": 0.0061821969251709685,
-        "population_imrphenomd_approx": 0.18093271130801603
+        "population_imrphenomd_approx": 0.18093271130801603,
+        "imrphenomd_family_only_bound": 0.17579951802989524
       },
       "rho_star": {
         "far_1_per_100yr": 8.711481767282995,
@@ -692,7 +702,8 @@
         "worst_case_1_minus_MM3": 0.1426250000000001,
         "linear_expansion": 0.15000000000000013,
         "population_taylorf2": 0.01795597350743361,
-        "population_imrphenomd_approx": 0.5180399481254425
+        "population_imrphenomd_approx": 0.5180399481254425,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.363940829646282,
@@ -760,7 +771,8 @@
         "worst_case_1_minus_MM3": 0.11526400000000014,
         "linear_expansion": 0.1200000000000001,
         "population_taylorf2": 0.014879820795983156,
-        "population_imrphenomd_approx": 0.5161612902188182
+        "population_imrphenomd_approx": 0.5161612902188182,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.383622257140688,
@@ -828,7 +840,8 @@
         "worst_case_1_minus_MM3": 0.08732700000000004,
         "linear_expansion": 0.09000000000000008,
         "population_taylorf2": 0.012853735920778209,
-        "population_imrphenomd_approx": 0.5148568836364191
+        "population_imrphenomd_approx": 0.5148568836364191,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.404073457262635,
@@ -896,7 +909,8 @@
         "worst_case_1_minus_MM3": 0.05880800000000008,
         "linear_expansion": 0.06000000000000005,
         "population_taylorf2": 0.008838352698475105,
-        "population_imrphenomd_approx": 0.5127740480555846
+        "population_imrphenomd_approx": 0.5127740480555846,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.43419846880223,
@@ -964,7 +978,8 @@
         "worst_case_1_minus_MM3": 0.029700999999999977,
         "linear_expansion": 0.030000000000000027,
         "population_taylorf2": 0.004802945858281782,
-        "population_imrphenomd_approx": 0.5105362999460941
+        "population_imrphenomd_approx": 0.5105362999460941,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.495253285499526,
@@ -1032,7 +1047,8 @@
         "worst_case_1_minus_MM3": 0.1426250000000001,
         "linear_expansion": 0.15000000000000013,
         "population_taylorf2": 0.016422822087014066,
-        "population_imrphenomd_approx": 0.5165403824159644
+        "population_imrphenomd_approx": 0.5165403824159644,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.404427060534509,
@@ -1100,7 +1116,8 @@
         "worst_case_1_minus_MM3": 0.11526400000000014,
         "linear_expansion": 0.1200000000000001,
         "population_taylorf2": 0.012794223623789902,
-        "population_imrphenomd_approx": 0.5147069494925584
+        "population_imrphenomd_approx": 0.5147069494925584,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.42148366039962,
@@ -1168,7 +1185,8 @@
         "worst_case_1_minus_MM3": 0.08732700000000004,
         "linear_expansion": 0.09000000000000008,
         "population_taylorf2": 0.00944504780895472,
-        "population_imrphenomd_approx": 0.5128182312690326
+        "population_imrphenomd_approx": 0.5128182312690326,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.448364289425925,
@@ -1236,7 +1254,8 @@
         "worst_case_1_minus_MM3": 0.05880800000000008,
         "linear_expansion": 0.06000000000000005,
         "population_taylorf2": 0.006841694107569074,
-        "population_imrphenomd_approx": 0.5115415709409976
+        "population_imrphenomd_approx": 0.5115415709409976,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.48276974894941,
@@ -1304,7 +1323,8 @@
         "worst_case_1_minus_MM3": 0.029700999999999977,
         "linear_expansion": 0.030000000000000027,
         "population_taylorf2": 0.003905871849701259,
-        "population_imrphenomd_approx": 0.5098495002940808
+        "population_imrphenomd_approx": 0.5098495002940808,
+        "imrphenomd_family_only_bound": 0.5077889550563801
       },
       "rho_star": {
         "far_1_per_100yr": 8.547793022394675,

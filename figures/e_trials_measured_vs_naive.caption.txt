@@ -1,0 +1,17 @@
+Left: the effective number of independent trials per segment, measured by filtering
+simulated Gaussian noise through each bank and fitting the distribution of the maximum
+of |z| over templates and time (100 segments of 32 s, seed 20260926, the same noise for
+every bank), against the naive bound that counts every template and every sample as
+independent. Right: their ratio.
+THIS FIGURE REPLACES an earlier one that plotted the threshold against minimal match.
+That figure broke rule F1 -- rho* is a closed function of the template count, so its
+y-values were computed from its x-values by the formula under test, and a blind reviewer
+reconstructed every plotted point from N alone to within 1e-13. It was decoration.
+HOW THIS COULD FAIL (F4): if the templates of a bank were independent, the coloured
+points would lie on the dashed line and the right-hand ratio would be 1. They do not and
+it is not: the ratio runs from about 7 to 58. If instead the measured trials grew in
+proportion to the template count, each family would run parallel to the dashed line;
+they are far flatter, which is the exponent the text reports.
+WHAT IT DOES NOT SHOW: the calibration is done where the maxima fall, around |z| = 5.3
+to 5.8, and is applied at thresholds near 8.0 to 8.6. That extrapolation of about two in
+|z| is not tested here, and the trials count is not constant across the probed tail.

@@ -1,0 +1,70 @@
+{
+  "covering_radius": 0.1732050807568878,
+  "note": "areas and perimeters at two orders each, so convergence is visible rather than asserted; the cusp limit is analytic (exactly zero) and only its leading secant coefficient is measured here",
+  "main": {
+    "proper_area": 35.71738159187061,
+    "proper_area_coarser_order": 35.71737897591062,
+    "proper_area_order_change": 2.615959992624539e-06,
+    "proper_perimeter": 255.74310814402452,
+    "proper_perimeter_coarser": 255.74289332035204,
+    "proper_perimeter_change": 0.0002148236724792696,
+    "edge_proper_lengths": [
+      114.61026800804153,
+      11.905713321102466,
+      129.22712681488053
+    ],
+    "effective_width": 0.27932233913225124,
+    "effective_width_in_covering_radii": 1.6126682768868112,
+    "disc_perimeter_same_area": 21.18579369431167
+  },
+  "extended": {
+    "proper_area": 7.434578648762885,
+    "proper_area_coarser_order": 7.424176928676269,
+    "proper_area_order_change": 0.010401720086615995,
+    "proper_perimeter": 41.10576123271369,
+    "proper_perimeter_coarser": 41.10573454821917,
+    "proper_perimeter_change": 2.6684494521589386e-05,
+    "edge_proper_lengths": [
+      9.74360097094833,
+      9.893327788984083,
+      9.563119151678807,
+      11.905713321102468
+    ],
+    "effective_width": 0.361729277152816,
+    "effective_width_in_covering_radii": 2.0884449553794697,
+    "disc_perimeter_same_area": 9.665695560173415
+  },
+  "cusp_secant_angles": [
+    {
+      "separation_msun": 1.0,
+      "angle_degrees": 0.09660493957667826,
+      "angle_over_separation": 0.09660493957667826
+    },
+    {
+      "separation_msun": 0.2,
+      "angle_degrees": 0.020377953181379707,
+      "angle_over_separation": 0.10188976590689854
+    },
+    {
+      "separation_msun": 0.05,
+      "angle_degrees": 0.005148242204134967,
+      "angle_over_separation": 0.10296484408269933
+    },
+    {
+      "separation_msun": 0.01,
+      "angle_degrees": 0.0010325643098886635,
+      "angle_over_separation": 0.10325643098886635
+    },
+    {
+      "separation_msun": 0.001,
+      "angle_degrees": 0.00010332424964204228,
+      "angle_over_separation": 0.10332424964204229
+    },
+    {
+      "separation_msun": 0.0001,
+      "angle_degrees": 1.0316186218701491e-05,
+      "angle_over_separation": 0.10316186218701491
+    }
+  ],
+  "cusp_secant_coefficient": 0.10316186218701491
+}

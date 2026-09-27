@@ -201,44 +201,70 @@ would wrongly show a covering bank.
 
 
 # --------------------------------------------------------------------------- E
-def figure_threshold():
-    opt = json.loads((DATA / "part_f_optimum.json").read_text())
-    names = {"far_1_per_100yr": ("FAR = 1/(100 yr)", "-", "o"),
-             "far_1_per_yr": ("FAR = 1/yr", "--", "s"),
-             "five_sigma": ("5$\\sigma$ global", ":", "D")}
-    fig, ax = plt.subplots(figsize=(5.0, 3.4))
-    for (op, (label, dash, marker)), colour in zip(names.items(), (BLUE, AQUA, YELLOW)):
-        xs, ys = [], []
+def figure_trials():
+    """REPLACES the earlier threshold figure, which plotted rho* against MM.
+
+    That figure violated this project's own rule F1: rho* is a closed function of the
+    template count through FAP = 1-(1-p)^N, so its y-values were computed from its
+    x-values by the formula under test. A blind reviewer reconstructed every plotted
+    point from N alone to within 1e-13 and called it decoration. It was.
+
+    What part E actually measures is this: the effective number of independent trials,
+    filtered out of simulated noise, against the naive bound that counts every template
+    and every sample. Measurement against prediction, which is what F1 asks for."""
+    nu = json.loads((DATA / "part_e_nu_eff.json").read_text())
+    fig, (left, right) = plt.subplots(1, 2, figsize=(7.6, 3.3))
+    for region, lattice, colour, marker in (("main", "hexagonal", BLUE, "o"),
+                                            ("main", "square", ORANGE, "s"),
+                                            ("extended", "hexagonal", AQUA, "^"),
+                                            ("extended", "square", YELLOW, "D")):
+        xs, measured, naive = [], [], []
         for mm in MM_GRID:
-            entry = opt["main"].get(f"hexagonal_mm{round(mm * 100):03d}")
-            if entry:
-                xs.append(mm); ys.append(entry["rho_star"][op])
-        ax.plot(xs, ys, color=colour, linestyle=dash, marker=marker, ms=4.5, lw=1.6,
-                label=label)
-    ax.axvspan(0.945, VALIDATED_FROM, color=MUTED, alpha=0.12, lw=0)
-    ax.annotate("outside the range where q1bC\nvalidated the quadratic predictor",
-                (0.9525, 9.35), fontsize=7, color=MUTED)
-    ax.set_xlabel("nominal minimal match MM")
-    ax.set_ylabel("threshold $\\rho^*$")
-    ax.grid(True, alpha=0.5); ax.legend(fontsize=7.5, loc="center right")
-    ax.set_title("main region, hexagonal bank", fontsize=9, color=INK, loc="left")
-    save(fig, "e_threshold_vs_mm", """
-Detection threshold against nominal minimal match, at the pre-registered operating
-point and its two sensitivities, solving FAP = 1 - (1 - p)^N exactly with
-p = exp(-rho^2/2) from q1bC part A.
-HOW THIS COULD FAIL (F4): rho* depends on the trials count only logarithmically, so
-tripling the bank between MM = 0.95 and 0.99 should move it by of order 1 %. It moves
-1.46 %. A curve that rose steeply would mean the trials model or the tail was wrong.
-The naive trials count is now known to be a genuine UPPER bound, not merely a plausible
-one: for a finite bank-and-time grid in centred Gaussian noise with fixed templates, the
-Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1) gives
-FAP(rho) <= 1 - (1 - exp(-rho^2/2))^N, proved by the efverify r01 verifier. It still does
-not calibrate the effective trials, nor cover a continuous-time search.
-WHAT THIS FIGURE DOES NOT SHOW: the trials count is the naive bound
-N_templates x f_sample x T_obs, not a calibrated nu_eff estimated from simulated noise.
-It over-counts trials, so every rho* here is an upper bound, and the pre-registered
-figure -- a measured false-alarm rate on simulated noise against the nu_eff prediction
--- was not produced.
+            entry = nu["banks"].get(f"{region}_{lattice}_mm{round(mm * 100):03d}")
+            if not entry:
+                continue
+            xs.append(entry["n_templates"])
+            measured.append(entry["n_eff_per_segment"])
+            naive.append(entry["naive_trials_per_segment"])
+        if not xs:
+            continue
+        label = f"{region}, {lattice}"
+        left.plot(xs, naive, color=MUTED, lw=1.0, ls=(0, (5, 2)), zorder=1)
+        left.plot(xs, measured, color=colour, marker=marker, ms=5, lw=1.6, label=label)
+        right.plot(xs, np.asarray(naive) / np.asarray(measured), color=colour,
+                   marker=marker, ms=5, lw=1.6, label=label)
+    left.plot([], [], color=MUTED, lw=1.0, ls=(0, (5, 2)),
+              label="naive bound $N_{\\rm tmpl}\\,f_s\\,T$")
+    for ax in (left, right):
+        ax.set_xscale("log"); ax.grid(True, alpha=0.5)
+        ax.set_xlabel("templates in the bank")
+        # explicit ticks: the default log minor labels collide at this aspect ratio
+        ax.set_xticks([200, 500, 1000, 2000, 5000])
+        ax.set_xticklabels(["200", "500", "1000", "2000", "5000"])
+        ax.set_xticks([], minor=True)
+        ax.set_xlim(180, 6000)
+    left.set_yscale("log")
+    left.set_ylabel("independent trials per 32 s segment")
+    right.set_ylabel("naive bound / measured")
+    left.legend(fontsize=7, loc="upper left")
+    save(fig, "e_trials_measured_vs_naive", """
+Left: the effective number of independent trials per segment, measured by filtering
+simulated Gaussian noise through each bank and fitting the distribution of the maximum
+of |z| over templates and time (100 segments of 32 s, seed 20260926, the same noise for
+every bank), against the naive bound that counts every template and every sample as
+independent. Right: their ratio.
+THIS FIGURE REPLACES an earlier one that plotted the threshold against minimal match.
+That figure broke rule F1 -- rho* is a closed function of the template count, so its
+y-values were computed from its x-values by the formula under test, and a blind reviewer
+reconstructed every plotted point from N alone to within 1e-13. It was decoration.
+HOW THIS COULD FAIL (F4): if the templates of a bank were independent, the coloured
+points would lie on the dashed line and the right-hand ratio would be 1. They do not and
+it is not: the ratio runs from about 7 to 58. If instead the measured trials grew in
+proportion to the template count, each family would run parallel to the dashed line;
+they are far flatter, which is the exponent the text reports.
+WHAT IT DOES NOT SHOW: the calibration is done where the maxima fall, around |z| = 5.3
+to 5.8, and is applied at thresholds near 8.0 to 8.6. That extrapolation of about two in
+|z| is not tested here, and the trials count is not constant across the probed tail.
 """)
 
 
@@ -360,7 +386,7 @@ def main():
     figure_covering()
     figure_counts()
     figure_mismatch_map()
-    figure_threshold()
+    figure_trials()
     figure_volume_losses()
     figure_veff()
 

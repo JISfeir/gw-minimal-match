@@ -314,58 +314,6 @@ figures:
     and was reproduced by hand to 14 digits, not recomputed by this figure
   supports:
   - covering-at-mm097
-- file: figures/e_threshold_vs_mm.pdf
-  produced_by: scripts/make_figures.py::figure_threshold
-  shows: 'Detection threshold against nominal minimal match for the main hexagonal bank, at
-    the pre-registered operating point and its two sensitivities. The reader should take that
-    rho* moves 1.46 % while the bank triples, because the dependence on the trials count is
-    logarithmic.
-
-    '
-  from_scratch: 'the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection,
-    and the rare-tail Poisson comparison
-
-    '
-  from_library: 'the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there
-    on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
-
-    '
-  choices:
-  - the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff;
-    it over-counts trials, so every rho* plotted is an upper bound
-  - FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T);
-    5 sigma from its one-sided global probability 2.8665e-7
-  - MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated
-    range there
-  - main hexagonal only; the other three banks differ by less than 0.25 in rho*
-  supports:
-  - detection-threshold
-- file: figures/e_threshold_vs_mm.png
-  produced_by: scripts/make_figures.py::figure_threshold
-  shows: 'Detection threshold against nominal minimal match for the main hexagonal bank, at
-    the pre-registered operating point and its two sensitivities. The reader should take that
-    rho* moves 1.46 % while the bank triples, because the dependence on the trials count is
-    logarithmic. Raster copy of the same call, for the HTML page.
-
-    '
-  from_scratch: 'the exact trials combination FAP = 1 - (1 - p)^N solved for rho* by bisection,
-    and the rare-tail Poisson comparison
-
-    '
-  from_library: 'the single-sample tail p(rho) = exp(-rho^2/2) is q1bC part A, verified there
-    on simulated noise; scipy brentq and scipy.stats.norm; matplotlib
-
-    '
-  choices:
-  - the trials count is the NAIVE BOUND N_templates * 2048 Hz * 1 yr, not a calibrated nu_eff;
-    it over-counts trials, so every rho* plotted is an upper bound
-  - FAP for the two FAR points from the Poisson false-alarm-process convention 1 - exp(-FAR*T);
-    5 sigma from its one-sided global probability 2.8665e-7
-  - MM below 0.97 shaded, because q1bC measured the quadratic predictor outside its validated
-    range there
-  - main hexagonal only; the other three banks differ by less than 0.25 in rho*
-  supports:
-  - detection-threshold
 - file: figures/f_volume_losses.pdf
   produced_by: scripts/make_figures.py::figure_volume_losses
   shows: 'The three fractional detection-volume losses kept apart against nominal minimal
@@ -484,3 +432,58 @@ figures:
   supports:
   - volume-loss-rule
   - detection-threshold
+- file: figures/e_trials_measured_vs_naive.pdf
+  produced_by: scripts/make_figures.py::figure_trials
+  shows: Effective independent trials per segment, measured from simulated noise, against
+    the naive bound that counts every template and every sample; and their ratio. The reader
+    should take that the measured trials are nearly flat in bank size while the bound climbs,
+    and that the ratio runs from about 7 to 58.
+  from_scratch: the noise filtering through every template of all twenty banks, the maximum
+    of |z| over templates and time per segment, and the closed-form MLE for the effective
+    trial count
+  from_library: the frozen upstream package's coloured_noise, kernel and psd_grid, whose single-sample
+    statistic was verified there and re-verified here as a control; numpy FFT; matplotlib
+  choices:
+  - 'REPLACES an earlier figure of rho* against MM, which violated rule F1: rho* is a closed
+    function of the template count, so its y-values were computed from its x-values by the
+    formula under test. A blind reviewer reconstructed every plotted point from N alone to
+    within 1e-13. That figure has been withdrawn, not merely re-captioned'
+  - 100 segments of 32 s, seed 20260926, the same noise driving every bank so the comparison
+    across banks is paired
+  - log x and log y on the left panel, because the measured series and the bound differ by
+    up to a factor 58; linear ratio on the right, where the claim lives
+  - 'explicit x ticks: the default log minor labels collide at this aspect ratio'
+  - the calibration is done where the maxima fall, near |z| = 5.3 to 5.8, and is applied at
+    thresholds near 8.0 to 8.6; that extrapolation is not tested here and is stated in the
+    caption
+  supports:
+  - detection-threshold
+  - volume-loss-rule
+- file: figures/e_trials_measured_vs_naive.png
+  produced_by: scripts/make_figures.py::figure_trials
+  shows: Effective independent trials per segment, measured from simulated noise, against
+    the naive bound that counts every template and every sample; and their ratio. The reader
+    should take that the measured trials are nearly flat in bank size while the bound climbs,
+    and that the ratio runs from about 7 to 58. Raster copy of the same call, for the HTML
+    page.
+  from_scratch: the noise filtering through every template of all twenty banks, the maximum
+    of |z| over templates and time per segment, and the closed-form MLE for the effective
+    trial count
+  from_library: the frozen upstream package's coloured_noise, kernel and psd_grid, whose single-sample
+    statistic was verified there and re-verified here as a control; numpy FFT; matplotlib
+  choices:
+  - 'REPLACES an earlier figure of rho* against MM, which violated rule F1: rho* is a closed
+    function of the template count, so its y-values were computed from its x-values by the
+    formula under test. A blind reviewer reconstructed every plotted point from N alone to
+    within 1e-13. That figure has been withdrawn, not merely re-captioned'
+  - 100 segments of 32 s, seed 20260926, the same noise driving every bank so the comparison
+    across banks is paired
+  - log x and log y on the left panel, because the measured series and the bound differ by
+    up to a factor 58; linear ratio on the right, where the claim lives
+  - 'explicit x ticks: the default log minor labels collide at this aspect ratio'
+  - the calibration is done where the maxima fall, near |z| = 5.3 to 5.8, and is applied at
+    thresholds near 8.0 to 8.6; that extrapolation is not tested here and is stated in the
+    caption
+  supports:
+  - detection-threshold
+  - volume-loss-rule

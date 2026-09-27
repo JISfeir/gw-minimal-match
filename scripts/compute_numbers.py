@@ -38,47 +38,47 @@ def entry(value, unit, meaning, source, caveat=None, seed=None):
 def compute() -> dict:
     part_d = json.loads((DATA / "part_d_mm097.json").read_text())
     part_e = json.loads((DATA / "part_e_mm097.json").read_text())
+    # ONE source for part F. There used to be two files, written by different scripts
+    # with different seeds; their population losses disagreed by up to 5.4 %, and a
+    # claim in the paper was assembled from one number in each. A blind review caught it.
     optimum = json.loads((DATA / "part_f_optimum.json").read_text())
     nu = json.loads((DATA / "part_e_nu_eff.json").read_text())
     registry: dict = {}
 
     # ---- the convention itself -------------------------------------------------
-    # Region geometry, corrected 2026-09-26 by the geomverify r01 audit and confirmed
-    # here by a third method (Gauss-Legendre in (m1, m2)). The first values came from a
-    # Monte Carlo with no convergence study.
-    registry["proper_area_main"] = entry(
-        35.717393158, "s^-2 (metric units)", "proper area of the main region",
-        "geomverify r01 deterministic quadrature; independent Gauss-Legendre here gives "
-        "35.717382 at order 120",
-        caveat="the earlier Monte Carlo value 35.4 was low by 0.89 %, within its own "
-               "sampling error but quoted without one")
-    registry["proper_area_extended"] = entry(
-        7.434835530, "s^-2 (metric units)", "proper area of the extended region",
-        "geomverify r01; independent Gauss-Legendre here gives 7.434579 at order 120",
-        caveat="the earlier Monte Carlo value 7.08 was low by 4.77 %")
-    registry["proper_perimeter_main"] = entry(
-        255.743181875, "s^-1 (metric units)", "proper perimeter of the main region",
-        "geomverify r01, agreeing with this project's value to ten digits",
-        caveat="a disc of the same proper area would have perimeter 21.2; the region is "
-               "a ribbon, not a blob")
-    registry["effective_width_main"] = entry(
-        1.612668, "covering radii", "effective width 2A/P of the main region",
-        "geomverify r01",
-        caveat="a global summary, NOT a local width bound; it is why the region is "
-               "boundary-dominated and why an asymptotic ratio has almost no interior "
-               "in which to be measured")
-    registry["effective_width_extended"] = entry(
-        2.088516, "covering radii", "effective width 2A/P of the extended region",
-        "geomverify r01", caveat="as above")
+    # Region geometry, READ FROM A FILE. A blind review found these were hard-coded
+    # literals with nothing behind them, which made the paper's claim that regenerating
+    # one file reproduces every value a transcription. scripts/compute_geometry.py now
+    # computes them by Gauss-Legendre quadrature at two orders and ships the result,
+    # including the extended perimeter, which was never shipped at all.
+    geom = json.loads((DATA / "region_geometry.json").read_text())
+    for region in ("main", "extended"):
+        g = geom[region]
+        registry[f"proper_area_{region}"] = entry(
+            g["proper_area"], "s^-2 (metric units)", f"proper area of the {region} region",
+            "scripts/compute_geometry.py, Gauss-Legendre order 120",
+            caveat=f"order 60 gives {g['proper_area_coarser_order']:.6f}, so the "
+                   f"quadrature is converged to {g['proper_area_order_change']:.2g}; this "
+                   f"is a numerical convergence estimate, not a rigorous enclosure")
+        registry[f"proper_perimeter_{region}"] = entry(
+            g["proper_perimeter"], "s^-1 (metric units)",
+            f"proper perimeter of the {region} region",
+            "scripts/compute_geometry.py, 600 segments per edge",
+            caveat=f"a disc of the same proper area would have perimeter "
+                   f"{g['disc_perimeter_same_area']:.1f}: the region is a ribbon")
+        registry[f"effective_width_{region}"] = entry(
+            g["effective_width_in_covering_radii"], "covering radii",
+            f"effective width 2A/P of the {region} region",
+            "scripts/compute_geometry.py",
+            caveat="a global summary, NOT a local width bound; it is why the region is "
+                   "boundary-dominated and why an asymptotic ratio has almost no interior "
+                   "in which to be measured")
     registry["cusp_secant_coefficient"] = entry(
-        0.103329707269, "degrees per Msun",
-        "leading coefficient of the secant angle between the two region edges at "
-        "(5,5) Msun, for equal component increments",
-        "geomverify r01, verified to eps = 1e-12",
-        caveat="the LIMIT is exactly zero and is an analytic result, not a measurement, "
-               "so it is stated in words rather than cited from here: differentiating "
-               "the two mass rays gives positively parallel tangents. A finite-angle "
-               "floor and numerical cancellation were both refuted")
+        geom["cusp_secant_coefficient"], "degrees per Msun",
+        "leading secant-angle coefficient between the two region edges at (5,5) Msun",
+        "scripts/compute_geometry.py, fitted down to 1e-4 Msun separation",
+        caveat="the LIMIT is exactly zero and is analytic, not measured: the two mass "
+               "rays have positively parallel tangents. Only this coefficient is measured")
 
     registry["minimal_match_headline"] = entry(
         0.97, "dimensionless", "the headline minimal match",
@@ -116,17 +116,17 @@ def compute() -> dict:
             "work/d1/report_d.py, 3000 uniform injections", seed=row["seed"],
             caveat="quadratic form in the injection's own metric, not a waveform match; "
                    "uniform sampling does not find the holes an adaptive search does")
-    registry["adaptive_worst_mismatch_main_hexagonal"] = entry(
-        0.032220597236526316, "dimensionless",
-        "worst mismatch an adaptive search reached in the main hexagonal bank",
-        "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand to 14 digits",
-        caveat="a lower bound on the true worst case, not a certified maximum; it "
-               "refutes strict covering at MM = 0.97 for this bank")
-    registry["adaptive_worst_mismatch_extended_hexagonal"] = entry(
-        0.03615253316239979, "dimensionless",
-        "worst mismatch an adaptive search reached in the extended hexagonal bank",
-        "jobs/2026-09-25_112044_derive-dverify r03 verifier, reproduced by hand",
-        caveat="as above; both square banks survived the same search")
+    witnesses = json.loads((DATA / "fig_witnesses.json").read_text())
+    for bank in ("main_hexagonal", "extended_hexagonal"):
+        registry[f"adaptive_worst_mismatch_{bank}"] = entry(
+            witnesses[bank]["mismatch"], "dimensionless",
+            f"worst mismatch an adaptive search reached in the {bank.replace('_', ' ')} bank",
+            f"data/fig_witnesses.json at ({witnesses[bank]['m1']:.6f}, "
+            f"{witnesses[bank]['m2']:.6f}) Msun; found by an independent audit and "
+            f"reproduced by hand to fourteen digits",
+            caveat="a lower bound on the true worst case, not a certified maximum. It "
+                   "refutes strict covering at MM = 0.97 for both hexagonal banks; both "
+                   "square banks survived the same search")
     for region, hexa, sq in (("main", "main_hexagonal", "main_square"),
                              ("extended", "extended_hexagonal", "extended_square")):
         registry[f"hex_square_ratio_{region}_mm097"] = entry(
@@ -158,11 +158,15 @@ def compute() -> dict:
                    "verifier from the Gaussian correlation inequality "
                    "(Latala and Matlak, arXiv:1512.08776, Thm 1)")
     registry["poisson_approximation_error"] = entry(
-        5.3065605155e-16, "relative",
-        "worst relative error of the rare-tail Poisson approximation on rho*, all banks",
-        "efverify r01 verifier; the author's own figure of 3.40e-16 was the MM = 0.97 "
-        "value, not the maximum",
-        caveat="negligible, and shown rather than assumed, as part E required")
+        part_e["worst_poisson_relative_error"], "relative",
+        "largest resolvable difference between the exact trials combination and its "
+        "rare-tail Poisson form, over the reported banks and operating points",
+        "work/d1/threshold.py",
+        caveat="THIS IS FLOATING-POINT NOISE, NOT THE APPROXIMATION ERROR. The true "
+               "mathematical difference at the operating point is near 6e-19, some 900 "
+               "times smaller, and 1e-23 at 5 sigma. The conclusion -- that the "
+               "approximation is safe -- is right; this number is a limit of double "
+               "precision and must not be quoted as the error itself")
 
     # ---- part E.2: the calibrated trials rate -----------------------------------
     registry["nu_eff_main_hexagonal_mm097"] = entry(
@@ -171,6 +175,15 @@ def compute() -> dict:
         "work/d1/nu_eff.py, 100 segments of 32 s", seed=nu["seed"],
         caveat="a summary of a correlated search, not a count of anything; the level is "
                "good to roughly +-50 %, which moves rho* by 0.05 and is immaterial")
+    registry["trials_exponent_pooled"] = entry(
+        nu["alpha_fit"]["all"]["alpha"], "dimensionless",
+        "exponent from fitting all twenty banks together, ignoring region and lattice",
+        "work/d1/nu_eff.py",
+        caveat="REPORTED BUT NOT USED, and the paper says so. It is four standard "
+               "deviations ABOVE 1, the opposite of the within-family result, because the "
+               "two regions differ in nu_eff by more than a factor ten at comparable "
+               "template counts: the pooled slope measures the step between regions, not "
+               "how either scales")
     for family, fit in nu["alpha_fit"].items():
         if family == "all":
             continue
@@ -191,15 +204,24 @@ def compute() -> dict:
                 f"population-average discretisation volume loss, {region} {lattice}",
                 "work/d1/optimum.py, TaylorF2 injections",
                 caveat="4 to 9 times smaller than the worst case 1-MM^3 = 0.087327")
-    registry["imrphenomd_volume_loss_extended_hexagonal"] = entry(
-        optimum["extended"]["hexagonal_mm097"]["losses"]["population_imrphenomd_approx"],
-        "fraction",
-        "volume loss against IMRPhenomD signals, extended hexagonal, MM = 0.97",
-        "work/d1/optimum.py",
-        caveat="a DECLARED APPROXIMATION: q1bC's continuous-family fitting factor composed "
-               "multiplicatively with the discretisation match, assuming an independence "
-               "that is not established. Of this, 0.495 is the family alone -- in the "
-               "extended region the waveform model, not the bank, costs the volume")
+    for region in ("main", "extended"):
+        losses = optimum[region]["hexagonal_mm097"]["losses"]
+        registry[f"imrphenomd_volume_loss_{region}"] = entry(
+            losses["population_imrphenomd_approx"], "fraction",
+            f"volume loss against IMRPhenomD signals, {region} hexagonal, MM = 0.97",
+            "work/d1/optimum.py",
+            caveat="a DECLARED APPROXIMATION: the frozen continuous-family fitting factor "
+                   "composed multiplicatively with the discretisation match, assuming an "
+                   "independence that is not established. The family-only figure beside "
+                   "it is the rigorous bound")
+        registry[f"imrphenomd_family_only_{region}"] = entry(
+            losses["imrphenomd_family_only_bound"], "fraction",
+            f"volume loss from the continuous TaylorF2 family alone, {region}",
+            "work/d1/optimum.py, same injections and seed as the line above",
+            caveat="a rigorous lower bound on the IMRPhenomD loss: the best match against "
+                   "a discrete subset cannot exceed the best match against the family it "
+                   "is drawn from. The difference from the line above is what the bank's "
+                   "discretisation adds")
     for region, lattice in (("main", "hexagonal"), ("main", "square"),
                             ("extended", "hexagonal"), ("extended", "square")):
         naive, calib = [], []

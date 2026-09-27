@@ -94,7 +94,11 @@ def run(region, n=2000, seed=20260927, bootstrap=400):
                          "worst_case_1_minus_MM3": 1.0 - mm ** 3,
                          "linear_expansion": 3.0 * (1.0 - mm),
                          "population_taylorf2": 1.0 - float(np.mean(match ** 3)),
-                         "population_imrphenomd_approx": 1.0 - float(np.mean(combined ** 3))},
+                         "population_imrphenomd_approx": 1.0 - float(np.mean(combined ** 3)),
+                         # the rigorous leg: the best match against a discrete subset
+                         # cannot exceed the best match against the family it is drawn
+                         # from, so this bounds the IMRPhenomD loss from below
+                         "imrphenomd_family_only_bound": 1.0 - float(np.mean(ff ** 3))},
                      "rho_star": {}, "v_eff": {}, "v_eff_error": {},
                      "rho_star_calibrated": {}, "v_eff_calibrated": {}}
             boot_tf2 = np.mean(match[indices] ** 3, axis=1)

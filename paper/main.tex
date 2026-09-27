@@ -111,12 +111,15 @@ costs, because it is large enough to change the conclusions drawn from template 
 \label{sec:results-loss}
 
 Against IMRPhenomD signals the TaylorF2 family loses
-$\dataref{imrphenomd-volume-loss-extended-hexagonal}$ of the detection volume in the
-extended region. Of that, $0.495$ is the continuous family alone: discretisation of the
-bank contributes about one percentage point. \emph{Above $M = 35\,\Msun$ the waveform
-model, not the bank, is what costs the volume,} and no amount of refinement recovers it.
-In the main region the same decomposition gives $0.192$ total against $0.174$ from the
-family. This is the clearest practical result in the paper and it sets the context for
+$\dataref{imrphenomd-volume-loss-extended}$ of the detection volume in the extended
+region. Of that, $\dataref{imrphenomd-family-only-extended}$ is the continuous family
+alone, so the bank's discretisation adds seven tenths of a percentage point.
+\emph{Above $M = 35\,\Msun$ the waveform model, not the bank, is what costs the volume,}
+and no amount of refinement recovers it. In the main region the same decomposition gives
+$\dataref{imrphenomd-volume-loss-main}$ total against
+$\dataref{imrphenomd-family-only-main}$ from the family. Both legs are computed from the
+same injections and the same seed; an earlier version assembled the two numbers from
+different runs and overstated the gap. This is the clearest practical result in the paper and it sets the context for
 everything that follows: bank density is worth arguing about only where the signal model
 is adequate.
 
@@ -148,7 +151,12 @@ injections; \S\ref{sec:results-bank} explains why they are not the whole story.}
 \end{table}
 
 \paragraph{Uniform sampling flatters a bank.} Under $3000$ uniform injections three of the
-four banks contain no injection below the minimal match at all. An adaptive search finds
+four banks contain no injection below the minimal match at all
+(Figure~\ref{fig:covering}). That test has very little power: it reaches $50\,\%$
+detection probability only at an uncovered fraction of $2.3\times10^{-4}$, and the two
+holes it does find in the extended hexagonal bank carry an exact Poisson $95\,\%$ interval
+of $[8.1\times10^{-5},\,2.4\times10^{-3}]$. A clean covering fraction from uniform
+injections is close to no evidence at all. An adaptive search finds
 otherwise: the worst mismatch it reaches is
 $\dataref{adaptive-worst-mismatch-main-hexagonal}$ in the main hexagonal bank and
 $\dataref{adaptive-worst-mismatch-extended-hexagonal}$ in the extended one, both above the
@@ -210,8 +218,11 @@ alone would have shown a covering bank.}
 At the pre-registered operating point --- a false-alarm rate of $1/(100\,\mathrm{yr})$ over
 one year --- solving $\mathrm{FAP} = 1 - (1-p)^{N}$ exactly with $p = e^{-\rho^2/2}$ gives
 $\rho^* = \dataref{rho-star-naive-main-hexagonal}$ for the main hexagonal bank. The
-rare-tail Poisson form agrees to $\dataref{poisson-approximation-error}$ relative, so the
-approximation is safe --- shown rather than assumed.
+rare-tail Poisson form agrees to within double-precision rounding: the largest difference
+we can resolve is $\dataref{poisson-approximation-error}$ relative, while the true
+mathematical difference at this operating point is near $6\times10^{-19}$. The
+approximation is safe, but the measured number is floating-point noise rather than the
+error itself, and should not be quoted as if it were the latter.
 
 Everything then depends on $N$. Counting every template and every sample as an independent
 trial is an upper bound, and provably so: for a finite bank-and-time grid in centred
@@ -219,16 +230,27 @@ Gaussian noise the Gaussian correlation inequality gives
 $\mathrm{FAP}(\rho) \le 1 - (1 - e^{-\rho^2/2})^{N}$. But it is a loose bound. Filtering
 simulated noise through each bank and taking the maximum of $|z|$ over templates and time
 gives $\nu_{\rm eff} = \dataref{nu-eff-main-hexagonal-mm097}$ independent trials per second
-at $\MM = 0.97$, between six and seventeen times below the naive count --- and the gap
-\emph{widens} with bank size.
+at $\MM = 0.97$, between nine and thirty-one times below the naive count for the four banks
+at that minimal match. Within one region and lattice the gap \emph{widens} as the bank is
+refined --- $6.9$ to $17.2$ times across the $\MM$ grid for the main hexagonal family ---
+but that is refinement, not size: pooled across all twenty banks the correlation between
+$\ln N_{\rm templates}$ and the log gap is $-0.45$, so with size alone the gap narrows.
 
 That widening is the result. Fitting $N_{\rm eff} \propto N_{\rm templates}^{\alpha}$
 within each family gives $\alpha = \dataref{trials-exponent-main-hexagonal}$ (main
 hexagonal), $\dataref{trials-exponent-main-square}$, $\dataref{trials-exponent-extended-hexagonal}$
-and $\dataref{trials-exponent-extended-square}$, every one of them more than eighteen
-standard deviations below $1$. The mechanism is not subtle: refining a bank adds templates
-that overlap their neighbours at the minimal match \emph{by construction}, so they add
-redundancy, not independent trials.
+and $\dataref{trials-exponent-extended-square}$. The weakest of the four sits $15.5$
+standard deviations below $1$ and the strongest $23.4$. The mechanism is not subtle:
+refining a bank adds templates that overlap their neighbours at the minimal match
+\emph{by construction}, so they add redundancy, not independent trials.
+
+The same twenty points fitted \emph{together}, ignoring the split into regions and
+lattices, give $\alpha = \dataref{trials-exponent-pooled}$ with a $95\,\%$ interval of
+$[1.165, 1.424]$ --- four standard deviations \emph{above} $1$, the opposite conclusion.
+We report it because a reader is entitled to it, and we do not use it: the two regions
+differ in $\nu_{\rm eff}$ by more than a factor ten at comparable template counts, so the
+pooled slope measures the step between them rather than how either one scales. The
+within-family fits are the ones that answer the question asked.
 
 \section{Volume, and the optimum that is not there}
 
@@ -255,6 +277,28 @@ hexagonal case. Under the calibrated one it rises, by
 $\dataref{veff-change-calibrated-main-hexagonal}\,\%$. The threshold is the reason:
 calibrated, $\rho^*$ moves $0.24\,\%$ while the bank triples, against $1.46\,\%$ naive,
 and the $2.48\,\%$ gain in $\langle M^3\rangle$ then wins.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.92\textwidth]{e_trials_measured_vs_naive.pdf}
+\caption{Effective independent trials measured from simulated noise, against the naive
+bound that counts every template and every sample. \textbf{How this could fail:} if a
+bank's templates were independent the points would lie on the dashed line and the ratio
+would be~$1$; if trials grew in proportion to the template count each family would run
+parallel to it. Neither happens. An earlier version of this figure plotted $\rho^*$
+against $\MM$; that was decoration, because $\rho^*$ is a closed function of the template
+count, and it has been withdrawn.}
+\label{fig:trials}
+\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.92\textwidth]{d_covering_cumulative.pdf}
+\caption{Cumulative distribution of the best match each injection finds, interior and
+border apart. \textbf{How this could fail:} a bank that did not cover would show a
+visible fraction of its curve left of the $\MM = 0.97$ line. The extended hexagonal
+interior curve does cross it, by two injections in three thousand --- and
+\S\ref{sec:results-bank} explains why that number carries almost no information.}
+\label{fig:covering}
+\end{figure}
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.90\textwidth]{f_veff_vs_mm.pdf}

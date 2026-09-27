@@ -139,11 +139,16 @@ class PartFVolume(unittest.TestCase):
                 self.assertLess(loss, worst / 3.5)
 
     def test_in_the_extended_region_the_family_costs_the_volume(self):
-        optimum = load("part_f_optimum.json")
-        row = optimum["extended"]["hexagonal_mm097"]["losses"]
+        """Both legs from the SAME file and seed. They used to come from two files with
+        different seeds, and the earlier tolerance here was two percentage points for a
+        claim of about one -- so it could not have caught the mismatch. A blind review
+        did."""
+        row = load("part_f_optimum.json")["extended"]["hexagonal_mm097"]["losses"]
         total = row["population_imrphenomd_approx"]
-        self.assertGreater(total, 0.45)
-        self.assertGreater(0.02, total - 0.495)   # discretisation adds about one point
+        family = row["imrphenomd_family_only_bound"]
+        self.assertGreater(family, 0.45)
+        self.assertLess(total - family, 0.010)     # discretisation adds under one point
+        self.assertGreater(total - family, 0.002)  # but it is not zero either
 
     def test_the_trials_model_flips_the_sign_of_the_trend(self):
         """The headline of part F. Naive falls, calibrated rises, in all four banks."""
