@@ -79,21 +79,41 @@ Modelled on the day-5 release README. This does **not** say the repository is
 how — and the last category is a thing it does not claim. Each line is filled in as the
 work is done, and each is checkable by running the thing, not by taking it on trust.
 
-1. **Bitwise, demonstrated.** `data/project_numbers.json` regenerates byte-identically
-   from `scripts/compute_numbers.py` on the reference platform. *(to be demonstrated)*
-2. **Raster-identical, not byte-identical.** The figure PDFs regenerate with zero
-   differing pixels at 200 dpi but not byte-for-byte, because matplotlib stamps
-   `/CreationDate` and `/Producer`. Fix: set `SOURCE_DATE_EPOCH` to a fixed value with a
-   pinned matplotlib. *(to be demonstrated)*
-3. **Within a stated, measured tolerance.** Numerical tests compare at a fixed fraction
-   of each array's own scale; the tolerance is measured against a second BLAS build
-   rather than chosen. *(to be measured)*
-4. **Within tolerance, not bitwise.** Monte-Carlo products (the covering check, any
-   sampled efficiency) agree only to Monte-Carlo error; every number quoted is rounded
-   well inside it. *(to be stated)*
-5. **Not claimed.** That any large `results/*.npz` array reproduces byte-for-byte on a
+**Demonstrated by a clean-clone test on 2026-09-27**: clone into `/tmp`, follow only the
+three commands above, and compare. All of it below is checkable by repeating that.
+
+1. **Bitwise, demonstrated.** `data/project_numbers.json`, `provenance/numbers.json` and
+   `paper/generated_numbers.tex` regenerate byte-identically in a fresh clone, and twice
+   in a row within it. After running the full reproduction the clone's `git status` is
+   **empty**: nothing the pipeline writes differs from what is committed.
+2. **Bitwise, better than previously claimed.** The figure PDFs and PNGs also regenerate
+   byte-identically, not merely raster-identically, because `scripts/make_figures.py`
+   pins `SOURCE_DATE_EPOCH`. The earlier wording here expected only zero differing pixels.
+3. **Within a stated, measured tolerance.** `tests/test_acceptance.py` (19 tests) passes
+   in the clone. Its tolerances are argued rather than defaulted: closed forms to 1e-12,
+   template counts exactly because placement is deterministic, Monte-Carlo quantities no
+   tighter than their own reported error, and the trials exponent pinned to span both
+   this project's five-point fits and an independent audit's endpoint estimate.
+4. **Within tolerance, not bitwise.** Monte-Carlo products — the covering fractions, the
+   population volume losses, the trials calibration — agree only to their own sampling
+   error, which each carries. Two part-F files written with different seeds once
+   disagreed by up to 5.4 %; there is now one source and one seed, which is the only
+   reason the numbers in the paper are consistent with each other.
+5. **Not reproducible from the clone, and named as such.** `scripts/export_figure_data.py`
+   and everything under `work/d1/` need a frozen upstream package that supplies the
+   metric, waveforms, PSD and noise. It is git-ignored and is **not distributed**. Set
+   `GWMM_FROZEN_PACKAGE` to its location to run them; without it they stop with an
+   explicit error rather than importing whatever is at a hard-coded path. The clean-clone
+   test found that defect: on the machine that wrote the code the absolute path resolved,
+   so the dependency was invisible.
+6. **Not claimed.** That any large `results/*.npz` array reproduces byte-for-byte on a
    different platform. The pipeline is how they were made; the deposited arrays, if any,
    are what the result used.
+
+**What this means in practice.** Everything a reader checks — the paper, the six figures,
+the number registry, the acceptance tests, the provenance gate — rebuilds from a clean
+clone with no external inputs. Everything that *produced* those numbers needs the frozen
+package. That boundary is the honest reproducibility claim of this repository.
 
 ---
 

@@ -29,6 +29,7 @@ is what would be needed to say how much that matters, and it is not folded in he
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -41,7 +42,9 @@ from geometry import MM, MU_MAX, analytic_metric, tau
 from threshold import OPERATING_POINTS, naive_trials, solve_threshold
 
 RESULTS = Path("/home/juan/gw-minimal-match/results/d1")
-Q1BC = Path("/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out")
+Q1BC = Path(os.environ.get(
+    "GWMM_FROZEN_PACKAGE",
+    "/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out"))
 
 
 def load_fitting_factors():

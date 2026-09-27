@@ -12,7 +12,19 @@ from pathlib import Path
 
 import numpy as np
 
-Q1BC = Path("/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out")
+# The frozen upstream package supplies the metric, waveforms, PSD and noise. It is
+# git-ignored and does not travel with a clone, so its location is configurable and its
+# absence is an explicit error rather than a silent import of whatever happens to be at
+# a hard-coded path. A clean-clone test found exactly that: on the machine that wrote
+# this code the absolute path resolved, so the dependency was invisible.
+_DEFAULT_FROZEN = "/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out"
+Q1BC = Path(os.environ.get("GWMM_FROZEN_PACKAGE", _DEFAULT_FROZEN))
+if not (Q1BC / "lib" / "metric.py").exists():
+    raise SystemExit(
+        f"the frozen upstream package is not at {Q1BC}.\n"
+        f"It is not distributed with the repository. Set GWMM_FROZEN_PACKAGE to its\n"
+        f"location to run this module. Nothing under scripts/ needs it: the figures,\n"
+        f"the registry and the paper all rebuild from data/ alone.")
 if str(Q1BC) not in sys.path:
     sys.path.insert(0, str(Q1BC))
 from lib.metric import analytic_metric, masses, tau, total_eta  # noqa: E402
