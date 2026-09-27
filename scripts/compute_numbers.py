@@ -24,6 +24,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 OUT = DATA / "project_numbers.json"
+# The provenance hook keeps its own registry, with a richer schema. It used to be fed
+# by hand and had drifted: claims could name numbers that existed in one file and not
+# the other. One computation now feeds both.
+PROVENANCE = ROOT / "provenance" / "numbers.json"
 
 
 def entry(value, unit, meaning, source, caveat=None, seed=None):
@@ -244,13 +248,34 @@ def compute() -> dict:
     return registry
 
 
+def mirror_to_provenance(registry):
+    """Emit the same numbers in the provenance hook's schema, merging with what is
+    already there rather than replacing it."""
+    existing = json.loads(PROVENANCE.read_text()) if PROVENANCE.exists() else {}
+    for key, record in registry.items():
+        existing[key] = {
+            "value": record["value"],
+            "statement": f"{record['meaning']} [{record['unit']}]",
+            "produced_by": "scripts/compute_numbers.py::compute",
+            "from_scratch": record["source"],
+            "from_library": "numpy and scipy, through the pipeline scripts named above; "
+                            "the metric, waveforms, PSD and noise come from the frozen "
+                            "upstream package",
+            "choices": [record["caveat"]] if record.get("caveat") else [],
+        }
+    PROVENANCE.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n")
+    return len(existing)
+
+
 def main() -> None:
     registry = compute()
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     with_caveat = sum(1 for v in registry.values() if "caveat" in v)
+    total = mirror_to_provenance(registry)
     print(f"wrote {OUT.relative_to(ROOT)}  ({len(registry)} numbers, "
           f"{with_caveat} carrying a caveat)")
+    print(f"wrote {PROVENANCE.relative_to(ROOT)}  ({total} entries after merge)")
 
 
 if __name__ == "__main__":

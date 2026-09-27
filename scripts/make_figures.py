@@ -153,7 +153,7 @@ def figure_counts():
 Top: bank size against nominal minimal match, both regions and both lattices.
 Bottom: the measured hexagonal/square count ratio against its two references -- the
 ideal constant-metric value 0.7698 and the 0.717-0.719 Cokelaer 2007 measures once the
-metric varies. The ordinate spans 0.60-0.86 so that the 5-point gap between those two
+metric varies. The ordinate spans 0.60-0.90 so that the 5-point gap between those two
 references is legible (rule F2).
 HOW THIS COULD FAIL (F4): if lattice efficiency alone set the ratio, both regions would
 sit on one horizontal line near 0.77. They do not: main stays at or above the ideal

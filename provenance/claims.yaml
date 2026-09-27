@@ -151,6 +151,78 @@ claims:
   - q1bc_astra_loop_tokens_r02
   - q1bc_astra_loop_tokens_total
   - q1bc_reconciled_job_tokens_before_resume
+- id: covering-at-mm097
+  statement: 'Square and hexagonal banks are placed in (tau_0, tau_3) for the same nominal
+    minimal match with Cokelaer''s local-metric method and boundary treatment. For both we
+    measure, by Monte Carlo over injected TaylorF2 signals and separately for interior and
+    border injections, the fraction whose best match falls below MM, and determine whether
+    any excess over the ideal geometric expectation comes from metric variation, the quadratic
+    approximation, the boundaries or the implementation. The template counts are compared
+    against two references: the ideal constant-metric ratio 0.770, and the 0.717-0.719 that
+    Cokelaer measures once the metric varies. (Corrected 2026-09-21: this said ~0.60, from
+    reading Cokelaer''s Table III in the wrong convention. The two references are close together,
+    so metric evolution buys about 5 points of ratio, not 17.)'
+  status: 'MEASURED, and strict covering is REFUTED for both hexagonal banks: adaptive witnesses
+    at mismatch 0.0322 and 0.0362 against a 0.03 target, reproduced independently. Both square
+    banks survive the same search. The uniform-injection covering fractions have very little
+    power and should not be read as support.'
+  evidence:
+  - data/part_d_mm097.json::counts, composition, covering fractions, border fractions
+  - data/fig_covering.npz::per-injection best match and border flag, 3000 per region
+  - data/fig_witnesses.json::the two adaptive-search witnesses that refute strict covering
+  - data/region_geometry.json::proper areas, perimeters and effective widths
+  - scripts/make_figures.py::figure_covering, figure_counts, figure_mismatch_map
+  numbers:
+  - adaptive_worst_mismatch_extended_hexagonal
+  - adaptive_worst_mismatch_main_hexagonal
+  - border_fraction_extended
+  - border_fraction_main
+  - covering_fraction_extended_hexagonal_mm097
+  - covering_fraction_extended_square_mm097
+- id: detection-threshold
+  statement: At the pre-registered operating point, FAR = 1/(100 yr) over T_obs = 1 yr with
+    FAP = 1 - exp(-FAR T_obs) under a Poisson false-alarm-process convention, the threshold
+    rho* follows from the exact single-sample Gaussian tail of the phase-maximised statistic
+    and an effective trial rate nu_eff calibrated from simulated maxima and extrapolated to
+    T_obs. The independent-trials combination 1 - (1 - p)^N_eff is kept distinct from its
+    rare-tail Poisson approximation, and the approximation error is measured. Closing the
+    loop MM -> N_templates -> nu_eff -> rho* makes the threshold depend on the bank, with
+    FAR = 1/yr and 5 sigma (global probability) as sensitivities.
+  status: MEASURED. The naive trials bound is a proved upper bound for a finite grid in Gaussian
+    noise; the calibrated rate is 6 to 58 times smaller and grows as N_templates^0.15-0.22
+    within each family. The calibration is made near |z| = 5.3-5.8 and applied near 8.0-8.6,
+    an extrapolation this work does not test.
+  evidence:
+  - data/part_e_mm097.json::thresholds at the operating point and its two sensitivities
+  - data/part_e_nu_eff.json::the calibrated trials rate and its exponent, per family
+  - scripts/make_figures.py::figure_trials
+  numbers: []
+- id: volume-loss-rule
+  statement: 'The worst-case fractional detection-volume loss at fixed threshold is exactly
+    1 - MM^3, of which 3(1 - MM) is the linear expansion; the population-average loss 1 -
+    <M_bank^3> is measured separately, for TaylorF2 injections (discretisation only) and IMRPhenomD
+    injections (template-family error plus discretisation). With the bank-dependent threshold,
+    the effective volume <M_bank^3>/rho*^3 is maximised over MM, and whether that maximum
+    lies inside the range studied is reported with its uncertainty. This is a measurement
+    of a known trade-off for this configuration, not a new effect: see prior_work. What is
+    ours is the closed loop measured end to end with a modern PSD — nu_eff calibrated from
+    simulated maxima rather than assumed, <M_bank^3> from injections rather than from the
+    geometric approximation, the three volume losses kept apart, and TaylorF2 and IMRPhenomD
+    reported separately.'
+  status: MEASURED. The population-average loss is 4-9 times below the worst case. The pre-registered
+    hypothesis of an interior V_eff optimum between MM = 0.97 and 0.99 is not supported; under
+    the naive trials model V_eff falls and under the calibrated one it rises, so the sign
+    is set by the trials model. No optimum is resolved in the grid.
+  evidence:
+  - data/part_f_optimum.json::the three separated losses and V_eff under both trials models
+  - scripts/make_figures.py::figure_volume_losses, figure_veff
+  numbers:
+  - imrphenomd_volume_loss_extended
+  - imrphenomd_volume_loss_main
+  - population_volume_loss_extended_hexagonal_mm097
+  - population_volume_loss_extended_square_mm097
+  - population_volume_loss_main_hexagonal_mm097
+  - population_volume_loss_main_square_mm097
 figures:
 - file: figures/d_covering_cumulative.pdf
   produced_by: scripts/make_figures.py::figure_covering

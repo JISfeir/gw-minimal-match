@@ -55,7 +55,7 @@ listed before the results because several of them bound what the results can mea
       default convention, not a physical statement, and it is responsible for most of the
       template-family error reported in \S\ref{sec:results-loss}.
 \item \textbf{The whole mass range lies above where post-Newtonian templates alone were
-      trusted.} Advanced-LIGO PyCBC used post-Newtonian templates only below
+      trusted.} Advanced-LIGO PyCBC~\cite{usman2016} used post-Newtonian templates only below
       $M = 4\,\Msun$. We report a main region $M \le 35\,\Msun$ and an extended region
       $35 < M \le 100\,\Msun$ separately, the latter being where the model visibly fails.
 \item \textbf{Mismatch is the quadratic form of a metric,} except where stated. The
@@ -75,24 +75,24 @@ signal-free it satisfies $P(|z| > r) = e^{-r^2/2}$, verified on simulated noise.
 
 A bank is then a set of templates dense enough that no signal in the region is further
 than a chosen mismatch from the nearest one. The chosen value, the minimal match, is a
-design convention. Owen introduced it as a quantity ``chosen by the experimenter based
+design convention. Owen~\cite{owen1996} introduced it as a quantity ``chosen by the experimenter based
 upon what he or she considers to be an acceptable loss of ideal event rate'' and set the
 fiducial $\MM = \dataref{minimal-match-headline}$ to correspond to roughly $90\,\%$ of the
 ideal rate, since for sources uniform in Euclidean volume the rate goes as the cube of the
 SNR and $1 - \MM^3 = \dataref{worst-case-volume-loss-mm097}$. The convention has survived:
-the O4 GstLAL bank still sets it at $97\,\%$. But it is now applied as a \emph{percentile},
+the O4 GstLAL bank~\cite{sakon2023} still sets it at $97\,\%$. But it is now applied as a \emph{percentile},
 not a worst case --- that bank reports fitting factors above $97\,\%$ for $90\,\%$ of
 injections --- and \S\ref{sec:results-bank} shows why the distinction matters.
 
 \section{Method}
 
-Templates are placed with a local-metric lattice in the manner of Cokelaer: each cell
+Templates are placed with a local-metric lattice in the manner of Cokelaer~\cite{cokelaer2007}: each cell
 steps with the metric at its own position, hexagonally or on a square lattice aligned with
-the local eigenvectors at Owen's spacing. Two rules differ from the pre-registered
+the local eigenvectors at Owen's spacing~\cite{owen1996}. Two rules differ from the pre-registered
 specification, each for a measured reason.
 
 Cells landing on the non-physical side of $\eta = 1/4$ are pushed back onto the line
-\emph{after} reproduction, as Cokelaer prescribes, not during it. Projecting during growth
+\emph{after} reproduction, as Cokelaer~\cite{cokelaer2007} prescribes, not during it. Projecting during growth
 collapses a two-dimensional neighbourhood onto a curve and nothing re-spaces it: in an
 earlier bank the proper distance between neighbours along that line reached $0.680$ against
 a covering radius of $0.173$.
@@ -226,7 +226,7 @@ error itself, and should not be quoted as if it were the latter.
 
 Everything then depends on $N$. Counting every template and every sample as an independent
 trial is an upper bound, and provably so: for a finite bank-and-time grid in centred
-Gaussian noise the Gaussian correlation inequality gives
+Gaussian noise the Gaussian correlation inequality~\cite{latala2017} gives
 $\mathrm{FAP}(\rho) \le 1 - (1 - e^{-\rho^2/2})^{N}$. But it is a loose bound. Filtering
 simulated noise through each bank and taking the maximum of $|z|$ over templates and time
 gives $\nu_{\rm eff} = \dataref{nu-eff-main-hexagonal-mm097}$ independent trials per second
@@ -235,6 +235,16 @@ at that minimal match. Within one region and lattice the gap \emph{widens} as th
 refined --- $6.9$ to $17.2$ times across the $\MM$ grid for the main hexagonal family ---
 but that is refinement, not size: pooled across all twenty banks the correlation between
 $\ln N_{\rm templates}$ and the log gap is $-0.45$, so with size alone the gap narrows.
+
+The trial count is not constant across the tail it was fitted on: threshold-wise
+estimates taken at $|z|$ between $5.4$ and $6.2$ vary by factors of $1.8$ to $5.2$ across
+the twenty banks, against the single value used everywhere. The calibration is also made
+where the maxima fall, near $|z| = 5.3$ to $5.8$, and applied at thresholds near $8.0$ to
+$8.6$ --- an extrapolation of about two in $|z|$ that this work does not test. Because
+$\rho^*$ depends on the trial count only logarithmically, a factor of two in
+$\nu_{\rm eff}$ moves it by about $0.05$; but it moves $V_{\rm eff}$ by a few per cent,
+against a calibrated trend of $0.2$--$1.8\,\%$, so this is a real limit on the strength of
+the conclusion in the next section and not a rounding remark.
 
 That widening is the result. Fitting $N_{\rm eff} \propto N_{\rm templates}^{\alpha}$
 within each family gives $\alpha = \dataref{trials-exponent-main-hexagonal}$ (main
@@ -271,10 +281,10 @@ bank costs, the measured points would lie on the black curve.}
 \end{figure}
 
 The effective volume $V_{\rm eff} = \langle M^3\rangle / \rho^{*3}$ then answers whether
-there is a best minimal match. Under the naive trials count it falls across
-$\MM = 0.95$--$0.99$, by $\dataref{veff-change-naive-main-hexagonal}\,\%$ in the main
-hexagonal case. Under the calibrated one it rises, by
-$\dataref{veff-change-calibrated-main-hexagonal}\,\%$. The threshold is the reason:
+there is a best minimal match. Under the naive trials count it falls across $\MM = 0.95$--$0.99$, by $1.87\,\%$ in the
+main hexagonal case; under the calibrated one it rises by
+$\dataref{veff-change-calibrated-main-hexagonal}\,\%$. (The registry stores the naive
+change as a signed quantity, $\dataref{veff-change-naive-main-hexagonal}\,\%$.) The threshold is the reason:
 calibrated, $\rho^*$ moves $0.24\,\%$ while the bank triples, against $1.46\,\%$ naive,
 and the $2.48\,\%$ gain in $\langle M^3\rangle$ then wins.
 
@@ -315,7 +325,7 @@ are \emph{not} monotonic in the extended region, so no optimum is resolved insid
 And the whole variation is smaller than the differences between the banks themselves. The
 honest reading is that within this model the minimal match barely moves the effective
 volume, and what weak preference exists is for finer banks. Where the optimum actually
-sits is then fixed by computational cost --- the axis Keppel optimises, and the one this
+sits is then fixed by computational cost --- the axis Keppel~\cite{keppel2013} optimises, and the one this
 work deliberately does not.
 
 \section{What was not done}
@@ -335,7 +345,7 @@ work deliberately does not.
 \item \textbf{The IMRPhenomD volume leg is an approximation}, composing a continuous-family
       fitting factor with the discretisation match and assuming the two are independent.
       The rigorous statement is the family-only bound, which is quoted beside it.
-\item \textbf{An independent cross-check of bank spacing by SVD} was planned and cut.
+\item \textbf{An independent cross-check of bank spacing by the SVD construction of~\cite{roulet2019}} was planned and cut.
 \end{itemize}
 
 \section{Conclusion}
@@ -353,5 +363,38 @@ the minimal match is not where the sensitivity of this search is won or lost.
 \verb|data/project_numbers.json|, whose sole writer is \verb|scripts/compute_numbers.py|;
 every figure is produced by \verb|scripts/make_figures.py| and by nothing else, from the
 tracked data in \verb|data/|. \verb|tests/test_acceptance.py| pins the reported values.
+
+
+\begin{thebibliography}{9}
+\small
+\bibitem{owen1996} B.~J.~Owen, \emph{Search templates for gravitational waves from
+  inspiraling binaries: choice of template spacing}, arXiv:gr-qc/9511032.
+\bibitem{owensathya1999} B.~J.~Owen and B.~S.~Sathyaprakash, \emph{Matched filtering of
+  gravitational waves from inspiraling compact binaries: computational cost and template
+  placement}, arXiv:gr-qc/9808076.
+\bibitem{cokelaer2007} T.~Cokelaer, \emph{Gravitational waves from inspiralling compact
+  binaries: hexagonal template placement and its efficiency in detecting physical
+  signals}, arXiv:0706.4437.
+\bibitem{findchirp} B.~Allen, W.~G.~Anderson, P.~R.~Brady, D.~A.~Brown and
+  J.~D.~E.~Creighton, \emph{FINDCHIRP: an algorithm for detection of gravitational waves
+  from inspiraling compact binaries}, Phys.\ Rev.\ D \textbf{85}, 122006 (2012),
+  arXiv:gr-qc/0509116.
+\bibitem{usman2016} S.~A.~Usman \emph{et al.}, \emph{The PyCBC search for gravitational
+  waves from compact binary coalescence}, arXiv:1508.02357.
+\bibitem{roulet2019} J.~Roulet, L.~Dai, T.~Venumadhav, B.~Zackay and M.~Zaldarriaga,
+  \emph{Template bank for compact binary coalescence searches in gravitational wave data:
+  a general geometric placement algorithm}, arXiv:1904.01683.
+\bibitem{croce2004} R.~P.~Croce, Th.~Demma, V.~Pierro, I.~M.~Pinto, M.~Longo, S.~Marano
+  and V.~Matta, \emph{How many templates for GW chirp detection? The minimal-match issue
+  revisited}, arXiv:gr-qc/0404096.
+\bibitem{keppel2013} D.~Keppel, \emph{The balancing act of template bank construction:
+  inspiral waveform template banks for gravitational-wave detectors and optimizations at
+  fixed computational cost}, arXiv:1303.2005.
+\bibitem{sakon2023} S.~Sakon \emph{et al.}, \emph{Template bank for compact binary mergers
+  in the fourth observing run of Advanced LIGO, Advanced Virgo, and KAGRA},
+  arXiv:2211.16674.
+\bibitem{latala2017} R.~Lata{\l}a and D.~Matlak, \emph{Royen's proof of the Gaussian
+  correlation inequality}, arXiv:1512.08776.
+\end{thebibliography}
 
 \end{document}

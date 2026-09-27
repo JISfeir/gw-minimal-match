@@ -1,314 +1,892 @@
 {
-  "owen_mm_fiducial": {
-    "value": 0.97,
-    "statement": "Minimal match fiducial used in the note and in Owen's benchmark.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "Inserted as the benchmark input and used in all derived calculations.",
-    "from_library": "None; Python standard library only.",
-    "choices": ["Use Owen's fiducial value so the reproduction is directly comparable to the paper."]
+  "adaptive_worst_mismatch_extended_hexagonal": {
+    "choices": [
+      "a lower bound on the true worst case, not a certified maximum. It refutes strict covering at MM = 0.97 for both hexagonal banks; both square banks survived the same search"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "data/fig_witnesses.json at (38.374674, 5.606088) Msun; found by an independent audit and reproduced by hand to fourteen digits",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "worst mismatch an adaptive search reached in the extended hexagonal bank [dimensionless]",
+    "value": 0.03615253316239979
   },
-  "owen_mm097_rate_fraction": {
-    "value": 0.912673,
-    "statement": "Worst-case accessible event-rate fraction MM^3 at MM=0.97.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "Evaluated 0.97 cubed from Owen Eq. (23).",
-    "from_library": "None.",
-    "choices": ["Used the Euclidean homogeneous-source approximation stated by Owen."]
+  "adaptive_worst_mismatch_main_hexagonal": {
+    "choices": [
+      "a lower bound on the true worst case, not a certified maximum. It refutes strict covering at MM = 0.97 for both hexagonal banks; both square banks survived the same search"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "data/fig_witnesses.json at (25.665160, 5.816991) Msun; found by an independent audit and reproduced by hand to fourteen digits",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "worst mismatch an adaptive search reached in the main hexagonal bank [dimensionless]",
+    "value": 0.032220597236526316
   },
-  "owen_mm097_rate_loss": {
-    "value": 0.087327,
-    "statement": "Worst-case fractional event-rate loss 1-MM^3 at MM=0.97.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "Subtracted the computed retained fraction from unity.",
-    "from_library": "None.",
-    "choices": ["Reported the exact decimal before displaying it as 8.73 percent."]
+  "border_fraction_extended": {
+    "choices": [
+      "as above; 0.939 under the other convention"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, injection metric",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "injections within one covering radius of a region boundary, extended [fraction]",
+    "value": 0.9383333333333334
   },
-  "owen_event_loss_benchmark": {
-    "value": 0.1,
-    "statement": "Approximate event-rate loss used to normalize Owen's historical count and compute-cost benchmarks.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "Transcribed from Owen Secs. III B-D.",
-    "from_library": "None.",
-    "choices": ["Recorded as the paper's approximate benchmark rather than equating it to the exact MM=0.97 loss."]
+  "border_fraction_main": {
+    "choices": [
+      "so high that the specification's interior/border split carries little information; the boundary-sample metric gives 0.793 instead"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, injection metric",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "injections within one covering radius of a region boundary, main [fraction]",
+    "value": 0.799
   },
-  "owen_initial_fs_hz": {
-    "value": 40,
-    "statement": "Seismic cutoff frequency for Owen's initial-LIGO analytic PSD.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/5 with f0=200 Hz.",
-    "from_library": "None.",
-    "choices": ["Historical PSD retained for paper reproduction, not as a modern detector model."]
+  "covering_fraction_extended_hexagonal_mm097": {
+    "choices": [
+      "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, 3000 uniform injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "fraction of injections at or above MM = 0.97, extended hexagonal [fraction]",
+    "value": 0.9993333333333333
   },
-  "owen_initial_f0_hz": {
-    "value": 200,
-    "statement": "Knee frequency for Owen's initial-LIGO analytic PSD.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Transcribed from Owen Sec. II B.",
-    "from_library": "None.",
-    "choices": ["Historical value retained for direct comparison."]
+  "covering_fraction_extended_square_mm097": {
+    "choices": [
+      "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, 3000 uniform injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "fraction of injections at or above MM = 0.97, extended square [fraction]",
+    "value": 1.0
   },
-  "owen_advanced_fs_hz": {
-    "value": 10,
-    "statement": "Seismic cutoff frequency for Owen's historical advanced-LIGO analytic PSD.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/7 with f0=70 Hz.",
-    "from_library": "None.",
-    "choices": ["Historical PSD retained for paper reproduction, not as a modern detector model."]
+  "covering_fraction_main_hexagonal_mm097": {
+    "choices": [
+      "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, 3000 uniform injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "fraction of injections at or above MM = 0.97, main hexagonal [fraction]",
+    "value": 1.0
+  },
+  "covering_fraction_main_square_mm097": {
+    "choices": [
+      "quadratic form in the injection's own metric, not a waveform match; uniform sampling does not find the holes an adaptive search does"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/report_d.py, 3000 uniform injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "fraction of injections at or above MM = 0.97, main square [fraction]",
+    "value": 1.0
+  },
+  "cusp_secant_coefficient": {
+    "choices": [
+      "the LIMIT is exactly zero and is analytic, not measured: the two mass rays have positively parallel tangents. Only this coefficient is measured"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py, fitted down to 1e-4 Msun separation",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "leading secant-angle coefficient between the two region edges at (5,5) Msun [degrees per Msun]",
+    "value": 0.10316186218701491
+  },
+  "effective_width_extended": {
+    "choices": [
+      "a global summary, NOT a local width bound; it is why the region is boundary-dominated and why an asymptotic ratio has almost no interior in which to be measured"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "effective width 2A/P of the extended region [covering radii]",
+    "value": 2.0884449553794697
+  },
+  "effective_width_main": {
+    "choices": [
+      "a global summary, NOT a local width bound; it is why the region is boundary-dominated and why an asymptotic ratio has almost no interior in which to be measured"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "effective width 2A/P of the main region [covering radii]",
+    "value": 1.6126682768868112
+  },
+  "hex_square_ratio_extended_mm097": {
+    "choices": [
+      "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "counted from the delivered banks",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "hexagonal/square template ratio, extended region, MM = 0.97 [dimensionless]",
+    "value": 0.6885245901639344
+  },
+  "hex_square_ratio_main_mm097": {
+    "choices": [
+      "NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "counted from the delivered banks",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "hexagonal/square template ratio, main region, MM = 0.97 [dimensionless]",
+    "value": 0.7795864496260448
+  },
+  "imrphenomd_family_only_extended": {
+    "choices": [
+      "a rigorous lower bound on the IMRPhenomD loss: the best match against a discrete subset cannot exceed the best match against the family it is drawn from. The difference from the line above is what the bank's discretisation adds"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, same injections and seed as the line above",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "volume loss from the continuous TaylorF2 family alone, extended [fraction]",
+    "value": 0.5077889550563801
+  },
+  "imrphenomd_family_only_main": {
+    "choices": [
+      "a rigorous lower bound on the IMRPhenomD loss: the best match against a discrete subset cannot exceed the best match against the family it is drawn from. The difference from the line above is what the bank's discretisation adds"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, same injections and seed as the line above",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "volume loss from the continuous TaylorF2 family alone, main [fraction]",
+    "value": 0.17579951802989524
+  },
+  "imrphenomd_volume_loss_extended": {
+    "choices": [
+      "a DECLARED APPROXIMATION: the frozen continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. The family-only figure beside it is the rigorous bound"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "volume loss against IMRPhenomD signals, extended hexagonal, MM = 0.97 [fraction]",
+    "value": 0.5148568836364191
+  },
+  "imrphenomd_volume_loss_main": {
+    "choices": [
+      "a DECLARED APPROXIMATION: the frozen continuous-family fitting factor composed multiplicatively with the discretisation match, assuming an independence that is not established. The family-only figure beside it is the rigorous bound"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "volume loss against IMRPhenomD signals, main hexagonal, MM = 0.97 [fraction]",
+    "value": 0.19320094701552748
+  },
+  "minimal_match_headline": {
+    "choices": [
+      "a design convention, not a derived constant; the field applies it as a percentile, not a worst case -- Sakon et al. 2023 quote fitting factors above 97 % for 90 % of injections in the O4 bank"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "Owen 1996 gr-qc/9511032: a fiducial 'chosen by the experimenter', corresponding to roughly 90 % of the ideal event rate",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "the headline minimal match [dimensionless]",
+    "value": 0.97
+  },
+  "n_templates_extended_hexagonal_mm097": {
+    "choices": [
+      "includes the boundary repair, which is 157 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.54x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "bank size, extended hexagonal, MM = 0.97 [templates]",
+    "value": 336
+  },
+  "n_templates_extended_square_mm097": {
+    "choices": [
+      "includes the boundary repair, which is 83 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.94x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "bank size, extended square, MM = 0.97 [templates]",
+    "value": 488
+  },
+  "n_templates_main_hexagonal_mm097": {
+    "choices": [
+      "includes the boundary repair, which is 899 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.87x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "bank size, main hexagonal, MM = 0.97 [templates]",
+    "value": 1772
+  },
+  "n_templates_main_square_mm097": {
+    "choices": [
+      "includes the boundary repair, which is 663 of these templates; the repair is this project's, not Cokelaer's. Against the constant-metric ideal this is 3.82x, but that ideal is NOT a universal lower bound for a finite region -- the geomverify r01 audit derived strip and disc counterexamples -- so the factor is a comparison, not a verdict of redundancy"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "results/d1/banks, counted by scripts/export_figure_data.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "bank size, main square, MM = 0.97 [templates]",
+    "value": 2273
+  },
+  "nu_eff_main_hexagonal_mm097": {
+    "choices": [
+      "a summary of a correlated search, not a count of anything; the level is good to roughly +-50 %, which moves rho* by 0.05 and is immaterial"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py, 100 segments of 32 s",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "calibrated effective independent-trials rate, main hexagonal bank at MM = 0.97 [per second]",
+    "value": 406340.07205127587
   },
   "owen_advanced_f0_hz": {
-    "value": 70,
-    "statement": "Knee frequency for Owen's historical advanced-LIGO analytic PSD.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Transcribed from Owen Sec. II B.",
+    "choices": [
+      "Historical value retained for direct comparison."
+    ],
     "from_library": "None.",
-    "choices": ["Historical value retained for direct comparison."]
-  },
-  "recomputed_initial_metric_11": {
-    "value": 0.55179,
-    "statement": "Recomputed initial-LIGO g_11 divided by (2 pi f0)^2, rounded for the note.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_initial_metric_12": {
-    "value": 0.30361,
-    "statement": "Recomputed initial-LIGO g_12 divided by (2 pi f0)^2, rounded for the note.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_initial_metric_22": {
-    "value": 0.17320,
-    "statement": "Recomputed initial-LIGO g_22 divided by (2 pi f0)^2, rounded for the note.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_advanced_metric_11": {
-    "value": 1.00544,
-    "statement": "Recomputed historical advanced-LIGO g_11 divided by (2 pi f0)^2.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_advanced_metric_12": {
-    "value": 0.48554,
-    "statement": "Recomputed historical advanced-LIGO g_12 divided by (2 pi f0)^2.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_advanced_metric_22": {
-    "value": 0.24615,
-    "statement": "Recomputed historical advanced-LIGO g_22 divided by (2 pi f0)^2.",
-    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
-    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
-    "from_library": "Python math module only.",
-    "choices": ["Displayed five decimal places while retaining full precision in JSON output."]
-  },
-  "recomputed_initial_sqrt_det": {
-    "value": 0.05821,
-    "statement": "Square root of the determinant of the recomputed initial-LIGO dimensionless metric.",
+    "from_scratch": "Transcribed from Owen Sec. II B.",
     "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Computed from the full-precision projected metric.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Reported dimensionless factor after dividing out (2 pi f0)^2."]
+    "statement": "Knee frequency for Owen's historical advanced-LIGO analytic PSD.",
+    "value": 70
   },
-  "recomputed_advanced_sqrt_det": {
-    "value": 0.10835,
-    "statement": "Square root of the determinant of the recomputed historical advanced-LIGO dimensionless metric.",
+  "owen_advanced_fs_hz": {
+    "choices": [
+      "Historical PSD retained for paper reproduction, not as a modern detector model."
+    ],
+    "from_library": "None.",
+    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/7 with f0=70 Hz.",
     "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Computed from the full-precision projected metric.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Reported dimensionless factor after dividing out (2 pi f0)^2."]
+    "statement": "Seismic cutoff frequency for Owen's historical advanced-LIGO analytic PSD.",
+    "value": 10
   },
-  "recomputed_initial_eigenvalue_stiff": {
-    "value": 0.72028,
-    "statement": "Larger eigenvalue of the recomputed initial-LIGO dimensionless metric.",
-    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
-    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
-    "from_library": "Python math.hypot.",
-    "choices": ["Eigenvalues sorted from larger to smaller."]
+  "owen_event_loss_benchmark": {
+    "choices": [
+      "Recorded as the paper's approximate benchmark rather than equating it to the exact MM=0.97 loss."
+    ],
+    "from_library": "None.",
+    "from_scratch": "Transcribed from Owen Secs. III B-D.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Approximate event-rate loss used to normalize Owen's historical count and compute-cost benchmarks.",
+    "value": 0.1
   },
-  "recomputed_initial_eigenvalue_soft": {
-    "value": 0.004704,
-    "statement": "Smaller eigenvalue of the recomputed initial-LIGO dimensionless metric.",
-    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
-    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
-    "from_library": "Python math.hypot.",
-    "choices": ["Kept extra digits because the soft direction is sensitive to rounding."]
-  },
-  "recomputed_advanced_eigenvalue_stiff": {
-    "value": 1.24214,
-    "statement": "Larger eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
-    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
-    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
-    "from_library": "Python math.hypot.",
-    "choices": ["Eigenvalues sorted from larger to smaller."]
-  },
-  "recomputed_advanced_eigenvalue_soft": {
-    "value": 0.009452,
-    "statement": "Smaller eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
-    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
-    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
-    "from_library": "Python math.hypot.",
-    "choices": ["Kept extra digits because the soft direction is sensitive to rounding."]
-  },
-  "recomputed_initial_spacing_stiff_ms": {
-    "value": 0.230,
-    "statement": "Initial-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
+  "owen_initial_f0_hz": {
+    "choices": [
+      "Historical value retained for direct comparison."
+    ],
+    "from_library": "None.",
+    "from_scratch": "Transcribed from Owen Sec. II B.",
     "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+    "statement": "Knee frequency for Owen's initial-LIGO analytic PSD.",
+    "value": 200
   },
-  "recomputed_initial_spacing_soft_ms": {
-    "value": 2.84,
-    "statement": "Initial-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
+  "owen_initial_fs_hz": {
+    "choices": [
+      "Historical PSD retained for paper reproduction, not as a modern detector model."
+    ],
+    "from_library": "None.",
+    "from_scratch": "Transcribed from Owen Sec. II B and encoded through fs/f0=1/5 with f0=200 Hz.",
     "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Used full-precision eigenvalue and rounded only for display."]
-  },
-  "recomputed_advanced_spacing_stiff_ms": {
-    "value": 0.500,
-    "statement": "Historical advanced-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Used full-precision eigenvalue and rounded only for display."]
-  },
-  "recomputed_advanced_spacing_soft_ms": {
-    "value": 5.73,
-    "statement": "Historical advanced-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
-    "from_library": "Python math.sqrt.",
-    "choices": ["Used full-precision eigenvalue and rounded only for display."]
+    "statement": "Seismic cutoff frequency for Owen's initial-LIGO analytic PSD.",
+    "value": 40
   },
   "owen_minimum_mass_solar": {
-    "value": 0.2,
-    "statement": "Minimum component mass in solar masses for Owen's expansive benchmark domain.",
-    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "choices": [
+      "Retained the historical lower-mass assumption for direct reproduction."
+    ],
+    "from_library": "None.",
     "from_scratch": "Transcribed from Owen Sec. III B as an input to the domain integral.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "statement": "Minimum component mass in solar masses for Owen's expansive benchmark domain.",
+    "value": 0.2
+  },
+  "owen_mm097_rate_fraction": {
+    "choices": [
+      "Used the Euclidean homogeneous-source approximation stated by Owen."
+    ],
     "from_library": "None.",
-    "choices": ["Retained the historical lower-mass assumption for direct reproduction."]
-  },
-  "recomputed_initial_area_s2": {
-    "value": 0.1864,
-    "statement": "Deterministically integrated initial-LIGO chirp-time coordinate area in square seconds.",
-    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
-    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
-    "from_library": "Python math module only.",
-    "choices": ["Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."]
-  },
-  "recomputed_advanced_area_s2": {
-    "value": 25.013,
-    "statement": "Deterministically integrated historical advanced-LIGO chirp-time coordinate area in square seconds.",
-    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
-    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
-    "from_library": "Python math module only.",
-    "choices": ["Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."]
-  },
-  "owen_reported_initial_area_s2": {
-    "value": 0.18,
-    "statement": "Initial-LIGO chirp-time coordinate area reported by Owen in square seconds.",
+    "from_scratch": "Evaluated 0.97 cubed from Owen Eq. (23).",
     "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III B.",
+    "statement": "Worst-case accessible event-rate fraction MM^3 at MM=0.97.",
+    "value": 0.912673
+  },
+  "owen_mm097_rate_loss": {
+    "choices": [
+      "Reported the exact decimal before displaying it as 8.73 percent."
+    ],
     "from_library": "None.",
-    "choices": ["Kept Owen's printed precision to expose the comparison with deterministic quadrature."]
+    "from_scratch": "Subtracted the computed retained fraction from unity.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Worst-case fractional event-rate loss 1-MM^3 at MM=0.97.",
+    "value": 0.087327
+  },
+  "owen_mm_fiducial": {
+    "choices": [
+      "Use Owen's fiducial value so the reproduction is directly comparable to the paper."
+    ],
+    "from_library": "None; Python standard library only.",
+    "from_scratch": "Inserted as the benchmark input and used in all derived calculations.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Minimal match fiducial used in the note and in Owen's benchmark.",
+    "value": 0.97
   },
   "owen_reported_advanced_area_s2": {
-    "value": 24,
-    "statement": "Historical advanced-LIGO chirp-time coordinate area reported by Owen in square seconds.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "choices": [
+      "Kept Owen's printed precision to expose the comparison with deterministic quadrature."
+    ],
+    "from_library": "None.",
     "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III B.",
-    "from_library": "None.",
-    "choices": ["Kept Owen's printed precision to expose the comparison with deterministic quadrature."]
-  },
-  "recomputed_initial_template_count": {
-    "value": 285600,
-    "statement": "Recomputed initial-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
-    "from_library": "Python standard library only.",
-    "choices": ["Ignored boundary corrections as Owen's volume estimate does."]
-  },
-  "recomputed_advanced_template_count": {
-    "value": 8738000,
-    "statement": "Recomputed historical advanced-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
-    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
-    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
-    "from_library": "Python standard library only.",
-    "choices": ["Ignored boundary corrections as Owen's volume estimate does."]
-  },
-  "owen_reported_initial_template_count": {
-    "value": 270000,
-    "statement": "Initial-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
     "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (44), interpreting its MM numerator as the documented typo.",
-    "from_library": "None.",
-    "choices": ["Quoted the paper value while separately reporting the full-precision recomputation."]
-  },
-  "owen_reported_advanced_template_count": {
-    "value": 8400000,
-    "statement": "Historical advanced-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (45), interpreting its MM numerator as the documented typo.",
-    "from_library": "None.",
-    "choices": ["Quoted the paper value while separately reporting the full-precision recomputation."]
-  },
-  "owen_reported_initial_gflops": {
-    "value": 20,
-    "statement": "Historical initial-LIGO online-search computing power reported by Owen in Gflop/s.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
-    "from_library": "None.",
-    "choices": ["Presented explicitly as a historical estimate, not a modern compute requirement."]
+    "statement": "Historical advanced-LIGO chirp-time coordinate area reported by Owen in square seconds.",
+    "value": 24
   },
   "owen_reported_advanced_gflops": {
-    "value": 270,
-    "statement": "Historical advanced-LIGO online-search computing power reported by Owen in Gflop/s.",
-    "produced_by": "scripts/reproduce_owen1995.py::compute",
-    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
+    "choices": [
+      "Presented explicitly as a historical estimate, not a modern compute requirement."
+    ],
     "from_library": "None.",
-    "choices": ["Presented explicitly as a historical estimate, not a modern compute requirement."]
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Historical advanced-LIGO online-search computing power reported by Owen in Gflop/s.",
+    "value": 270
+  },
+  "owen_reported_advanced_template_count": {
+    "choices": [
+      "Quoted the paper value while separately reporting the full-precision recomputation."
+    ],
+    "from_library": "None.",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (45), interpreting its MM numerator as the documented typo.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Historical advanced-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
+    "value": 8400000
+  },
+  "owen_reported_initial_area_s2": {
+    "choices": [
+      "Kept Owen's printed precision to expose the comparison with deterministic quadrature."
+    ],
+    "from_library": "None.",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III B.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Initial-LIGO chirp-time coordinate area reported by Owen in square seconds.",
+    "value": 0.18
+  },
+  "owen_reported_initial_gflops": {
+    "choices": [
+      "Presented explicitly as a historical estimate, not a modern compute requirement."
+    ],
+    "from_library": "None.",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Sec. III D.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Historical initial-LIGO online-search computing power reported by Owen in Gflop/s.",
+    "value": 20
+  },
+  "owen_reported_initial_template_count": {
+    "choices": [
+      "Quoted the paper value while separately reporting the full-precision recomputation."
+    ],
+    "from_library": "None.",
+    "from_scratch": "No derivation; benchmark transcribed from Owen Eq. (44), interpreting its MM numerator as the documented typo.",
+    "produced_by": "scripts/reproduce_owen1995.py::compute",
+    "statement": "Initial-LIGO template count reported by Owen at the fiducial mismatch and minimum mass.",
+    "value": 270000
+  },
+  "poisson_approximation_error": {
+    "choices": [
+      "THIS IS FLOATING-POINT NOISE, NOT THE APPROXIMATION ERROR. The true mathematical difference at the operating point is near 6e-19, some 900 times smaller, and 1e-23 at 5 sigma. The conclusion -- that the approximation is safe -- is right; this number is a limit of double precision and must not be quoted as the error itself"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/threshold.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "largest resolvable difference between the exact trials combination and its rare-tail Poisson form, over the reported banks and operating points [relative]",
+    "value": 3.3999556067761176e-16
+  },
+  "population_volume_loss_extended_hexagonal_mm097": {
+    "choices": [
+      "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, TaylorF2 injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "population-average discretisation volume loss, extended hexagonal [fraction]",
+    "value": 0.012853735920778209
+  },
+  "population_volume_loss_extended_square_mm097": {
+    "choices": [
+      "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, TaylorF2 injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "population-average discretisation volume loss, extended square [fraction]",
+    "value": 0.00944504780895472
+  },
+  "population_volume_loss_main_hexagonal_mm097": {
+    "choices": [
+      "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, TaylorF2 injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "population-average discretisation volume loss, main hexagonal [fraction]",
+    "value": 0.020878164589205217
+  },
+  "population_volume_loss_main_square_mm097": {
+    "choices": [
+      "4 to 9 times smaller than the worst case 1-MM^3 = 0.087327"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py, TaylorF2 injections",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "population-average discretisation volume loss, main square [fraction]",
+    "value": 0.015339014731487466
+  },
+  "proper_area_extended": {
+    "choices": [
+      "order 60 gives 7.424177, so the quadrature is converged to 0.01; this is a numerical convergence estimate, not a rigorous enclosure"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py, Gauss-Legendre order 120",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "proper area of the extended region [s^-2 (metric units)]",
+    "value": 7.434578648762885
+  },
+  "proper_area_main": {
+    "choices": [
+      "order 60 gives 35.717379, so the quadrature is converged to 2.6e-06; this is a numerical convergence estimate, not a rigorous enclosure"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py, Gauss-Legendre order 120",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "proper area of the main region [s^-2 (metric units)]",
+    "value": 35.71738159187061
+  },
+  "proper_perimeter_extended": {
+    "choices": [
+      "a disc of the same proper area would have perimeter 9.7: the region is a ribbon"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py, 600 segments per edge",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "proper perimeter of the extended region [s^-1 (metric units)]",
+    "value": 41.10576123271369
+  },
+  "proper_perimeter_main": {
+    "choices": [
+      "a disc of the same proper area would have perimeter 21.2: the region is a ribbon"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "scripts/compute_geometry.py, 600 segments per edge",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "proper perimeter of the main region [s^-1 (metric units)]",
+    "value": 255.74310814402452
   },
   "q1bc_astra_loop_tokens_r01": {
-    "value": 5531297,
-    "statement": "Raw total tokens recorded by the first failed q1bC Astra PI session.",
-    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::last token_usage_record.thread_token_usage.total_tokens",
-    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "choices": [
+      "Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."
+    ],
     "from_library": "Codex CLI session accounting; no numerical library.",
-    "choices": ["Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."]
+    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T04-19-58-01a09e24-ad29-7a92-89cc-d7fc7e3e636b.jsonl::last token_usage_record.thread_token_usage.total_tokens",
+    "statement": "Raw total tokens recorded by the first failed q1bC Astra PI session.",
+    "value": 5531297
   },
   "q1bc_astra_loop_tokens_r02": {
-    "value": 8410354,
-    "statement": "Raw total tokens recorded by the second failed q1bC Astra PI session.",
-    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::last token_usage_record.thread_token_usage.total_tokens",
-    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "choices": [
+      "Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."
+    ],
     "from_library": "Codex CLI session accounting; no numerical library.",
-    "choices": ["Used raw total tokens, including cached input, because the purpose is to reconcile the job's token guard rather than estimate API price."]
+    "from_scratch": "Read the final cumulative token-usage event from the persisted Codex session.",
+    "produced_by": "/home/juan/.codex/sessions/2026/09/14/rollout-2026-09-14T13-00-50-01a0a001-8a2d-7510-89d1-eb5f7a29cf57.jsonl::last token_usage_record.thread_token_usage.total_tokens",
+    "statement": "Raw total tokens recorded by the second failed q1bC Astra PI session.",
+    "value": 8410354
   },
   "q1bc_astra_loop_tokens_total": {
-    "value": 13941651,
-    "statement": "Combined raw token count of the two failed q1bC Astra PI sessions.",
-    "produced_by": "provenance/numbers.json::q1bc_astra_loop_tokens_r01 + q1bc_astra_loop_tokens_r02",
-    "from_scratch": "Added the two persisted cumulative session totals.",
+    "choices": [
+      "Excluded the successful Claude verifier call and the later preflight so this number describes only the Astra hook loop."
+    ],
     "from_library": "No library.",
-    "choices": ["Excluded the successful Claude verifier call and the later preflight so this number describes only the Astra hook loop."]
+    "from_scratch": "Added the two persisted cumulative session totals.",
+    "produced_by": "provenance/numbers.json::q1bc_astra_loop_tokens_r01 + q1bc_astra_loop_tokens_r02",
+    "statement": "Combined raw token count of the two failed q1bC Astra PI sessions.",
+    "value": 13941651
   },
   "q1bc_reconciled_job_tokens_before_resume": {
-    "value": 14146178,
-    "statement": "Reconciled q1bC job token counter before resumption: both Astra PI sessions plus the completed Claude verifier call.",
-    "produced_by": "jobs/2026-09-14_041516_derive-q1bc/spec.json::tokens",
-    "from_scratch": "Added the two Codex session totals to the verifier's 204527-token durable round record.",
+    "choices": [
+      "Excluded the standalone 15418-token preflight because it was a recovery diagnostic outside the agent-team job."
+    ],
     "from_library": "Codex CLI session accounting and agent-team log.jsonl accounting.",
-    "choices": ["Excluded the standalone 15418-token preflight because it was a recovery diagnostic outside the agent-team job."]
+    "from_scratch": "Added the two Codex session totals to the verifier's 204527-token durable round record.",
+    "produced_by": "jobs/2026-09-14_041516_derive-q1bc/spec.json::tokens",
+    "statement": "Reconciled q1bC job token counter before resumption: both Astra PI sessions plus the completed Claude verifier call.",
+    "value": 14146178
+  },
+  "recomputed_advanced_area_s2": {
+    "choices": [
+      "Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "statement": "Deterministically integrated historical advanced-LIGO chirp-time coordinate area in square seconds.",
+    "value": 25.013
+  },
+  "recomputed_advanced_eigenvalue_soft": {
+    "choices": [
+      "Kept extra digits because the soft direction is sensitive to rounding."
+    ],
+    "from_library": "Python math.hypot.",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "statement": "Smaller eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
+    "value": 0.009452
+  },
+  "recomputed_advanced_eigenvalue_stiff": {
+    "choices": [
+      "Eigenvalues sorted from larger to smaller."
+    ],
+    "from_library": "Python math.hypot.",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "statement": "Larger eigenvalue of the recomputed historical advanced-LIGO dimensionless metric.",
+    "value": 1.24214
+  },
+  "recomputed_advanced_metric_11": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed historical advanced-LIGO g_11 divided by (2 pi f0)^2.",
+    "value": 1.00544
+  },
+  "recomputed_advanced_metric_12": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed historical advanced-LIGO g_12 divided by (2 pi f0)^2.",
+    "value": 0.48554
+  },
+  "recomputed_advanced_metric_22": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed historical advanced-LIGO g_22 divided by (2 pi f0)^2.",
+    "value": 0.24615
+  },
+  "recomputed_advanced_spacing_soft_ms": {
+    "choices": [
+      "Used full-precision eigenvalue and rounded only for display."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Historical advanced-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
+    "value": 5.73
+  },
+  "recomputed_advanced_spacing_stiff_ms": {
+    "choices": [
+      "Used full-precision eigenvalue and rounded only for display."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Historical advanced-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
+    "value": 0.5
+  },
+  "recomputed_advanced_sqrt_det": {
+    "choices": [
+      "Reported dimensionless factor after dividing out (2 pi f0)^2."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Computed from the full-precision projected metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Square root of the determinant of the recomputed historical advanced-LIGO dimensionless metric.",
+    "value": 0.10835
+  },
+  "recomputed_advanced_template_count": {
+    "choices": [
+      "Ignored boundary corrections as Owen's volume estimate does."
+    ],
+    "from_library": "Python standard library only.",
+    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Recomputed historical advanced-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
+    "value": 8738000
+  },
+  "recomputed_initial_area_s2": {
+    "choices": [
+      "Used an infinite upper mass bound to match Owen and a current solar-mass time conversion."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Derived the Jacobian, integrated total mass analytically, and quadrature-integrated symmetric mass ratio.",
+    "produced_by": "scripts/reproduce_owen1995.py::chirp_time_area",
+    "statement": "Deterministically integrated initial-LIGO chirp-time coordinate area in square seconds.",
+    "value": 0.1864
+  },
+  "recomputed_initial_eigenvalue_soft": {
+    "choices": [
+      "Kept extra digits because the soft direction is sensitive to rounding."
+    ],
+    "from_library": "Python math.hypot.",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "statement": "Smaller eigenvalue of the recomputed initial-LIGO dimensionless metric.",
+    "value": 0.004704
+  },
+  "recomputed_initial_eigenvalue_stiff": {
+    "choices": [
+      "Eigenvalues sorted from larger to smaller."
+    ],
+    "from_library": "Python math.hypot.",
+    "from_scratch": "Closed-form eigendecomposition of the full-precision 2x2 metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::symmetric_2x2_eigensystem",
+    "statement": "Larger eigenvalue of the recomputed initial-LIGO dimensionless metric.",
+    "value": 0.72028
+  },
+  "recomputed_initial_metric_11": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed initial-LIGO g_11 divided by (2 pi f0)^2, rounded for the note.",
+    "value": 0.55179
+  },
+  "recomputed_initial_metric_12": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed initial-LIGO g_12 divided by (2 pi f0)^2, rounded for the note.",
+    "value": 0.30361
+  },
+  "recomputed_initial_metric_22": {
+    "choices": [
+      "Displayed five decimal places while retaining full precision in JSON output."
+    ],
+    "from_library": "Python math module only.",
+    "from_scratch": "Noise moments integrated and Eq. (34) implemented directly.",
+    "produced_by": "scripts/reproduce_owen1995.py::projected_metric",
+    "statement": "Recomputed initial-LIGO g_22 divided by (2 pi f0)^2, rounded for the note.",
+    "value": 0.1732
+  },
+  "recomputed_initial_spacing_soft_ms": {
+    "choices": [
+      "Used full-precision eigenvalue and rounded only for display."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Initial-LIGO square-grid spacing along the soft eigendirection at MM=0.97, in milliseconds.",
+    "value": 2.84
+  },
+  "recomputed_initial_spacing_stiff_ms": {
+    "choices": [
+      "Used full-precision eigenvalue and rounded only for display."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Evaluated Owen Eq. (50) using the recomputed eigenvalue.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Initial-LIGO square-grid spacing along the stiff eigendirection at MM=0.97, in milliseconds.",
+    "value": 0.23
+  },
+  "recomputed_initial_sqrt_det": {
+    "choices": [
+      "Reported dimensionless factor after dividing out (2 pi f0)^2."
+    ],
+    "from_library": "Python math.sqrt.",
+    "from_scratch": "Computed from the full-precision projected metric.",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Square root of the determinant of the recomputed initial-LIGO dimensionless metric.",
+    "value": 0.05821
+  },
+  "recomputed_initial_template_count": {
+    "choices": [
+      "Ignored boundary corrections as Owen's volume estimate does."
+    ],
+    "from_library": "Python standard library only.",
+    "from_scratch": "Combined full-precision metric determinant with deterministic coordinate area in Owen Eq. (43).",
+    "produced_by": "scripts/reproduce_owen1995.py::reproduce_case",
+    "statement": "Recomputed initial-LIGO square-grid template count at MM=0.97, rounded to four significant digits.",
+    "value": 285600
+  },
+  "rho_star_naive_extended_hexagonal": {
+    "choices": [
+      "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "threshold at FAR = 1/(100 yr), extended hexagonal, naive trials [dimensionless]",
+    "value": 8.404073457262635
+  },
+  "rho_star_naive_extended_square": {
+    "choices": [
+      "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "threshold at FAR = 1/(100 yr), extended square, naive trials [dimensionless]",
+    "value": 8.448364289425925
+  },
+  "rho_star_naive_main_hexagonal": {
+    "choices": [
+      "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "threshold at FAR = 1/(100 yr), main hexagonal, naive trials [dimensionless]",
+    "value": 8.599648633372817
+  },
+  "rho_star_naive_main_square": {
+    "choices": [
+      "the naive bound over-counts trials, so this is an UPPER bound -- proved for a finite grid in Gaussian noise by the efverify r01 verifier from the Gaussian correlation inequality (Latala and Matlak, arXiv:1512.08776, Thm 1)"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/threshold.py, exact FAP = 1-(1-p)^N",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "threshold at FAR = 1/(100 yr), main square, naive trials [dimensionless]",
+    "value": 8.628553760790158
+  },
+  "trials_exponent_extended_hexagonal": {
+    "choices": [
+      "95 % CI [0.0484, 0.2664]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exponent in N_eff proportional to N_templates^alpha, extended hexagonal [dimensionless]",
+    "value": 0.15155535600281456
+  },
+  "trials_exponent_extended_square": {
+    "choices": [
+      "95 % CI [0.1408, 0.3116]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exponent in N_eff proportional to N_templates^alpha, extended square [dimensionless]",
+    "value": 0.2213630066110102
+  },
+  "trials_exponent_main_hexagonal": {
+    "choices": [
+      "95 % CI [0.0886, 0.2258]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exponent in N_eff proportional to N_templates^alpha, main hexagonal [dimensionless]",
+    "value": 0.1567631434950692
+  },
+  "trials_exponent_main_square": {
+    "choices": [
+      "95 % CI [0.0835, 0.2298]; the naive model assumes 1. The POOLED fit across regions gives 1.29 and is a Simpson effect, not a scaling"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py, paired bootstrap over shared segments",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exponent in N_eff proportional to N_templates^alpha, main square [dimensionless]",
+    "value": 0.1499917111418696
+  },
+  "trials_exponent_pooled": {
+    "choices": [
+      "REPORTED BUT NOT USED, and the paper says so. It is four standard deviations ABOVE 1, the opposite of the within-family result, because the two regions differ in nu_eff by more than a factor ten at comparable template counts: the pooled slope measures the step between regions, not how either scales"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/nu_eff.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exponent from fitting all twenty banks together, ignoring region and lattice [dimensionless]",
+    "value": 1.292181130338291
+  },
+  "veff_change_calibrated_extended_hexagonal": {
+    "choices": [
+      "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, extended hexagonal, calibrated nu_eff [per cent]",
+    "value": 0.6296817869276605
+  },
+  "veff_change_calibrated_extended_square": {
+    "choices": [
+      "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, extended square, calibrated nu_eff [per cent]",
+    "value": 0.2361120767102376
+  },
+  "veff_change_calibrated_main_hexagonal": {
+    "choices": [
+      "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, main hexagonal, calibrated nu_eff [per cent]",
+    "value": 1.75564454211119
+  },
+  "veff_change_calibrated_main_square": {
+    "choices": [
+      "opposite in sign to the naive result; the curves are flat to within about 2 % and are NOT monotonic in the extended region, so no optimum is resolved inside the grid"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py with work/d1/nu_eff.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, main square, calibrated nu_eff [per cent]",
+    "value": 1.2339456544181893
+  },
+  "veff_change_naive_extended_hexagonal": {
+    "choices": [
+      "the sign is set by the trials model, not by the bank"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, extended hexagonal, naive trials [per cent]",
+    "value": -3.287639551866961
+  },
+  "veff_change_naive_extended_square": {
+    "choices": [
+      "the sign is set by the trials model, not by the bank"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, extended square, naive trials [per cent]",
+    "value": -3.7381328010849924
+  },
+  "veff_change_naive_main_hexagonal": {
+    "choices": [
+      "the sign is set by the trials model, not by the bank"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, main hexagonal, naive trials [per cent]",
+    "value": -1.8724764084520062
+  },
+  "veff_change_naive_main_square": {
+    "choices": [
+      "the sign is set by the trials model, not by the bank"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "work/d1/optimum.py",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "change in V_eff from MM = 0.95 to 0.99, main square, naive trials [per cent]",
+    "value": -2.330375625683878
+  },
+  "worst_case_volume_loss_mm097": {
+    "choices": [
+      "the linear expansion 3(1-MM) = 0.09 is 3.060909 % larger and is a different quantity; the two are never merged"
+    ],
+    "from_library": "numpy and scipy, through the pipeline scripts named above; the metric, waveforms, PSD and noise come from the frozen upstream package",
+    "from_scratch": "closed form 1 - MM^3",
+    "produced_by": "scripts/compute_numbers.py::compute",
+    "statement": "exact worst-case fractional volume loss at MM = 0.97, sources uniform in Euclidean volume [fraction]",
+    "value": 0.08732700000000004
   }
 }
