@@ -374,14 +374,18 @@ the main/extended contrast is mainly a waveform-model result, not a bank-spacing
 ratios are {num('hex_square_ratio_main_mm097')} and
 {num('hex_square_ratio_extended_mm097')}: hexagonal placement uses fewer templates in both
 regions, but by different amounts.</p>
-<p>That saving is not a free improvement. The denser square banks have the smaller
-population-average losses above and survived the adaptive covering search, whereas both
-hexagonal banks have counterexamples. Moreover, {num('border_fraction_main')} of main and
-{num('border_fraction_extended')} of extended injections lie within one covering radius
-of an edge. These narrow finite regions are boundary dominated, so neither the ideal
-lattice ratio nor one universal density describes the delivered banks. We also find no
-robust optimal minimal match: the small V<sub>eff</sub> trend changes sign with the trials
-model.</p>
+<p>At fixed nominal minimal match, the delivered square banks trade a larger template
+count for lower population-average discretisation loss and survived the adaptive covering
+search. The hexagonal banks use fewer templates, but the implementations tested here
+contain small covering holes. Densifying the hexagonal placement reduces its loss, so
+these results do not establish that one lattice is universally better; the preferred
+choice depends on whether the objective is template count, average loss, strict coverage,
+or effective detection volume.</p>
+<p class="note">This comparison is especially sensitive to finite boundaries:
+{num('border_fraction_main')} of main and {num('border_fraction_extended')} of extended
+injections lie within one covering radius of an edge. The square banks surviving our
+search is not a proof of strict coverage, and no robust optimal minimal match is resolved
+because the small V<sub>eff</sub> trend changes sign with the trials model.</p>
 </section>
 </div>
 

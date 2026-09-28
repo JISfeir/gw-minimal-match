@@ -294,9 +294,11 @@ claims:
     MM = 0.97 banks, hexagonal placement uses fewer templates than square placement in both
     regions, but the saving differs by region and both hexagonal banks have adaptive
     counterexamples to strict covering; square placement has lower population-average
-    discretisation loss and survives the same search. The much larger approximate loss in
-    the extended region is driven mainly by TaylorF2 waveform-family error, while finite
-    boundaries and the unresolved trials factor prevent a universal density or robust
+    discretisation loss and survives the same search. Densifying hexagonal placement reduces
+    its loss, so neither lattice is universally better: the choice depends on template count,
+    average loss, strict coverage, and effective detection volume. The much larger approximate
+    loss in the extended region is driven mainly by TaylorF2 waveform-family error, while
+    finite boundaries and the unresolved trials factor prevent a universal density or robust
     optimal minimal match from being inferred.
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)-(16)

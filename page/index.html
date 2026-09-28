@@ -303,14 +303,18 @@ the main/extended contrast is mainly a waveform-model result, not a bank-spacing
 ratios are <span class="num" title="NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region">0.7796</span> and
 <span class="num" title="NOT a well-defined property of the lattices here: counting the lattice alone gives 0.4882 (main) and 0.4225 (extended), because the boundary repair contributes 17-51 % depending on lattice and region">0.6885</span>: hexagonal placement uses fewer templates in both
 regions, but by different amounts.</p>
-<p>That saving is not a free improvement. The denser square banks have the smaller
-population-average losses above and survived the adaptive covering search, whereas both
-hexagonal banks have counterexamples. Moreover, <span class="num" title="so high that the specification&#x27;s interior/border split carries little information; the boundary-sample metric gives 0.793 instead">0.79900</span> of main and
-<span class="num" title="as above; 0.939 under the other convention">0.93833</span> of extended injections lie within one covering radius
-of an edge. These narrow finite regions are boundary dominated, so neither the ideal
-lattice ratio nor one universal density describes the delivered banks. We also find no
-robust optimal minimal match: the small V<sub>eff</sub> trend changes sign with the trials
-model.</p>
+<p>At fixed nominal minimal match, the delivered square banks trade a larger template
+count for lower population-average discretisation loss and survived the adaptive covering
+search. The hexagonal banks use fewer templates, but the implementations tested here
+contain small covering holes. Densifying the hexagonal placement reduces its loss, so
+these results do not establish that one lattice is universally better; the preferred
+choice depends on whether the objective is template count, average loss, strict coverage,
+or effective detection volume.</p>
+<p class="note">This comparison is especially sensitive to finite boundaries:
+<span class="num" title="so high that the specification&#x27;s interior/border split carries little information; the boundary-sample metric gives 0.793 instead">0.79900</span> of main and <span class="num" title="as above; 0.939 under the other convention">0.93833</span> of extended
+injections lie within one covering radius of an edge. The square banks surviving our
+search is not a proof of strict coverage, and no robust optimal minimal match is resolved
+because the small V<sub>eff</sub> trend changes sign with the trials model.</p>
 </section>
 </div>
 
