@@ -6,17 +6,20 @@ claims:
     '
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)
-  - page/index.html::sections 3-4
+  - page/index.html::section 1, Scope and definitions
   numbers: []
 - id: owen-local-metric
   statement: 'The Hessian of the match at coincident parameters defines a local metric with
-    1-M = g_ij Delta-lambda^i Delta-lambda^j in Owen''s convention.
+    1-M = g_ij Delta-lambda^i Delta-lambda^j in Owen''s convention. The frozen finite-difference
+    test passes the pre-registered relative-error criterion at mismatch 0.03, fails it at
+    0.05, and does not establish an interval between those discrete radii.
 
     '
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (11)-(13)
-  - page/index.html::section 5
-  numbers: []
+  - page/index.html::section 2, The metric we use
+  numbers:
+  - metric_validation_relative_error_limit
 - id: owen-volume-count
   statement: 'Under Owen''s hypercubic covering model, the template count is proper parameter-space
     volume divided by the cell volume set by the minimal match.
@@ -24,7 +27,6 @@ claims:
     '
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (14)-(16), (43)
-  - page/index.html::sections 6 and 9
   numbers:
   - owen_mm_fiducial
   - recomputed_initial_template_count
@@ -118,7 +120,7 @@ claims:
   evidence:
   - scripts/reproduce_owen1995.py::compute
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (16), (43)-(45), (49)-(54)
-  - page/index.html::section 8.4
+  - page/owen.html::section 8.4
   numbers: []
 - id: owen-historical-compute-cost
   statement: 'Owen''s online-search compute estimates are historical consequences of his PSD,
@@ -127,7 +129,7 @@ claims:
     '
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (55)-(61) and Sec. III D
-  - page/index.html::section 9.4
+  - page/owen.html::section 9.4
   numbers:
   - owen_reported_initial_gflops
   - owen_reported_advanced_gflops
@@ -153,15 +155,17 @@ claims:
   - q1bc_reconciled_job_tokens_before_resume
 - id: covering-at-mm097
   statement: 'Square and hexagonal banks are placed in (tau_0, tau_3) for the same nominal
-    minimal match with Cokelaer''s local-metric method and boundary treatment. For both we
+    minimal match with a generation-wise local-metric method inspired by Cokelaer. The
+    implementation replaces his explicit connector graph with distance-based collision
+    suppression and adds its own greedy boundary repair, so its counts are not those of a
+    faithful Cokelaer implementation. For both lattices we
     measure, by Monte Carlo over injected TaylorF2 signals and separately for interior and
     border injections, the fraction whose best match falls below MM, and determine whether
     any excess over the ideal geometric expectation comes from metric variation, the quadratic
     approximation, the boundaries or the implementation. The template counts are compared
-    against two references: the ideal constant-metric ratio 0.770, and the 0.717-0.719 that
-    Cokelaer measures once the metric varies. (Corrected 2026-09-21: this said ~0.60, from
-    reading Cokelaer''s Table III in the wrong convention. The two references are close together,
-    so metric evolution buys about 5 points of ratio, not 17.)'
+    against the ideal constant-metric ratio 0.7698 and against all comparable Cokelaer banks:
+    range 0.6605-0.7866 and mean 0.7191. The published range is descriptive, not an
+    uncertainty interval.'
   status: 'MEASURED, and strict covering is REFUTED for both hexagonal banks: adaptive witnesses
     at mismatch 0.0322 and 0.0362 against a 0.03 target, reproduced independently. Both square
     banks survive the same search. The uniform-injection covering fractions have very little
@@ -179,6 +183,26 @@ claims:
   - border_fraction_main
   - covering_fraction_extended_hexagonal_mm097
   - covering_fraction_extended_square_mm097
+  - covering_fraction_main_hexagonal_mm097
+  - covering_fraction_main_square_mm097
+  - cokelaer_hex_square_ratio_max
+  - cokelaer_hex_square_ratio_mean
+  - cokelaer_hex_square_ratio_min
+  - cusp_secant_coefficient
+  - effective_width_extended
+  - effective_width_main
+  - hex_square_ratio_extended_mm097
+  - hex_square_ratio_main_mm097
+  - ideal_hex_square_ratio
+  - minimal_match_headline
+  - n_templates_extended_hexagonal_mm097
+  - n_templates_extended_square_mm097
+  - n_templates_main_hexagonal_mm097
+  - n_templates_main_square_mm097
+  - proper_area_extended
+  - proper_area_main
+  - proper_perimeter_extended
+  - proper_perimeter_main
 - id: detection-threshold
   statement: At the pre-registered operating point, FAR = 1/(100 yr) over T_obs = 1 yr with
     FAP = 1 - exp(-FAR T_obs) under a Poisson false-alarm-process convention, the threshold
@@ -196,46 +220,98 @@ claims:
   - data/part_e_mm097.json::thresholds at the operating point and its two sensitivities
   - data/part_e_nu_eff.json::the calibrated trials rate and its exponent, per family
   - scripts/make_figures.py::figure_trials
-  numbers: []
+  numbers:
+  - nu_eff_main_hexagonal_mm097
+  - poisson_approximation_error
+  - rho_star_naive_extended_hexagonal
+  - rho_star_naive_extended_square
+  - rho_star_naive_main_hexagonal
+  - rho_star_naive_main_square
+  - trials_exponent_extended_hexagonal
+  - trials_exponent_extended_square
+  - trials_exponent_main_hexagonal
+  - trials_exponent_main_square
+  - trials_exponent_pooled
 - id: volume-loss-rule
   statement: 'The worst-case fractional detection-volume loss at fixed threshold is exactly
     1 - MM^3, of which 3(1 - MM) is the linear expansion; the population-average loss 1 -
-    <M_bank^3> is measured separately, for TaylorF2 injections (discretisation only) and IMRPhenomD
+    <M_bank^3> is estimated separately with the quadratic metric, for TaylorF2 injections
+    (discretisation only) and IMRPhenomD
     injections (template-family error plus discretisation). With the bank-dependent threshold,
     the effective volume <M_bank^3>/rho*^3 is maximised over MM, and whether that maximum
     lies inside the range studied is reported with its uncertainty. This is a measurement
     of a known trade-off for this configuration, not a new effect: see prior_work. What is
-    ours is the closed loop measured end to end with a modern PSD — nu_eff calibrated from
-    simulated maxima rather than assumed, <M_bank^3> from injections rather than from the
+    ours is the closed loop evaluated end to end with a modern PSD — nu_eff calibrated from
+    simulated maxima rather than assumed, <M_bank^3> from metric-evaluated injections rather than from the
     geometric approximation, the three volume losses kept apart, and TaylorF2 and IMRPhenomD
     reported separately.'
-  status: MEASURED. The population-average loss is 4-9 times below the worst case. The pre-registered
-    hypothesis of an interior V_eff optimum between MM = 0.97 and 0.99 is not supported; under
-    the naive trials model V_eff falls and under the calibrated one it rises, so the sign
-    is set by the trials model. No optimum is resolved in the grid.
+  status: >-
+    MEASURED WITH A MODEL LIMIT. The population-average loss is 4-9 times below the
+    worst case. The pre-registered hypothesis of an interior V_eff optimum is not supported:
+    the trend reverses between the naive and fitted trials models, while the fitted nu_eff
+    is extrapolated beyond its calibration tail and that uncertainty is absent from the
+    plotted bars. No robust optimum is resolved in the grid.
   evidence:
   - data/part_f_optimum.json::the three separated losses and V_eff under both trials models
   - scripts/make_figures.py::figure_volume_losses, figure_veff
   numbers:
+  - imrphenomd_family_only_extended
+  - imrphenomd_family_only_main
   - imrphenomd_volume_loss_extended
   - imrphenomd_volume_loss_main
   - population_volume_loss_extended_hexagonal_mm097
   - population_volume_loss_extended_square_mm097
   - population_volume_loss_main_hexagonal_mm097
   - population_volume_loss_main_square_mm097
+  - veff_change_calibrated_extended_hexagonal
+  - veff_change_calibrated_extended_square
+  - veff_change_calibrated_main_hexagonal
+  - veff_change_calibrated_main_square
+  - veff_change_naive_extended_hexagonal
+  - veff_change_naive_extended_square
+  - veff_change_naive_main_hexagonal
+  - veff_change_naive_main_square
+  - worst_case_volume_loss_mm097
 - id: same-content-two-formats
-  statement: 'The HTML page and the PDF report the same content and the same numbers, and
-    this is enforced rather than promised: both read data/project_numbers.json through the
-    same formatter, so a value can differ between them only if one has stopped being rebuilt.'
-  status: DEMONSTRATED. All 25 numbers cited on the page appear as literal strings in the
-    PDF text; the check is a string comparison, not an inspection. Both carry all six figures,
-    which come from scripts/make_figures.py and from nowhere else (rule F5).
+  statement: 'The HTML page and PDF state the same scientific conclusions, methodological
+    scope and limitations, and cite exactly the same set of headline project-number keys.
+    The HTML additionally carries two explicitly labelled supplementary covering diagnostics.'
+  status: 'ENFORCED FOR NUMERIC KEYS: the HTML build fails if its num(...) keys differ from
+    the paper''s dataref keys. Method wording and conclusions were reconciled by review;
+    figures shared by both formats come from scripts/make_figures.py.'
   evidence:
+  - scripts/make_page.py::check_shared_number_keys
+  - tests/test_acceptance.py::Registry.test_html_and_paper_cite_the_same_project_numbers
   - scripts/make_page.py::num -- imports fmt from scripts/make_numbers_tex.py, which is the
     function the paper's \dataref macros are generated with
   - scripts/make_numbers_tex.py::fmt -- the single shared formatter
   - data/project_numbers.json -- the one registry both formats read
+  - paper/main.tex and scripts/make_page.py::HTML -- shared method and conclusion wording
   numbers: []
+- id: two-question-conclusion
+  statement: >-
+    In noise-free data the fractional SNR loss is exactly the mismatch. A target mismatch
+    and local metric set a local spacing, but there is no universal bank density because
+    finite boundaries and placement rules affect the delivered bank; this study does not
+    resolve a robust optimal minimal match.
+  evidence:
+  - Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)-(16)
+  - paper/main.tex::Scope and definitions; Limitations and conclusion
+  - page/index.html::section 5, Conclusion
+  - data/part_d_mm097.json::counts and boundary-repair composition
+  - data/part_f_optimum.json::V_eff under naive and fitted trials models
+  numbers: []
+- id: paper-length
+  statement: The compiled manuscript uses five pages for the title, abstract, methods,
+    results and conclusion; references begin on page six and occupy the final page.
+  status: VERIFIED from the compiled PDF after the substantive revision.
+  evidence:
+  - paper/main.pdf::pagination and References heading
+  - paper/main.tex::clearpage immediately before the bibliography
+  - pdfinfo and pdftotext verification recorded during the revision
+  numbers:
+  - paper_body_pages
+  - paper_total_pages
 figures:
 - file: figures/d_covering_cumulative.pdf
   produced_by: scripts/make_figures.py::figure_covering
@@ -254,6 +330,10 @@ figures:
 
     '
   choices:
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
+  - each interior/border curve is normalised within its own subset; the ordinate is therefore
+    a conditional cumulative fraction, not a fraction of all injections
   - 3000 injections per region, uniform in component mass over the region -- a declared sampling
     choice, not an astrophysical population
   - seed 20260925, fixed before measuring
@@ -263,6 +343,7 @@ figures:
   - border defined as within one covering radius of any region edge in the injection metric,
     on a boundary resampled at R/4 in proper length
   - colour follows the lattice and the region is the facet, so the reader learns one mapping
+  how_this_could_fail: Any nonzero CDF ordinate left of MM = 0.97 refutes sampled covering.
   supports:
   - covering-at-mm097
 - file: figures/d_covering_cumulative.png
@@ -283,6 +364,8 @@ figures:
 
     '
   choices:
+  - each interior/border curve is normalised within its own subset; the ordinate is therefore
+    a conditional cumulative fraction, not a fraction of all injections
   - 3000 injections per region, uniform in component mass over the region -- a declared sampling
     choice, not an astrophysical population
   - seed 20260925, fixed before measuring
@@ -292,14 +375,16 @@ figures:
   - border defined as within one covering radius of any region edge in the injection metric,
     on a boundary resampled at R/4 in proper length
   - colour follows the lattice and the region is the facet, so the reader learns one mapping
+  how_this_could_fail: Any nonzero CDF ordinate left of MM = 0.97 refutes sampled covering.
   supports:
   - covering-at-mm097
 - file: figures/d_counts_and_ratio.pdf
   produced_by: scripts/make_figures.py::figure_counts
   shows: 'Top: bank size against nominal minimal match, both regions and both lattices, log
     ordinate. Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and
-    Cokelaer 2007''s measured 0.717-0.719. The reader should take that the two regions do
-    not share a ratio, so lattice efficiency alone does not set it.
+    the full 0.6605-0.7866 range recomputed from Cokelaer 2007, whose mean is 0.7191. The
+    reader should take that the two regions do not share a universal ratio; the comparison
+    does not validate this project as a faithful implementation of Cokelaer.
 
     '
   from_scratch: 'every bank in the MM grid was placed by work/d1/placement.py; the counts
@@ -307,28 +392,32 @@ figures:
 
     '
   from_library: 'numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric
-    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed
-    from his Tables I-III
+    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.6605-0.7866 and mean 0.7191 are
+    recomputed from all comparable banks in Cokelaer 2007 Tables I-II
 
     '
   choices:
-  - ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule
-    F2)
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
+  - ordinate spans 0.60-0.90 so the measured series and full published reference range remain
+    legible
   - the counts are FULL banks, including the boundary repair, which is 50.7 % of the main
     hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and
     0.4225 and are reported in the text, not here
-  - the two references are legend entries rather than in-plot annotations, because at this
-    ordinate range every in-plot label crosses a measured series
+  - the Cokelaer range is a lightly shaded descriptive band and its mean is a separate line;
+    the band is not presented as an uncertainty interval
   - MM grid 0.95-0.99 in steps of 0.01
+  how_this_could_fail: If lattice efficiency alone set the ratio, both regions would follow
+    one MM-independent line near the constant-metric ideal; they do not.
   supports:
   - covering-at-mm097
 - file: figures/d_counts_and_ratio.png
   produced_by: scripts/make_figures.py::figure_counts
   shows: 'Top: bank size against nominal minimal match, both regions and both lattices, log
     ordinate. Bottom: the measured hexagonal/square count ratio against the ideal 0.7698 and
-    Cokelaer 2007''s measured 0.717-0.719. The reader should take that the two regions do
-    not share a ratio, so lattice efficiency alone does not set it. Raster copy of the same
-    call, for the HTML page.
+    the full 0.6605-0.7866 range recomputed from Cokelaer 2007, whose mean is 0.7191. The
+    comparison is descriptive, not a validation of this project as a faithful implementation.
+    Raster copy of the same call, for the HTML page.
 
     '
   from_scratch: 'every bank in the MM grid was placed by work/d1/placement.py; the counts
@@ -336,19 +425,21 @@ figures:
 
     '
   from_library: 'numpy; matplotlib. The reference values are quoted: 0.7698 is the constant-metric
-    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.717-0.719 is Cokelaer 2007 recomputed
-    from his Tables I-III
+    geometry (square cell 2R^2, hexagonal 3*sqrt(3)R^2/2); 0.6605-0.7866 and mean 0.7191 are
+    recomputed from all comparable banks in Cokelaer 2007 Tables I-II
 
     '
   choices:
-  - ordinate spans 0.60-0.90 so the five-point gap between the two references is legible (rule
-    F2)
+  - ordinate spans 0.60-0.90 so the measured series and full published reference range remain
+    legible
   - the counts are FULL banks, including the boundary repair, which is 50.7 % of the main
     hexagonal bank and 17.0 % of the extended square one; lattice-only ratios are 0.4882 and
     0.4225 and are reported in the text, not here
-  - the two references are legend entries rather than in-plot annotations, because at this
-    ordinate range every in-plot label crosses a measured series
+  - the Cokelaer range is a lightly shaded descriptive band and its mean is a separate line;
+    the band is not presented as an uncertainty interval
   - MM grid 0.95-0.99 in steps of 0.01
+  how_this_could_fail: If lattice efficiency alone set the ratio, both regions would follow
+    one MM-independent line near the constant-metric ideal; they do not.
   supports:
   - covering-at-mm097
 - file: figures/d_mismatch_map_main_hex.pdf
@@ -366,13 +457,17 @@ figures:
 
     '
   choices:
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
   - shown against both component masses rather than total mass, because the metric depends
     on both (rule F3)
   - 90x90 grid over [5, 31] Msun, giving 1892 cells inside the region
-  - 'two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above
-    it, so a failing cell cannot be mistaken for a dark passing one'
+  - a diverging residual scale centred on mu - 0.03 = 0, so the claimed threshold precision
+    is visible rather than hidden by a full-range mismatch scale
   - the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit
     and was reproduced by hand to 14 digits, not recomputed by this figure
+  how_this_could_fail: A sampled covering failure would appear as a positive residual; the
+    regular grid has none, while the independently found adaptive witness exceeds the target.
   supports:
   - covering-at-mm097
 - file: figures/d_mismatch_map_main_hex.png
@@ -393,16 +488,18 @@ figures:
   - shown against both component masses rather than total mass, because the metric depends
     on both (rule F3)
   - 90x90 grid over [5, 31] Msun, giving 1892 cells inside the region
-  - 'two colour scales: a sequential blue ramp below the 0.03 target and a warm overlay above
-    it, so a failing cell cannot be mistaken for a dark passing one'
+  - a diverging residual scale centred on mu - 0.03 = 0, so the claimed threshold precision
+    is visible rather than hidden by a full-range mismatch scale
   - the witness at (25.66516036451493, 5.816990546682748) comes from the dverify r03 audit
     and was reproduced by hand to 14 digits, not recomputed by this figure
+  how_this_could_fail: A sampled covering failure would appear as a positive residual; the
+    regular grid has none, while the independently found adaptive witness exceeds the target.
   supports:
   - covering-at-mm097
 - file: figures/f_volume_losses.pdf
   produced_by: scripts/make_figures.py::figure_volume_losses
   shows: 'The three fractional detection-volume losses kept apart against nominal minimal
-    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured
+    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the metric-predicted
     population average 1 - <M^3>. The reader should take that the population loss is a factor
     4 to 9 below the worst case.
 
@@ -415,18 +512,24 @@ figures:
 
     '
   choices:
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
   - TaylorF2 injections only, so this is discretisation loss alone; the template-family leg
     is a separate quantity and is not mixed in here
   - log ordinate, because the measured series and the worst case differ by nearly a decade
   - 2000 injections per bank, seed 20260927
   - the legend sits outside the axes because with six series every in-plot corner crosses
     one
+  - bootstrap uncertainty is drawn on the population points; an inset resolves the relative
+    difference between the exact and linear analytic curves
+  how_this_could_fail: If the nominal worst case described the population cost, the
+    bootstrap-resolved population points would lie on its curve; they do not.
   supports:
   - volume-loss-rule
 - file: figures/f_volume_losses.png
   produced_by: scripts/make_figures.py::figure_volume_losses
   shows: 'The three fractional detection-volume losses kept apart against nominal minimal
-    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the measured
+    match: the exact worst case 1 - MM^3, its linear expansion 3(1 - MM), and the metric-predicted
     population average 1 - <M^3>. The reader should take that the population loss is a factor
     4 to 9 below the worst case. Raster copy of the same call, for the HTML page.
 
@@ -445,15 +548,20 @@ figures:
   - 2000 injections per bank, seed 20260927
   - the legend sits outside the axes because with six series every in-plot corner crosses
     one
+  - bootstrap uncertainty is drawn on the population points; an inset resolves the relative
+    difference between the exact and linear analytic curves
+  how_this_could_fail: If the nominal worst case described the population cost, the
+    bootstrap-resolved population points would lie on its curve; they do not.
   supports:
   - volume-loss-rule
 - file: figures/f_veff_vs_mm.pdf
   produced_by: scripts/make_figures.py::figure_veff
   shows: 'Change in effective detection volume from the coarse end of the MM grid, under two
     models of the trials factor -- the naive bound and a nu_eff calibrated on simulated Gaussian
-    noise -- for both regions and both lattices. The reader should take that the SIGN of the
-    trend is set by the trials model, not by the bank: naive falls 1.9-3.7 %, calibrated rises
-    0.2-1.8 %.'
+    noise -- for both regions and both lattices. The trend reverses between the two models,
+    demonstrating model sensitivity rather than establishing which trend is correct; nu_eff
+    calibration and tail-extrapolation uncertainty is not quantified; the curves are model
+    scenarios rather than a measurement of the operating-threshold trend.'
   from_scratch: the population <M^3> from injections and its bootstrap; the calibration of
     nu_eff from the maximum of |z| over templates and time in 100 simulated noise segments,
     by closed-form MLE on the distribution of the maximum; the power-law fit of N_eff against
@@ -462,6 +570,8 @@ figures:
     P(|z|>r)=exp(-r^2/2) was verified there and re-verified here as a control; q1bC part B's
     frozen ff_full for the IMRPhenomD leg; scipy griddata and brentq; numpy FFT; matplotlib
   choices:
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
   - TWO trials models are drawn rather than one, because the difference between them is the
     result; plotting only the calibrated curve would hide that the conclusion is model-dependent
   - the ordinate is the relative change from MM = 0.95, not the absolute V_eff, because the
@@ -469,16 +579,19 @@ figures:
   - nu_eff calibrated on 100 segments of 32 s, seed 20260926, with the SAME noise driving
     every bank so the comparison across MM is paired and the slope uncertainty is not inflated
   - N_eff estimated by closed-form MLE on the distribution of the per-segment maximum; threshold-wise
-    estimates over r = 5.4-6.6 scatter by about a factor 3, so the LEVEL of N_eff is good
-    to roughly +-50 %, which moves rho* by 0.05 and is immaterial; the exponent is what matters
-    and is well determined
+    estimates vary across the fitted tail, and calibration near the simulated maxima is
+    extrapolated to a higher detection threshold. This uncertainty is not quantified and
+    can be material relative to the small V_eff trend
   - 'alpha fitted WITHIN each region and lattice family, never pooled: the pooled fit gives
     1.29 purely because the two regions have different N_eff levels, which is a Simpson effect
     and not a scaling'
   - the IMRPhenomD leg is not drawn here; it is a declared approximation and appears in data/part_f_optimum.json
     only
-  - bootstrap bars are sampling uncertainty on <M^3> only; they do not carry the uncertainty
-    on nu_eff itself
+  - no precision-style error bars are shown, because the available injection bootstrap does
+    not include the potentially material nu_eff and tail-extrapolation uncertainty
+  how_this_could_fail: If the trials models agreed, the dashed and solid scenario curves
+    would coincide; if a robust optimum existed, the calibrated curves would show a stable
+    interior peak. Neither pattern appears.
   supports:
   - volume-loss-rule
   - detection-threshold
@@ -486,9 +599,10 @@ figures:
   produced_by: scripts/make_figures.py::figure_veff
   shows: 'Change in effective detection volume from the coarse end of the MM grid, under two
     models of the trials factor -- the naive bound and a nu_eff calibrated on simulated Gaussian
-    noise -- for both regions and both lattices. The reader should take that the SIGN of the
-    trend is set by the trials model, not by the bank: naive falls 1.9-3.7 %, calibrated rises
-    0.2-1.8 %. Raster copy of the same call, for the HTML page.'
+    noise -- for both regions and both lattices. The trend reverses between the two models,
+    demonstrating model sensitivity rather than establishing which trend is correct; nu_eff
+    calibration and tail-extrapolation uncertainty is not quantified. Raster copy of the
+    same call, for the HTML page.'
   from_scratch: the population <M^3> from injections and its bootstrap; the calibration of
     nu_eff from the maximum of |z| over templates and time in 100 simulated noise segments,
     by closed-form MLE on the distribution of the maximum; the power-law fit of N_eff against
@@ -504,16 +618,19 @@ figures:
   - nu_eff calibrated on 100 segments of 32 s, seed 20260926, with the SAME noise driving
     every bank so the comparison across MM is paired and the slope uncertainty is not inflated
   - N_eff estimated by closed-form MLE on the distribution of the per-segment maximum; threshold-wise
-    estimates over r = 5.4-6.6 scatter by about a factor 3, so the LEVEL of N_eff is good
-    to roughly +-50 %, which moves rho* by 0.05 and is immaterial; the exponent is what matters
-    and is well determined
+    estimates vary across the fitted tail, and calibration near the simulated maxima is
+    extrapolated to a higher detection threshold. This uncertainty is not quantified and
+    can be material relative to the small V_eff trend
   - 'alpha fitted WITHIN each region and lattice family, never pooled: the pooled fit gives
     1.29 purely because the two regions have different N_eff levels, which is a Simpson effect
     and not a scaling'
   - the IMRPhenomD leg is not drawn here; it is a declared approximation and appears in data/part_f_optimum.json
     only
-  - bootstrap bars are sampling uncertainty on <M^3> only; they do not carry the uncertainty
-    on nu_eff itself
+  - no precision-style error bars are shown, because the available injection bootstrap does
+    not include the potentially material nu_eff and tail-extrapolation uncertainty
+  how_this_could_fail: If the trials models agreed, the dashed and solid scenario curves
+    would coincide; if a robust optimum existed, the calibrated curves would show a stable
+    interior peak. Neither pattern appears.
   supports:
   - volume-loss-rule
   - detection-threshold
@@ -529,6 +646,8 @@ figures:
   from_library: the frozen upstream package's coloured_noise, kernel and psd_grid, whose single-sample
     statistic was verified there and re-verified here as a control; numpy FFT; matplotlib
   choices:
+  - PDF text is embedded with TrueType fonts (font type 42) rather than Type 3 so labels
+    remain searchable and render cleanly
   - 'REPLACES an earlier figure of rho* against MM, which violated rule F1: rho* is a closed
     function of the template count, so its y-values were computed from its x-values by the
     formula under test. A blind reviewer reconstructed every plotted point from N alone to
@@ -541,6 +660,10 @@ figures:
   - the calibration is done where the maxima fall, near |z| = 5.3 to 5.8, and is applied at
     thresholds near 8.0 to 8.6; that extrapolation is not tested here and is stated in the
     caption
+  - per-bank fit uncertainties and paired-bootstrap 95 percent intervals for each family
+    exponent are drawn or printed so the claimed sublinear slopes expose their precision
+  how_this_could_fail: Independent templates would put the inferred counts on the naive line;
+    proportional growth would make each family parallel to it. Neither pattern appears.
   supports:
   - detection-threshold
   - volume-loss-rule
@@ -569,6 +692,10 @@ figures:
   - the calibration is done where the maxima fall, near |z| = 5.3 to 5.8, and is applied at
     thresholds near 8.0 to 8.6; that extrapolation is not tested here and is stated in the
     caption
+  - per-bank fit uncertainties and paired-bootstrap 95 percent intervals for each family
+    exponent are drawn or printed so the claimed sublinear slopes expose their precision
+  how_this_could_fail: Independent templates would put the inferred counts on the naive line;
+    proportional growth would make each family parallel to it. Neither pattern appears.
   supports:
   - detection-threshold
   - volume-loss-rule

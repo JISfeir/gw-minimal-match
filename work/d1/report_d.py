@@ -11,6 +11,7 @@ any region boundary, as part D asks.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -20,8 +21,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from geometry import (COVERING_RADIUS, MU_MAX, Boundary, analytic_metric,
                       clamp_physical, in_region, tau)
 
-BANKS = Path("/home/juan/gw-minimal-match/results/d1/banks")
-CACHE = Path("/home/juan/gw-minimal-match/results/d1")
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+BANKS = ROOT / "results" / "d1" / "banks"
+CACHE = ROOT / "results" / "d1"
 # Constant-metric ideals from the proper area. CORRECTED 2026-09-26: the first
 # values came from a Monte Carlo with no convergence study and were low by 0.89 %
 # (main) and 4.77 % (extended). The geomverify r01 audit recomputed them by
@@ -124,7 +126,8 @@ def main():
                           f"   match@90th = {b['match_at_90th_percentile']:.5f}")
     print()
     print("D-2  hexagonal / square template-count ratio")
-    print("     references: 0.7698 ideal constant metric; 0.717-0.719 Cokelaer 2007 measured")
+    print("     references: 0.7698 ideal constant metric; Cokelaer 2007 "
+          "mean 0.7191, full range 0.6605-0.7866")
     for region in ("main", "extended"):
         h = results[f"{region}_hexagonal"]["n_templates"]
         s = results[f"{region}_square"]["n_templates"]

@@ -191,12 +191,14 @@ explicitly, as step 6 was.
       `page/index.html` becomes the project page, same content and numbers as the PDF,
       offline (homework: same content in two formats). Same figures as the PDF, from
       `scripts/make_figures.py` (F5).
-- [ ] **9. Publish and reproduce from a clean clone** (Thu 24–Fri 25) — make the repo public;
-      a fresh agent in a clone under `/tmp` follows only the README (day 3); fix what
-      breaks. The clean clone must regenerate every shipped figure.
-- [ ] **10. Final review** (Sat 26) — two fresh reviewers against the registry and
-      provenance; `scripts/check_provenance.py` clean; optional token audit. Figure audit:
-      every figure in page and paper against F1–F5.
+- [~] **9. Publish and reproduce from a clean clone** (Thu 24–Fri 25) — the clean-clone
+      reproduction was completed on 2026-09-28 from the README alone: all tracked outputs
+      matched byte for byte, including the now-deterministic PDF. Repository visibility is
+      an external publication decision and was not changed by this review.
+- [x] **10. Final review** (completed 2026-09-28) — two fresh read-only reviewers audited
+      claims/numbers/provenance and the six shipped figures. Findings were corrected;
+      `scripts/check_provenance.py` is clean. The F1–F5 disposition and the explicit q1bC
+      A–C portfolio boundary are recorded in [[figure-audit]].
 - [ ] **11. Buffer and hand-in** (Sun 27) — release tag, link.
 
 If time slips, step 6 is cut first.

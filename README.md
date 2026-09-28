@@ -1,8 +1,9 @@
 # Minimal match and SNR loss from imperfect templates
 
-**Claim.** How imperfect a template must be to lose a signal — recovered matched-filter
-SNR below the detection threshold — and how dense a template bank must be so that never
-happens, derived from the match metric and verified with injections.
+**Question.** How imperfect a template can be before recovered matched-filter SNR is lost,
+and how bank density controls that loss. We derive the local prediction from the match
+metric, test the delivered banks with injections and adaptive searches, and report the
+observed covering failures rather than claiming a guarantee.
 
 **Scope (v1).** Non-spinning 2-parameter bank in chirp-time coordinates $(\tau_0,\tau_3)$,
 single detector, stationary Gaussian noise, component masses $5$–$50\,M_\odot$, reported in
@@ -36,7 +37,11 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 python scripts/compute_numbers.py      # writes data/project_numbers.json (the number registry)
-python scripts/make_figures.py         # writes figures/*.pdf
+python scripts/make_numbers_tex.py      # writes paper/generated_numbers.tex
+python scripts/make_figures.py         # writes figures/*.pdf and *.png
+python scripts/make_page.py            # writes page/index.html and the root redirect
+latexmk -pdf -cd paper/main.tex         # writes paper/main.pdf
+python -m unittest discover -s tests -v
 python scripts/check_provenance.py     # the gate: every number and figure has a record
 ```
 
@@ -79,24 +84,25 @@ Modelled on the day-5 release README. This does **not** say the repository is
 how — and the last category is a thing it does not claim. Each line is filled in as the
 work is done, and each is checkable by running the thing, not by taking it on trust.
 
-**Demonstrated by a clean-clone test on 2026-09-27**: clone into `/tmp`, follow only the
-three commands above, and compare. All of it below is checkable by repeating that.
+**Demonstrated by a clean-clone test on 2026-09-28**: clone into `/tmp`, follow only the
+commands above, and compare. All of it below is checkable by repeating that.
 
 1. **Bitwise, demonstrated.** `data/project_numbers.json`, `provenance/numbers.json` and
    `paper/generated_numbers.tex` regenerate byte-identically in a fresh clone, and twice
    in a row within it. After running the full reproduction the clone's `git status` is
    **empty**: nothing the pipeline writes differs from what is committed.
-2. **Bitwise, better than previously claimed.** The figure PDFs and PNGs also regenerate
-   byte-identically, not merely raster-identically, because `scripts/make_figures.py`
-   pins `SOURCE_DATE_EPOCH`. The earlier wording here expected only zero differing pixels.
-3. **Within a stated, measured tolerance.** `tests/test_acceptance.py` (19 tests) passes
+2. **Bitwise, better than previously claimed.** The figure PDFs and PNGs and
+   `paper/main.pdf` also regenerate byte-identically. The figure writer pins
+   `SOURCE_DATE_EPOCH`, while the LaTeX source suppresses variable PDF timestamps and IDs.
+3. **Within a stated, measured tolerance.** The acceptance suite passes
    in the clone. Its tolerances are argued rather than defaulted: closed forms to 1e-12,
    template counts exactly because placement is deterministic, Monte-Carlo quantities no
    tighter than their own reported error, and the trials exponent pinned to span both
    this project's five-point fits and an independent audit's endpoint estimate.
-4. **Within tolerance, not bitwise.** Monte-Carlo products — the covering fractions, the
-   population volume losses, the trials calibration — agree only to their own sampling
-   error, which each carries. Two part-F files written with different seeds once
+4. **Within tolerance, not bitwise, if the upstream simulations are rerun.** Monte-Carlo
+   products — the covering fractions, population volume losses and trials calibration —
+   can agree only to their sampling error, which each carries. Two part-F files written
+   with different seeds once
    disagreed by up to 5.4 %; there is now one source and one seed, which is the only
    reason the numbers in the paper are consistent with each other.
 5. **Not reproducible from the clone, and named as such.** `scripts/export_figure_data.py`

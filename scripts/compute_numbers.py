@@ -91,6 +91,14 @@ def compute() -> dict:
         caveat="a design convention, not a derived constant; the field applies it as a "
                "percentile, not a worst case -- Sakon et al. 2023 quote fitting factors "
                "above 97 % for 90 % of injections in the O4 bank")
+    registry["metric_validation_relative_error_limit"] = entry(
+        0.10, "fraction",
+        "pre-registered maximum relative error for accepting the quadratic mismatch "
+        "predictor at a tested radius",
+        "structure/objective-q1bC.txt, part C acceptance criterion",
+        caveat="q1bC tested discrete radii. The predictor passed this criterion at "
+               "mismatch 0.03 and failed it at 0.05; this does not validate every "
+               "intermediate radius or any point below MM = 0.97")
     registry["worst_case_volume_loss_mm097"] = entry(
         1 - 0.97 ** 3, "fraction",
         "exact worst-case fractional volume loss at MM = 0.97, sources uniform in "
@@ -177,8 +185,9 @@ def compute() -> dict:
         nu["banks"]["main_hexagonal_mm097"]["nu_eff_per_second"], "per second",
         "calibrated effective independent-trials rate, main hexagonal bank at MM = 0.97",
         "work/d1/nu_eff.py, 100 segments of 32 s", seed=nu["seed"],
-        caveat="a summary of a correlated search, not a count of anything; the level is "
-               "good to roughly +-50 %, which moves rho* by 0.05 and is immaterial")
+        caveat="a summary of a correlated search, not a literal count. It varies across "
+               "the observed tail and is extrapolated to the higher detection threshold; "
+               "that uncertainty can be material relative to the small V_eff trend")
     registry["trials_exponent_pooled"] = entry(
         nu["alpha_fit"]["all"]["alpha"], "dimensionless",
         "exponent from fitting all twenty banks together, ignoring region and lattice",
@@ -217,15 +226,15 @@ def compute() -> dict:
             caveat="a DECLARED APPROXIMATION: the frozen continuous-family fitting factor "
                    "composed multiplicatively with the discretisation match, assuming an "
                    "independence that is not established. The family-only figure beside "
-                   "it is the rigorous bound")
+                   "it is itself a 28-point interpolation, not a rigorous bound")
         registry[f"imrphenomd_family_only_{region}"] = entry(
             losses["imrphenomd_family_only_bound"], "fraction",
             f"volume loss from the continuous TaylorF2 family alone, {region}",
             "work/d1/optimum.py, same injections and seed as the line above",
-            caveat="a rigorous lower bound on the IMRPhenomD loss: the best match against "
-                   "a discrete subset cannot exceed the best match against the family it "
-                   "is drawn from. The difference from the line above is what the bank's "
-                   "discretisation adds")
+            caveat="an interpolated family-only estimate from 28 fitting-factor points, "
+                   "with nearest-neighbour extrapolation outside their convex hull. The "
+                   "exact continuous-family loss would bound the discrete-bank loss from "
+                   "below, but no one-sided interpolation error was established here")
     for region, lattice in (("main", "hexagonal"), ("main", "square"),
                             ("extended", "hexagonal"), ("extended", "square")):
         naive, calib = [], []
@@ -237,14 +246,16 @@ def compute() -> dict:
             100 * (naive[1] / naive[0] - 1), "per cent",
             f"change in V_eff from MM = 0.95 to 0.99, {region} {lattice}, naive trials",
             "work/d1/optimum.py",
-            caveat="the sign is set by the trials model, not by the bank")
+            caveat="the trend changes between the two trials models; neither model "
+                   "establishes the true sign at the operating threshold")
         registry[f"veff_change_calibrated_{region}_{lattice}"] = entry(
             100 * (calib[1] / calib[0] - 1), "per cent",
             f"change in V_eff from MM = 0.95 to 0.99, {region} {lattice}, calibrated nu_eff",
             "work/d1/optimum.py with work/d1/nu_eff.py",
-            caveat="opposite in sign to the naive result; the curves are flat to within "
-                   "about 2 % and are NOT monotonic in the extended region, so no optimum "
-                   "is resolved inside the grid")
+            caveat="the trend changes relative to the naive result; fitted-nu_eff and "
+                   "tail-extrapolation uncertainty is not propagated. The curves are "
+                   "nearly flat and non-monotonic in the extended region, so no robust "
+                   "optimum or true trend sign is resolved")
     return registry
 
 
@@ -258,9 +269,9 @@ def mirror_to_provenance(registry):
             "statement": f"{record['meaning']} [{record['unit']}]",
             "produced_by": "scripts/compute_numbers.py::compute",
             "from_scratch": record["source"],
-            "from_library": "numpy and scipy, through the pipeline scripts named above; "
-                            "the metric, waveforms, PSD and noise come from the frozen "
-                            "upstream package",
+            "from_library": "Python standard library (json and pathlib) for this registry "
+                            "step; upstream libraries, where applicable, are identified "
+                            "by the source artifact or script named in from_scratch",
             "choices": [record["caveat"]] if record.get("caveat") else [],
         }
     PROVENANCE.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n")

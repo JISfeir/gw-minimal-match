@@ -7,7 +7,8 @@ without a record; this script is what a reviewer runs against the whole tree.
 
 Checks
 ------
-1. Every figure in `figures/` has an entry under `figures:` in `provenance/claims.yaml`.
+1. Every figure in `figures/` has an entry under `figures:` in `provenance/claims.yaml`,
+   including a non-empty `how_this_could_fail` field.
 2. Every number entry in `provenance/numbers.json` has all six required fields.
 3. Every `numbers:` slug named by a claim in both `provenance/claims.yaml` and
    `structure/claims.yaml` exists in `provenance/numbers.json`.
@@ -20,13 +21,26 @@ Exit 0 if all pass, 1 otherwise. Prints one line per problem.
 from __future__ import annotations
 
 import json
+import re
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
 FIGURE_EXT = (".png", ".pdf", ".svg", ".jpg", ".jpeg")
 NUMBER_FIELDS = ("value", "statement", "produced_by",
                  "from_scratch", "from_library", "choices")
+
+
+def documented_result_patterns(repro_text: str) -> set[str]:
+    """Return explicit backticked results paths/globs from the reproducibility page."""
+    return set(re.findall(r"`(results/[^`\s]+)`", repro_text))
+
+
+def result_is_documented(path: Path, repro_text: str, patterns: set[str]) -> bool:
+    rel = str(path.relative_to(ROOT)).replace("\\", "/")
+    # Retain support for older entries that list only the basename, while preferring
+    # explicit results/... paths and narrowly scoped globs.
+    return path.name in repro_text or any(PurePosixPath(rel).match(p) for p in patterns)
 
 
 def load_json(path: Path):
@@ -71,13 +85,17 @@ def main() -> int:
         problems.append(err)
     prov = prov or {}
 
-    recorded_figs = {f.get("file") for f in (prov.get("figures") or [])}
+    figure_records = prov.get("figures") or []
+    recorded_figs = {f.get("file") for f in figure_records}
     recorded_figs |= {Path(f).name for f in recorded_figs if f}
     for fig in sorted((ROOT / "figures").glob("**/*")):
         if fig.suffix.lower() in FIGURE_EXT:
             rel = str(fig.relative_to(ROOT / "figures"))
             if rel not in recorded_figs and fig.name not in recorded_figs:
                 problems.append(f"figure figures/{rel} has no entry in provenance/claims.yaml")
+    for record in figure_records:
+        if record.get("file") and not record.get("how_this_could_fail"):
+            problems.append(f"{record['file']} has no how_this_could_fail field")
 
     struct, err = load_yaml(ROOT / "structure" / "claims.yaml")
     if err:
@@ -97,11 +115,22 @@ def main() -> int:
                 if slug not in numbers:
                     problems.append(f"{src}: claim {cid} names number '{slug}' not in numbers.json")
 
+    project_numbers, project_err = load_json(ROOT / "data" / "project_numbers.json")
+    if project_err:
+        problems.append(project_err)
+    project_numbers = project_numbers or {}
+    claimed_numbers = {
+        slug for claim in (prov.get("claims") or []) for slug in (claim.get("numbers") or [])
+    }
+    for slug in sorted(set(project_numbers) - claimed_numbers):
+        problems.append(f"data/project_numbers.json number '{slug}' is not linked to a provenance claim")
+
     repro = (ROOT / "wiki" / "reproducibility.md")
     repro_text = repro.read_text(encoding="utf-8") if repro.exists() else ""
+    result_patterns = documented_result_patterns(repro_text)
     for f in sorted((ROOT / "results").glob("**/*")):
         if f.is_file() and f.name != ".gitkeep" and f.stat().st_size > 0:
-            if f.name not in repro_text:
+            if not result_is_documented(f, repro_text, result_patterns):
                 problems.append(f"results/{f.relative_to(ROOT / 'results')} not listed in wiki/reproducibility.md")
 
     if problems:

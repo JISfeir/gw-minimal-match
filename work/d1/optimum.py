@@ -17,6 +17,7 @@ the injection and not on MM.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -30,7 +31,8 @@ from threshold import (OPERATING_POINTS, SECONDS_PER_YEAR, T_OBS, naive_trials,
                        solve_threshold)
 from volume import interpolate_ff, load_fitting_factors
 
-RESULTS = Path("/home/juan/gw-minimal-match/results/d1")
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+RESULTS = ROOT / "results" / "d1"
 MM_GRID = (0.95, 0.96, 0.97, 0.98, 0.99)
 VALIDATED_FROM = 0.97
 

@@ -18,6 +18,9 @@ from __future__ import annotations
 
 import json
 import math
+import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -184,6 +187,25 @@ class PartFVolume(unittest.TestCase):
 
 
 class Registry(unittest.TestCase):
+    def test_html_and_paper_cite_the_same_project_numbers(self):
+        """The web page may add diagnostics, but its headline numeric claims must not
+        drift from the page-limited paper."""
+        page_source = (ROOT / "scripts" / "make_page.py").read_text()
+        html_keys = set(re.findall(r"(?<![A-Za-z_])num\('([^']+)'\)", page_source))
+        paper_source = (ROOT / "paper" / "main.tex").read_text()
+        paper_keys = {
+            key.replace("-", "_")
+            for key in re.findall(r"\\dataref\{([^}]+)\}", paper_source)
+        }
+        self.assertTrue(html_keys)
+        self.assertEqual(html_keys, paper_keys)
+
+    def test_committed_html_matches_generator(self):
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "make_page.py"), "--check"],
+            cwd=ROOT, text=True, capture_output=True, check=False)
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+
     def test_every_number_carries_a_caveat(self):
         """Several results here are conditional on a model choice. A number without the
         sentence saying what it is not is a number that will be misread."""
@@ -192,6 +214,14 @@ class Registry(unittest.TestCase):
         missing = [k for k, v in registry.items() if not v.get("caveat")]
         self.assertEqual(missing, [], f"numbers with no caveat: {missing}")
 
+    def test_every_project_number_is_linked_to_a_claim(self):
+        import yaml
+        registry = load("project_numbers.json")
+        doc = yaml.safe_load((ROOT / "provenance" / "claims.yaml").read_text())
+        claimed = {slug for claim in doc.get("claims") or []
+                   for slug in claim.get("numbers") or []}
+        self.assertEqual(set(registry) - claimed, set())
+
     def test_every_figure_has_a_provenance_entry(self):
         import yaml
         doc = yaml.safe_load((ROOT / "provenance" / "claims.yaml").read_text())
@@ -199,6 +229,9 @@ class Registry(unittest.TestCase):
         on_disk = {f"figures/{p.name}" for p in (ROOT / "figures").glob("*.pdf")}
         self.assertTrue(on_disk)
         self.assertEqual(on_disk - recorded, set())
+        missing_f4 = [f["file"] for f in doc.get("figures") or []
+                      if not f.get("how_this_could_fail")]
+        self.assertEqual(missing_f4, [], f"figures with no F4 record: {missing_f4}")
 
 
 if __name__ == "__main__":

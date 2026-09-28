@@ -1,169 +1,182 @@
-# The argument skeleton. Each claim: the statement as you would say it out loud, which
-# section of page/paper carries it, the evidence (code that ships here, or a citation
-# precise enough to look up), and the numbers.json slugs it rests on.
-#
-# Format: .claude/provenance/claims.md   (and figures: per .claude/provenance/figures.md)
-# This file is a deliverable, checked by scripts/check_provenance.py.
-#
-# Revised 2026-09-14 after the review of job q12 and two independent Codex reviews of the
-# objective; corrections are dated in wiki/conventions.md. `region` says where a claim is
-# meant to hold: main = M <= 35 Msun, extended = 35 < M <= 100 Msun. `section` is the part of
-# the argument (A-F) that carries it, until page and paper sections exist. `job` names the
-# objective that measures it: structure/objective-q1bC.txt (parts A-C) or
-# structure/objective-qDEF.txt (parts D-F).
+# Current argument skeleton.  This file describes claims that the delivered paper and
+# page actually make; abandoned or planned work is recorded as a limitation, never as a
+# positive result.  Evidence points either to tracked project artifacts, the declared
+# frozen upstream package, or a precise literature citation.
 
 claims:
   - id: mismatch-snr-loss
-    statement: >
-      In noise-free data a unit-normalised template recovers exactly rho_opt times the
-      match, so the fractional loss of SNR is exactly the mismatch mu; only
-      mu ~ g_ij dtheta^i dtheta^j is leading order. In stationary Gaussian noise the
-      statistic at the deterministic optimal lag is a single Rice-distributed sample given
-      rho_opt and the match, and the probability of losing a signal is computed from that
-      distribution and validated by injections.
+    statement: >-
+      In noise-free data a normalized template recovers the optimal SNR multiplied by
+      its match with the signal, so fractional SNR loss is exactly mismatch.  Only the
+      local approximation of mismatch by the quadratic metric is leading order.
     region: main and extended
-    section: A
+    section: Scope and definitions
     job: q1bC
+    status: established identity; metric approximation qualified separately
     evidence:
-      - "src/overlap.py::match            # (to be written)"
-      - "scripts/snr_injections.py        # (to be written) — injections in simulated Gaussian noise, fixed lag"
-      - "Owen 1996 (gr-qc/9511032), Sec. II"
-      - "Allen et al. 2012, FINDCHIRP (gr-qc/0509116) — the statistic and its distribution in Gaussian noise"
+      - "Owen 1996 (gr-qc/9511032), Eqs. (1), (4)-(6), (10)-(13)"
+      - "paper/main.tex::Scope and definitions"
+      - "page/index.html::section 1, Scope and definitions"
     numbers: []
 
   - id: model-error-decomposition
-    statement: >
-      For each candidate TaylorF2 template ending at its own f_ISCO, the match against an
-      IMRPhenomD signal factorises exactly into the square root of the fraction of the
-      signal's SNR^2 below that cutoff times the match on common support. The factorisation
-      does not survive maximisation over template masses, so the fitting factor of each
-      comparison is found by its own global search. The full-signal comparison is the
-      total loss from using this template family; the common-support one isolates the
-      difference between the models below f_ISCO. Neither alone is "model error".
+    statement: >-
+      TaylorF2-family loss and bank discretisation loss are reported separately.  The
+      family-only quantity is an interpolation of 28 fitting-factor points, not a
+      rigorous bound; the combined IMRPhenomD bank leg approximately composes it with
+      discretisation match and is labelled as an approximation.
     region: main and extended, reported apart
-    section: B
-    job: q1bC
+    section: Results; Limitations
+    job: q1bC plus local D1/F pipeline
+    status: measured family-only leg; combined leg conditional on the composition model
     evidence:
-      - "scripts/model_error.py           # (to be written)"
-      - "job 2026-09-13_061522_derive-q12, out/q1.json — ISCO-cutoff floor, reproduced independently in the step-1 review (wiki/log.md, 2026-09-13)"
-    numbers: []
+      - "work/d1/optimum.py::prepare, run"
+      - "data/part_f_optimum.json::losses"
+      - "paper/main.tex::Waveform and discretisation losses"
+      - "page/index.html::Waveform and discretisation losses"
+    numbers:
+      - imrphenomd_family_only_extended
+      - imrphenomd_family_only_main
+      - imrphenomd_volume_loss_extended
+      - imrphenomd_volume_loss_main
 
   - id: metric-vs-owen
-    statement: >
-      With the frequency support held fixed, the match metric measured numerically by
-      finite differences agrees with the analytic 3.5PN projected-phase metric built by
-      Owen's method, within a stated tolerance. The quadratic predictor is good enough to
-      place a bank wherever its worst relative error over direction is at most 10 % at
-      predicted mismatch 1 - MM, tested against exact matches; with physical templates, each
-      ending at its own f_ISCO, the match is not locally quadratic, and where that breaks the
-      criterion is reported as a consequence of the moving cutoff.
+    statement: >-
+      Bank placement uses the analytic non-spinning projected-phase TaylorF2 metric
+      constructed by Owen's method in chirp-time coordinates.  A fixed-support numerical
+      finite-difference calculation passes a pre-registered relative-error criterion at
+      the headline mismatch, while coarser minimal-match settings lie outside the tested
+      quadratic range.
     region: main and extended, reported apart
-    section: C
+    section: Method; Limitations
     job: q1bC
+    status: frozen upstream calculation; its support convention and validity limit are explicit
     evidence:
-      - "src/metric.py::numeric_metric    # (to be written)"
-      - "src/metric.py::owen_metric       # (to be written) — Owen's method at 3.5PN"
-      - "scripts/quadratic_validity.py    # (to be written)"
-      - "Owen 1996 (gr-qc/9511032), Eqs. 2.10, 3.x (arXiv v1 numbering)"
-      - "job 2026-09-13_061522_derive-q12, out/q2.json — fixed-support agreement to 0.74 %"
-    numbers: []
+      - "jobs/2026-09-14_041516_derive-q1bc/out/lib/metric.py::analytic_metric"
+      - "jobs/2026-09-14_041516_derive-q1bc/out/lib/numeric_metric.py"
+      - "jobs/2026-09-14_041516_derive-q1bc/out/lib/metric_validation.py"
+      - "Owen 1996 (gr-qc/9511032), Eqs. (11)-(16)"
+      - "paper/main.tex::Metric"
+    numbers:
+      - metric_validation_relative_error_limit
+      - minimal_match_headline
 
   - id: covering-at-mm097
-    statement: >
-      Square and hexagonal banks are placed in (tau_0, tau_3) for the same nominal minimal
-      match with Cokelaer's local-metric method and boundary treatment. For both we measure,
-      by Monte Carlo over injected TaylorF2 signals and separately for interior and border
-      injections, the fraction whose best match falls below MM, and determine whether any
-      excess over the ideal geometric expectation comes from metric variation, the quadratic
-      approximation, the boundaries or the implementation. The template counts are compared
-      against two references: the ideal constant-metric ratio 0.770, and the 0.717-0.719
-      that Cokelaer measures once the metric varies. (Corrected 2026-09-21: this said ~0.60,
-      from reading Cokelaer's Table III in the wrong convention. The two references are
-      close together, so metric evolution buys about 5 points of ratio, not 17.)
+    statement: >-
+      Square and hexagonal banks use a generation-wise local-metric placement inspired
+      by Cokelaer, but replace his explicit connector graph and add a project-specific
+      boundary repair.  Uniform injections estimate population covering while adaptive
+      witnesses refute strict covering for both hexagonal banks.  Count ratios are
+      implementation- and boundary-dependent rather than universal lattice constants.
     region: main and extended, reported apart
-    section: D
-    job: qDEF
+    section: Method; Results
+    job: local D1 pipeline
+    status: measured for this implementation; not a faithful Cokelaer reproduction
     evidence:
-      - "src/bank.py::place              # (to be written) — Cokelaer 2007 placement, local metric"
-      - "scripts/covering_check.py       # (to be written)"
-      - "Owen 1996 (gr-qc/9511032), Eq. 3.16 — square spacing, worst point at the cell centre"
-      - "Cokelaer 2007 (arXiv:0706.4437) — hexagonal placement, boundary treatment; Tables I+II give N_hex/N_square = 0.7191 mean, range [0.6605, 0.7866] over 20 banks. Table III tabulates N_square/N_hex - 1 (reproduced to 0.48 pp), NOT 1 - N_hex/N_square (off by 17 pp)"
-      - "Roulet et al. 2019 (arXiv:1904.01683), Fig. 5 — the covering-check figure"
-    numbers: []
+      - "work/d1/placement.py::grow, reconnect_to_existing, repair_boundary"
+      - "work/d1/report_d.py::measure"
+      - "data/part_d_mm097.json"
+      - "data/fig_witnesses.json"
+      - "Cokelaer 2007 (arXiv:0706.4437), Sec. II and Tables I-II"
+      - "paper/main.tex::Placement and relation to Cokelaer; Results"
+    numbers:
+      - adaptive_worst_mismatch_extended_hexagonal
+      - adaptive_worst_mismatch_main_hexagonal
+      - border_fraction_extended
+      - border_fraction_main
+      - cusp_secant_coefficient
+      - effective_width_extended
+      - effective_width_main
+      - covering_fraction_extended_hexagonal_mm097
+      - covering_fraction_extended_square_mm097
+      - covering_fraction_main_hexagonal_mm097
+      - covering_fraction_main_square_mm097
+      - hex_square_ratio_extended_mm097
+      - hex_square_ratio_main_mm097
+      - n_templates_extended_hexagonal_mm097
+      - n_templates_extended_square_mm097
+      - n_templates_main_hexagonal_mm097
+      - n_templates_main_square_mm097
+      - proper_area_extended
+      - proper_area_main
+      - proper_perimeter_extended
+      - proper_perimeter_main
 
   - id: detection-threshold
-    statement: >
-      At the pre-registered operating point, FAR = 1/(100 yr) over T_obs = 1 yr with
-      FAP = 1 - exp(-FAR T_obs) under a Poisson false-alarm-process convention, the threshold
-      rho* follows from the exact single-sample Gaussian tail of the phase-maximised statistic
-      and an effective trial rate nu_eff calibrated from simulated maxima and extrapolated to
-      T_obs. The independent-trials combination 1 - (1 - p)^N_eff is kept distinct from its
-      rare-tail Poisson approximation, and the approximation error is measured. Closing the
-      loop MM -> N_templates -> nu_eff -> rho* makes the threshold depend on the bank, with
-      FAR = 1/yr and 5 sigma (global probability) as sensitivities.
+    statement: >-
+      The exact independent-trials combination is kept distinct from its rare-tail
+      Poisson approximation.  The naive template-time count is a conservative Gaussian
+      upper bound; an equivalent trial rate fitted from simulated maxima is reported as
+      an empirical, tail-dependent model and is extrapolated beyond its calibration
+      range when used at the detection threshold.
     region: main and extended, reported apart
-    section: E
-    job: qDEF
+    section: Threshold and effective volume
+    job: local D1 pipeline
+    status: exact algebra plus conditional effective-trials calibration
     evidence:
-      - "src/threshold.py                # (to be written)"
-      - "scripts/noise_tail_check.py     # (to be written) — single-sample tail and nu_eff on simulated noise"
-      - "Allen et al. 2012, FINDCHIRP (gr-qc/0509116)"
-      - "Abbott et al., arXiv:1908.11170, Sec. 8.5 — one false alarm per century as an example threshold"
-    numbers: []
+      - "work/d1/threshold.py::solve_threshold, poisson_threshold"
+      - "work/d1/nu_eff.py::mle_n_eff, threshold_estimates"
+      - "data/part_e_mm097.json"
+      - "data/part_e_nu_eff.json"
+      - "Latała and Matlak 2017 (arXiv:1512.08776), Gaussian correlation inequality"
+    numbers:
+      - nu_eff_main_hexagonal_mm097
+      - poisson_approximation_error
+      - rho_star_naive_extended_hexagonal
+      - rho_star_naive_extended_square
+      - rho_star_naive_main_hexagonal
+      - rho_star_naive_main_square
+      - trials_exponent_extended_hexagonal
+      - trials_exponent_extended_square
+      - trials_exponent_main_hexagonal
+      - trials_exponent_main_square
+      - trials_exponent_pooled
 
   - id: volume-loss-rule
-    statement: >
-      The worst-case fractional detection-volume loss at fixed threshold is exactly
-      1 - MM^3, of which 3(1 - MM) is the linear expansion; the population-average loss
-      1 - <M_bank^3> is measured separately, for TaylorF2 injections (discretisation only)
-      and IMRPhenomD injections (template-family error plus discretisation). With the
-      bank-dependent threshold, the effective volume <M_bank^3>/rho*^3 is maximised over MM,
-      and whether that maximum lies inside the range studied is reported with its
-      uncertainty. This is a measurement of a known trade-off for this configuration, not a
-      new effect: see prior_work. What is ours is the closed loop measured end to end with a
-      modern PSD — nu_eff calibrated from simulated maxima rather than assumed,
-      <M_bank^3> from injections rather than from the geometric approximation, the three
-      volume losses kept apart, and TaylorF2 and IMRPhenomD reported separately.
+    statement: >-
+      Exact nominal worst-case volume loss, its linear expansion, and the metric-predicted
+      population-average loss are kept separate.  Effective volume is evaluated under
+      both naive and fitted trials models; the trend reverses between them, while the
+      fitted calibration does not reach the detection tail, so no robust optimal minimal
+      match is claimed.
     region: main and extended, reported apart
-    section: F
-    job: qDEF
-    prior_work:
-      - >
-        Croce, Demma, Longo, Marano, Matta, Pierro & Pinto 2004 (gr-qc/0404096) — the direct
-        predecessor. Its Sec. I asks our question (ii) verbatim: whether "the fraction of
-        potentially observable sources which would be lost as an effect of template sparsity
-        is (1 - Gamma^3)" survives once the whole-bank threshold is accounted for. Its Sec. V
-        answers no, and quantifies it: using the correlated whole-bank no-signal distribution
-        to set the threshold gives "a sizeable increase (>= 5%) in the detectable fraction of
-        potentially observable sources over the naive ~ Gamma^3 estimate", and the curve of
-        Gamma against N has a knee beyond which more templates buy nothing. Both are
-        pre-registered expectations for part F: we should see the naive 1 - MM^3 overstate
-        the loss, and V_eff(MM) flatten rather than rise without limit.
-      - >
-        Keppel 2013 (arXiv:1303.2005), Secs. III-IV — the other axis: minimal match optimised
-        at FIXED COMPUTATIONAL COST. Not what part F optimises, because in this mass range
-        computational cost does not bind (see wiki/conventions.md, Corrections 2026-09-16).
-        Cited so the distinction is explicit rather than implied.
+    section: Results; Conclusion
+    job: local D1 pipeline
+    status: metric-predicted population loss; effective-volume conclusion conditional on trials model
     evidence:
-      - "scripts/compute_numbers.py::volume_loss_vs_mm   # (to be written)"
-      - "Owen 1996 (gr-qc/9511032), Eq. 2.21 (arXiv v1) — event rate against MM"
-      - "data/owen1995_reproduction.json — 1 - 0.97^3 = 0.0873"
-    numbers: []
+      - "work/d1/optimum.py::run"
+      - "data/part_f_optimum.json"
+      - "scripts/make_figures.py::figure_volume_losses, figure_veff"
+      - "Owen 1996 (gr-qc/9511032), event-rate scaling"
+      - "Croce et al. 2004 (gr-qc/0404096)"
+      - "Keppel 2013 (arXiv:1303.2005)"
+    numbers:
+      - population_volume_loss_extended_hexagonal_mm097
+      - population_volume_loss_extended_square_mm097
+      - population_volume_loss_main_hexagonal_mm097
+      - population_volume_loss_main_square_mm097
+      - veff_change_calibrated_extended_hexagonal
+      - veff_change_calibrated_extended_square
+      - veff_change_calibrated_main_hexagonal
+      - veff_change_calibrated_main_square
+      - veff_change_naive_extended_hexagonal
+      - veff_change_naive_extended_square
+      - veff_change_naive_main_hexagonal
+      - veff_change_naive_main_square
+      - worst_case_volume_loss_mm097
 
-  - id: bank-spacing-cross-check-svd
-    statement: >
-      An independent construction of the bank — a regular grid in the SVD-derived,
-      mismatch-Euclidean coordinates of Roulet, Dai, Venumadhav, Zackay & Zaldarriaga
-      2019 (arXiv:1904.01683), restricted to our non-spinning 2D mass range — gives a
-      template count and a covering behaviour consistent with the Owen-metric bank
-      (metric-vs-owen, covering-at-mm097), for the same target minimal match.
+  - id: bank-spacing-cross-check-svd-not-done
+    statement: >-
+      The planned SVD construction was not performed and supplies no evidence for the
+      delivered bank spacing or counts; it is recorded only as a limitation.
     region: main
-    section: "D (cross-check; plan step 6, optional)"
-    job: "none yet"
+    section: Limitations
+    job: none
+    status: not done
     evidence:
-      - "src/svd_basis.py::build_basis   # (to be written) — SVD of TaylorF2 unwrapped phase over sampled waveforms"
-      - "src/svd_basis.py::grid_in_c     # (to be written) — regular grid in the c-space, Eq. 15"
-      - "Roulet et al. 2019 (arXiv:1904.01683), Sec. II.A-B, Eq. 15, Fig. 5"
+      - "paper/main.tex::Limitations and conclusion"
+      - "page/index.html::section 4, Limitations"
+      - "wiki/todo.md::declared not-done SVD cross-check"
     numbers: []
 
 figures: []

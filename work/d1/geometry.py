@@ -17,8 +17,9 @@ import numpy as np
 # absence is an explicit error rather than a silent import of whatever happens to be at
 # a hard-coded path. A clean-clone test found exactly that: on the machine that wrote
 # this code the absolute path resolved, so the dependency was invisible.
-_DEFAULT_FROZEN = "/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out"
-Q1BC = Path(os.environ.get("GWMM_FROZEN_PACKAGE", _DEFAULT_FROZEN))
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+_DEFAULT_FROZEN = ROOT / "jobs" / "2026-09-14_041516_derive-q1bc" / "out"
+Q1BC = Path(os.environ.get("GWMM_FROZEN_PACKAGE", str(_DEFAULT_FROZEN)))
 if not (Q1BC / "lib" / "metric.py").exists():
     raise SystemExit(
         f"the frozen upstream package is not at {Q1BC}.\n"

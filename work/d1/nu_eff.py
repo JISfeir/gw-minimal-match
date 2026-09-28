@@ -31,7 +31,7 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(os.environ.get("GWMM_PROJECT", "/home/juan/gw-minimal-match"))
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(ROOT / "jobs/2026-09-14_041516_derive-q1bc/out"))
 from lib.filtering import kernel                    # noqa: E402
 from lib.noise import coloured_noise                # noqa: E402

@@ -1,8 +1,9 @@
-Mismatch to the nearest template over the mass plane for the main-region hexagonal
-bank at MM = 0.97, on a 90x90 grid restricted to the region. Shown against both masses
+Quadratic-metric mismatch residual mu - 0.03 to the nearest template over the mass plane
+for the main-region hexagonal bank at MM = 0.97, on a 90x90 grid restricted to the region.
+Shown against both masses
 rather than against total mass, because the metric depends on both (rule F3).
-HOW THIS COULD FAIL (F4): a bank that covered would be uniformly below 0.03 with no
-cell in the warm overlay. On this grid none appears -- the grid's worst cell is 0.02893
+HOW THIS COULD FAIL (F4): a sampled bank that covered would have no positive residual.
+On this grid none appears -- the grid's worst cell is 0.02893
 -- yet the cross marks a point an adaptive search found at 0.03222, reproduced
 independently by the dverify r03 audit. That is the figure's real content: a regular
 grid of test points does not find the holes, and a figure built only from grid sampling

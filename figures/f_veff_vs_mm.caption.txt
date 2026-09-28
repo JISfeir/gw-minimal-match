@@ -1,21 +1,22 @@
-Change in effective detection volume from the coarse end of the grid, under two models
-of the trials factor. Dashed with open markers: the naive bound
+Change in the derived relative sensitivity proxy from the coarse end of the grid, under
+two scenarios for the trials factor. Dashed with open markers: the naive bound
 N_templates x f_sample x T_obs. Solid with filled markers: nu_eff calibrated on
 simulated Gaussian noise (100 segments of 32 s, seed 20260926, the same noise for every
-bank). Bootstrap uncertainties, 400 resamples of 2000 injections. Shaded: below
-MM = 0.97 the quadratic predictor is outside the range q1bC validated.
+bank). Curves are shown without precision-style uncertainty bars because uncertainty and
+tail extrapolation in nu_eff have not been propagated; the stored injection-bootstrap
+error alone would be misleadingly incomplete. Shaded: below MM = 0.97 the quadratic
+predictor is outside the range q1bC validated.
 THE RESULT IS THE DIFFERENCE BETWEEN THE TWO MODELS. The naive bound makes V_eff fall
 by 1.9-3.7 % across the grid; the calibrated one makes it rise by 0.2-1.8 %. The sign of
-the trend, and with it the located optimum, is set by the trials model rather than by
-the physics of the bank. Calibrated maxima sit at MM = 0.99 / 0.99 / 0.98 / 0.97 against
-0.96 / 0.95 / 0.95 / 0.95 under the naive bound.
-WHY: N_eff grows as N_templates^alpha with alpha = 0.157 +- 0.036 (main hexagonal; 95 % CI [0.089, 0.226]), not alpha = 1.
-Templates added by refining a bank overlap their neighbours at MM by construction, so
-they add redundancy rather than independent trials, and the threshold barely moves:
-rho* rises 0.24 % across the grid under calibration against 1.46 % under the naive bound.
+the trend therefore depends on how the trials factor is modelled. This comparison does
+not establish that the fitted model is valid at the detection threshold.
+WHAT IT DOES NOT SHOW: nu_eff is calibrated near the simulated maxima and extrapolated
+to a higher detection threshold. It varies across the observed tail, and that calibration
+uncertainty is unquantified here; the curves are model scenarios, not a measurement of the
+trend at the operating threshold.
 HOW THIS COULD FAIL (F4): if the two models agreed, the dashed and solid curves would
 lie on top of each other and the choice would not matter. They do not. If instead the
 calibrated curves showed a clear interior peak, the pre-registered hypothesis would be
 supported; they are flat to within about 2 % and NOT monotonic -- extended hexagonal
-wobbles by more than its error bar -- so no optimum is resolved inside the grid, and the
-maxima quoted for the extended region should not be read as located.
+wobbles inside the grid -- so no robust optimum is resolved
+inside the grid.

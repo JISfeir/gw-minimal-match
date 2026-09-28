@@ -2,7 +2,8 @@ Left: the effective number of independent trials per segment, measured by filter
 simulated Gaussian noise through each bank and fitting the distribution of the maximum
 of |z| over templates and time (100 segments of 32 s, seed 20260926, the same noise for
 every bank), against the naive bound that counts every template and every sample as
-independent. Right: their ratio.
+independent. Right: their ratio. Error bars show the stored per-bank fit uncertainty;
+legend intervals are paired-bootstrap 95 % intervals for each within-family exponent.
 THIS FIGURE REPLACES an earlier one that plotted the threshold against minimal match.
 That figure broke rule F1 -- rho* is a closed function of the template count, so its
 y-values were computed from its x-values by the formula under test, and a blind reviewer

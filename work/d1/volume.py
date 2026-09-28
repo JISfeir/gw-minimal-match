@@ -17,9 +17,9 @@ TWO LEGS, and only the first is fully computed here:
                         interpolated and composed multiplicatively with the discretisation
                         match. That composition assumes the two losses are independent,
                         which is not established. <ff_full^3> alone is reported beside it
-                        as a RIGOROUS UPPER BOUND on the IMRPhenomD leg, since the best
-                        match against a discrete subset cannot exceed the best match
-                        against the family it is drawn from.
+                        as an INTERPOLATED FAMILY-ONLY ESTIMATE. The exact continuous-family
+                        loss would be a lower bound on discrete-bank loss, but the 28-point
+                        interpolation has no demonstrated one-sided error bound.
 
 V_eff(MM) = <M_bank^3> / rho*(MM)^3, up to a constant, with rho* from part E's naive
 trials model -- an upper bound on the threshold, so V_eff is a lower bound.
@@ -41,10 +41,11 @@ from audit import draw
 from geometry import MM, MU_MAX, analytic_metric, tau
 from threshold import OPERATING_POINTS, naive_trials, solve_threshold
 
-RESULTS = Path("/home/juan/gw-minimal-match/results/d1")
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+RESULTS = ROOT / "results" / "d1"
 Q1BC = Path(os.environ.get(
     "GWMM_FROZEN_PACKAGE",
-    "/home/juan/gw-minimal-match/jobs/2026-09-14_041516_derive-q1bc/out"))
+    str(ROOT / "jobs" / "2026-09-14_041516_derive-q1bc" / "out")))
 
 
 def load_fitting_factors():

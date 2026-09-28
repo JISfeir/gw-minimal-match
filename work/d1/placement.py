@@ -41,7 +41,8 @@ from geometry import (COVERING_RADIUS, EQUAL_MASS_RANGE, ETA_MAX, LATTICE_OFFSET
                       canonical_eigensystem, clamp_physical, eta_of_tau, in_region,
                       masses_of_tau, tau)
 
-CACHE = Path("/home/juan/gw-minimal-match/results/d1")
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+CACHE = ROOT / "results" / "d1"
 
 
 def push_back_to_equal_mass(point, eigenvectors):
@@ -550,7 +551,7 @@ def main():
     parser.add_argument("--boundary-spacing", type=float, default=None,
                         help="proper spacing of boundary samples; default R/4")
     parser.add_argument("--collision-fraction", type=float, default=0.5)
-    parser.add_argument("--output-dir", default="results/d1/banks")
+    parser.add_argument("--output-dir", default=str(ROOT / "results" / "d1" / "banks"))
     args = parser.parse_args()
     boundary = Boundary(args.region, args.boundary_spacing, CACHE)
     result = build(args.region, args.lattice, boundary, args.collision_fraction)

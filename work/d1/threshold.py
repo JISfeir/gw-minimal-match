@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sys
 from pathlib import Path
 
@@ -32,7 +33,8 @@ from scipy.stats import norm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-RESULTS = Path("/home/juan/gw-minimal-match/results/d1")
+ROOT = Path(os.environ.get("GWMM_PROJECT", Path(__file__).resolve().parents[2]))
+RESULTS = ROOT / "results" / "d1"
 SECONDS_PER_YEAR = 365.25 * 24 * 3600
 F_SAMPLE = 2048.0          # Nyquist for f_high = 1024 Hz
 T_OBS = 1.0                # years, pre-registered
