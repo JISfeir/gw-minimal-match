@@ -346,19 +346,42 @@ effects.</li>
 <h3>How much SNR is lost?</h3>
 <p>If the nearest template has match &#8499;, then in noise-free data the recovered SNR is
 &rho;<sub>rec</sub>&nbsp;=&nbsp;&#8499;&rho;<sub>opt</sub>. The fractional SNR loss is
-therefore exactly the mismatch, &mu;&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;&#8499;.</p>
-<p class="note">This is not the same as volume loss. The expression
-1&nbsp;&minus;&nbsp;MM<sup>3</sup> is a nominal worst case; the population average depends
-on the declared source distribution.</p>
+therefore exactly the mismatch, &mu;&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;&#8499;. In the banks we
+actually built at nominal MM&nbsp;=&nbsp;0.97, adaptive searches found losses of at least
+{num('adaptive_worst_mismatch_main_hexagonal')} in the main hexagonal bank and
+{num('adaptive_worst_mismatch_extended_hexagonal')} in the extended hexagonal bank,
+both worse than the nominal 0.03. The square banks survived the same search, although
+that is not a proof of strict covering.</p>
+<p>The metric-predicted population-average <em>volume</em> losses were
+{num('population_volume_loss_main_hexagonal_mm097')} (hexagonal) versus
+{num('population_volume_loss_main_square_mm097')} (square) in the main region, and
+{num('population_volume_loss_extended_hexagonal_mm097')} versus
+{num('population_volume_loss_extended_square_mm097')} in the extended region. Against
+IMRPhenomD signals, the approximate total loss for the hexagonal bank instead rises from
+{num('imrphenomd_volume_loss_main')} in main to
+{num('imrphenomd_volume_loss_extended')} in extended; most of that is already present in
+the continuous TaylorF2 family
+({num('imrphenomd_family_only_main')} and {num('imrphenomd_family_only_extended')}). Thus
+the main/extended contrast is mainly a waveform-model result, not a bank-spacing result.</p>
 </section>
 <section class="answer">
 <h3>How dense must the bank be?</h3>
-<p>There is no universal density. A target mismatch and the local metric determine a
-local spacing, but the final bank also depends on the region boundaries and the placement
-algorithm.</p>
-<p class="note">In this study no robust optimal minimal match is resolved: the small
-V<sub>eff</sub> trend depends on the trials model, and at high mass waveform-family error
-dominates discretisation.</p>
+<p>At MM&nbsp;=&nbsp;0.97, our main bank contains
+{num('n_templates_main_hexagonal_mm097')} hexagonal templates versus
+{num('n_templates_main_square_mm097')} square templates; the extended bank contains
+{num('n_templates_extended_hexagonal_mm097')} versus
+{num('n_templates_extended_square_mm097')}. The corresponding hexagonal-to-square count
+ratios are {num('hex_square_ratio_main_mm097')} and
+{num('hex_square_ratio_extended_mm097')}: hexagonal placement uses fewer templates in both
+regions, but by different amounts.</p>
+<p>That saving is not a free improvement. The denser square banks have the smaller
+population-average losses above and survived the adaptive covering search, whereas both
+hexagonal banks have counterexamples. Moreover, {num('border_fraction_main')} of main and
+{num('border_fraction_extended')} of extended injections lie within one covering radius
+of an edge. These narrow finite regions are boundary dominated, so neither the ideal
+lattice ratio nor one universal density describes the delivered banks. We also find no
+robust optimal minimal match: the small V<sub>eff</sub> trend changes sign with the trials
+model.</p>
 </section>
 </div>
 

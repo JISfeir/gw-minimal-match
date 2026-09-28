@@ -270,13 +270,35 @@ discretisation effects approximately. Most importantly, the effective-trials cal
 does not reach the detection tail.
 
 Within those limits, the robust conclusions are narrower than the initial hypothesis.
-Mismatch gives the noise-free fractional SNR loss exactly, but $1-\MM^3$ is a nominal
-worst case rather than the metric-predicted population cost. At high mass, waveform-family error
-dominates bank discretisation. Template-count ratios depend strongly on finite boundaries
-and on our placement rules; they are not faithful Cokelaer counts. Finally, a preferred
-minimal match is not established because the small effective-volume trend changes with
-the trials model. These qualifications are part of the result, rather than implementation
-details to hide.
+Mismatch gives the noise-free fractional SNR loss exactly. In the banks actually built at
+$\MM=0.97$, adaptive searches found losses of at least
+$\dataref{adaptive-worst-mismatch-main-hexagonal}$ (main) and
+$\dataref{adaptive-worst-mismatch-extended-hexagonal}$ (extended) for the hexagonal
+placement, above the nominal $0.03$; both square banks survived the same search. The
+metric-predicted population-average volume losses are
+$\dataref{population-volume-loss-main-hexagonal-mm097}$ versus
+$\dataref{population-volume-loss-main-square-mm097}$ in main and
+$\dataref{population-volume-loss-extended-hexagonal-mm097}$ versus
+$\dataref{population-volume-loss-extended-square-mm097}$ in extended. Against IMRPhenomD,
+the approximate hexagonal-bank loss rises from
+$\dataref{imrphenomd-volume-loss-main}$ to
+$\dataref{imrphenomd-volume-loss-extended}$; the corresponding continuous-family estimates,
+$\dataref{imrphenomd-family-only-main}$ and
+$\dataref{imrphenomd-family-only-extended}$, show that this main--extended contrast is
+mostly waveform-family error rather than discretisation.
+
+Hexagonal placement uses $\dataref{n-templates-main-hexagonal-mm097}$ instead of
+$\dataref{n-templates-main-square-mm097}$ templates in main and
+$\dataref{n-templates-extended-hexagonal-mm097}$ instead of
+$\dataref{n-templates-extended-square-mm097}$ in extended: count ratios
+$\dataref{hex-square-ratio-main-mm097}$ and
+$\dataref{hex-square-ratio-extended-mm097}$. The saving is therefore region dependent and,
+in these banks, comes with the covering counterexamples above. With
+$\dataref{border-fraction-main}$ and $\dataref{border-fraction-extended}$ of injections
+within one covering radius of an edge, finite-boundary treatment prevents either an ideal
+lattice ratio or one universal density from describing the delivered banks. Finally, a
+preferred minimal match is not established because the small effective-volume trend changes
+with the trials model. These qualifications are part of the result.
 
 \paragraph{Reproducibility.}
 Headline measured values referenced with \verb|\dataref| are generated from

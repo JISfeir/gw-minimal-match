@@ -290,17 +290,41 @@ claims:
   numbers: []
 - id: two-question-conclusion
   statement: >-
-    In noise-free data the fractional SNR loss is exactly the mismatch. A target mismatch
-    and local metric set a local spacing, but there is no universal bank density because
-    finite boundaries and placement rules affect the delivered bank; this study does not
-    resolve a robust optimal minimal match.
+    In noise-free data the fractional SNR loss is exactly the mismatch. In the delivered
+    MM = 0.97 banks, hexagonal placement uses fewer templates than square placement in both
+    regions, but the saving differs by region and both hexagonal banks have adaptive
+    counterexamples to strict covering; square placement has lower population-average
+    discretisation loss and survives the same search. The much larger approximate loss in
+    the extended region is driven mainly by TaylorF2 waveform-family error, while finite
+    boundaries and the unresolved trials factor prevent a universal density or robust
+    optimal minimal match from being inferred.
   evidence:
   - Owen, arXiv:gr-qc/9511032v1, Eqs. (1), (4)-(6), (10)-(16)
   - paper/main.tex::Scope and definitions; Limitations and conclusion
   - page/index.html::section 5, Conclusion
   - data/part_d_mm097.json::counts and boundary-repair composition
+  - data/fig_witnesses.json::adaptive covering counterexamples
   - data/part_f_optimum.json::V_eff under naive and fitted trials models
-  numbers: []
+  numbers:
+  - adaptive_worst_mismatch_extended_hexagonal
+  - adaptive_worst_mismatch_main_hexagonal
+  - border_fraction_extended
+  - border_fraction_main
+  - hex_square_ratio_extended_mm097
+  - hex_square_ratio_main_mm097
+  - imrphenomd_family_only_extended
+  - imrphenomd_family_only_main
+  - imrphenomd_volume_loss_extended
+  - imrphenomd_volume_loss_main
+  - minimal_match_headline
+  - n_templates_extended_hexagonal_mm097
+  - n_templates_extended_square_mm097
+  - n_templates_main_hexagonal_mm097
+  - n_templates_main_square_mm097
+  - population_volume_loss_extended_hexagonal_mm097
+  - population_volume_loss_extended_square_mm097
+  - population_volume_loss_main_hexagonal_mm097
+  - population_volume_loss_main_square_mm097
 - id: paper-length
   statement: The compiled manuscript uses five pages for the title, abstract, methods,
     results and conclusion; references begin on page six and occupy the final page.
